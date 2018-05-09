@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Docusignapp</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Docusignapp</title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+<nav>
+  <div class="nav-wrapper">
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <% if user_signed_in? %>
+<!--        <li><%#= link_to 'Profile', edit_user_profile_path(current_user), class: 'waves-effect' %></li>-->
+<!--        <li><%#= link_to 'Goals', goals_path, class: 'waves-effect' %></li>-->
+<!--        <li><%#= link_to 'Pomodoro', timeblocks_path, class: 'waves-effect' %></li>-->
+<!--        <li><%#= link_to 'Journals', journals_path, class: 'waves-effect' %></li>-->
+<!--        <li><%#= link_to 'Responsibilities', responsibilities_path, class: 'waves-effect' %></li>-->
+        <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'waves-effect' %></li>
+      <% else %>
+        <li><%= link_to 'Login', new_user_session_path %></li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
+
+<p class="notice"><%= notice %></p>
+<div class="container">
+  <%= yield %>
+</div>
+</body>
 </html>
+

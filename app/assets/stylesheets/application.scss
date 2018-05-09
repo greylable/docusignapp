@@ -13,3 +13,13 @@
  *= require_tree .
  *= require_self
  */
+@import "materialize";
+
+nav {
+  background-color: #4ABDAC;
+  .brand-logo {
+    img {
+      max-height: 64px;
+    }
+  }
+}
