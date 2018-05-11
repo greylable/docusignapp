@@ -1,11 +1,11 @@
-class NewEnvelopesController < ApplicationController
-  before_action :set_envelope, only: [:destroy, :edit, :update, :show]
+class NewenvelopesController < ApplicationController
+  # before_action before_action :set_goal, only: [:destroy, :edit, :update, :show]
   def index
-    @envelope = current_user.envelopes
+    # @envelopes = current_user.envelopes
   end
 
   def new
-    @envelope = current_user.envelopes.new
+    # @envelope = current_user.envelopes.new
   end
 
   def create

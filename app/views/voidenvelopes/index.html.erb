@@ -1,0 +1,34 @@
+<%#= link_to(new_voidenvelope_path , class: 'btn-floating btn-large')%>
+
+<div class="fixed-action-btn">
+  <%= link_to(new_voidenvelope_path, class: 'btn-floating btn-large') do %>
+    <i class="large material-icons">add</i>
+  <% end %>
+</div>
+
+<%#= flash[:notice] %>
+<table>
+  <thead>
+    <tr>
+      <th>envelope_id</th>
+      <th>name</th>
+      <th>void_reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @voidenvelope.each do |f| %>
+      <tr>
+        <td><%= f.envelope_id %></td>
+        <td><%= f.name %></td>
+        <td><%= f.void_reason %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!--<div>-->
+  <%#= form_tag import_voidenvelopes_path(current_user), multipart: true do %>
+    <%#= file_field_tag :file %>
+    <%#= submit_tag "Import CSV" %>
+  <%# end %>
+<!--</div>-->

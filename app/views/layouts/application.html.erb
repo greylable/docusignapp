@@ -14,11 +14,9 @@
   <div class="nav-wrapper">
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <% if user_signed_in? %>
-<!--        <li><%#= link_to 'Profile', edit_user_profile_path(current_user), class: 'waves-effect' %></li>-->
-<!--        <li><%#= link_to 'Goals', goals_path, class: 'waves-effect' %></li>-->
-<!--        <li><%#= link_to 'Pomodoro', timeblocks_path, class: 'waves-effect' %></li>-->
-<!--        <li><%#= link_to 'Journals', journals_path, class: 'waves-effect' %></li>-->
-<!--        <li><%#= link_to 'Responsibilities', responsibilities_path, class: 'waves-effect' %></li>-->
+        <li><%= link_to 'Dashboard', dashboard_index_path, class: 'waves-effect' %></li>
+        <li><%= link_to 'Create', newenvelopes_path, class: 'waves-effect' %></li>
+        <li><%= link_to 'Void', voidenvelopes_path, class: 'waves-effect' %></li>
         <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'waves-effect' %></li>
       <% else %>
         <li><%= link_to 'Login', new_user_session_path %></li>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  envelope_id: MyString
+  void_reason: MyString
+
+two:
+  name: MyString
+  envelope_id: MyString
+  void_reason: MyString
