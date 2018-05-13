@@ -1,30 +1,33 @@
-<%#= link_to(new_voidenvelope_path , class: 'btn-floating btn-large')%>
-
-<div class="fixed-action-btn">
-  <%= link_to(new_voidenvelope_path, class: 'btn-floating btn-large') do %>
-    <i class="large material-icons">add</i>
-  <% end %>
-</div>
-
-<%#= flash[:notice] %>
-<table>
+<form action="#">
+<table class="striped">
   <thead>
     <tr>
+      <th>Select</th>
       <th>envelope_id</th>
       <th>name</th>
       <th>void_reason</th>
     </tr>
   </thead>
   <tbody>
+    <%counter = 0 %>
     <% @voidenvelope.each do |f| %>
       <tr>
+        <td><%= check_box_tag "to_void[#{ f.id }]", "active", false %>
+          <%= label_tag "to_void[#{ f.id }]", "ID #{ f.id }"%></td>
         <td><%= f.envelope_id %> </td>
         <td><%= f.name %></td>
         <td><%= f.void_reason %></td>
         <td><%= link_to 'Edit', edit_voidenvelope_path(f) %></td>
         <td><%= link_to 'Delete', f, method: :delete %></td>
       </tr>
+    <% counter += 1 %>
     <% end %>
   </tbody>
 </table>
+</form>
 
+<div class="fixed-action-btn">
+  <%= link_to(new_voidenvelope_path, class: 'btn-floating btn-large') do %>
+    <i class="large material-icons">add</i>
+  <% end %>
+</div>
