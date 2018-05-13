@@ -4,11 +4,11 @@ Rails.application.routes.draw do
   get 'dashboard/index'
   root 'dashboard#index'
   resources :newenvelopes
-  resources :voidenvelopes
-  # resources :voidenvelopes do
-  #   collection do
-  #     get :import
-  #   end
-  # end
+  # resources :voidenvelopes
+  resources :voidenvelopes do
+    collection do
+      post :import
+    end
+  end
 
 end

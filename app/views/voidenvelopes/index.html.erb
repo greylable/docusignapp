@@ -18,17 +18,13 @@
   <tbody>
     <% @voidenvelope.each do |f| %>
       <tr>
-        <td><%= f.envelope_id %></td>
+        <td><%= f.envelope_id %> </td>
         <td><%= f.name %></td>
         <td><%= f.void_reason %></td>
+        <td><%= link_to 'Edit', edit_voidenvelope_path(f) %></td>
+        <td><%= link_to 'Delete', f, method: :delete %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<!--<div>-->
-  <%#= form_tag import_voidenvelopes_path(current_user), multipart: true do %>
-    <%#= file_field_tag :file %>
-    <%#= submit_tag "Import CSV" %>
-  <%# end %>
-<!--</div>-->
