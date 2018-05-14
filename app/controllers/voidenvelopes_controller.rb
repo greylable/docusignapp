@@ -4,6 +4,8 @@ class VoidenvelopesController < ApplicationController
   # before_action
   def index
     @voidenvelope = current_user.voidenvelopes
+    @completed_voidenvelope = current_user.voidenvelopes.where(status: 'voided')
+    @incomplete_voidenvelope = current_user.voidenvelopes.where.not(status: 'voided')
   end
 
   def import

@@ -1,18 +1,22 @@
+<input type="checkbox" id="myCheckbox" class="filled-in"/>
+<label for="myCheckbox"></label>
 <form action="#">
 <table class="striped">
   <thead>
     <tr>
-      <th>Select</th>
+      <th></th>
       <th>envelope_id</th>
       <th>name</th>
       <th>void_reason</th>
     </tr>
   </thead>
   <tbody>
+  <p id="checkBoxes">
     <%counter = 0 %>
     <% @voidenvelope.each do |f| %>
+
       <tr>
-        <td><%= check_box_tag "to_void[#{ f.id }]", "active", false %>
+        <td><%= check_box_tag "to_void[#{ f.id }]", "active", false, class: 'filled-in' %>
           <%= label_tag "to_void[#{ f.id }]", "ID #{ f.id }"%></td>
         <td><%= f.envelope_id %> </td>
         <td><%= f.name %></td>
@@ -22,6 +26,7 @@
       </tr>
     <% counter += 1 %>
     <% end %>
+  </p>
   </tbody>
 </table>
 </form>
