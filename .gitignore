@@ -28,3 +28,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Ignore local files
+/.DS_Store
+/.idea/workspace.xml
