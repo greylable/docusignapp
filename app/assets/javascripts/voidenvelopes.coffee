@@ -1,5 +1,5 @@
 $(document).on 'turbolinks:load', ->
-  $('#myCheckbox').click ->
+  $('#selectall').click ->
     d = $(this).data()
     # access the data object of the button
     $(':checkbox').prop 'checked', !d.checked
@@ -14,6 +14,6 @@ $(document).on 'turbolinks:load', ->
       return
     else
       $(':checkbox').each ->
-        $('#myCheckbox').prop('checked', false)
+        $('#selectall').prop('checked', false)
         return
     return

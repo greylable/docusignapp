@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :voidenvelopes do
     collection do
       post :import
+      post :destroy_multiple
     end
   end
 

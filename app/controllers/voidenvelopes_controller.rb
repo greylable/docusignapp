@@ -1,11 +1,11 @@
 class VoidenvelopesController < ApplicationController
   require 'csv'
   before_action :set_voidenvelope, only: [:destroy, :edit, :update, :show]
-  # before_action
+
   def index
-    @voidenvelope = current_user.voidenvelopes
-    @completed_voidenvelope = current_user.voidenvelopes.where(status: 'voided')
-    @incomplete_voidenvelope = current_user.voidenvelopes.where.not(status: 'voided')
+    @voidenvelopes = current_user.voidenvelopes
+    @completed_voidenvelopes = current_user.voidenvelopes.where(status: 'voided')
+    @incomplete_voidenvelopes = current_user.voidenvelopes.where.not(status: 'voided')
   end
 
   def import
@@ -45,6 +45,20 @@ class VoidenvelopesController < ApplicationController
   def show
   end
 
+  def destroy_multiple
+    if params[:voidenvelope_ids].blank?
+      redirect_to voidenvelopes_path, notice: "No contacts selected"
+    else
+      @voidenvelope_hash =  params[:voidenvelope_ids]
+      @array_try = []
+      @voidenvelope_hash.each { |k,v| @array_try.push(k)}
+      Voidenvelope.where(id: @array_try).destroy_all
+      respond_to do |format|
+        format.html { redirect_to voidenvelopes_path, notice: 'Void Request Deleted Successfully!' }
+        format.json { head :no_content }
+      end
+    end
+  end
 
   private
 

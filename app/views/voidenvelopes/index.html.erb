@@ -1,6 +1,15 @@
-<input type="checkbox" id="myCheckbox" class="filled-in"/>
-<label for="myCheckbox"></label>
-<form action="#">
+<div class="row">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <input type="checkbox" id="selectall" class="filled-in"/>
+        <label for="selectall"></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= form_tag(destroy_multiple_voidenvelopes_path, method: :post) do %>
 <table class="striped">
   <thead>
     <tr>
@@ -11,25 +20,21 @@
     </tr>
   </thead>
   <tbody>
-  <p id="checkBoxes">
-    <%counter = 0 %>
-    <% @voidenvelope.each do |f| %>
-
+    <% @voidenvelopes.each do |f| %>
       <tr>
-        <td><%= check_box_tag "to_void[#{ f.id }]", "active", false, class: 'filled-in' %>
-          <%= label_tag "to_void[#{ f.id }]", "ID #{ f.id }"%></td>
+        <td><%= check_box_tag "voidenvelope_ids[#{ f.id }]","voidenvelope_ids[#{ f.id }]", false, class: 'filled-in'%>
+          <%= label_tag "voidenvelope_ids[#{ f.id }]", f.id%></td>
         <td><%= f.envelope_id %> </td>
         <td><%= f.name %></td>
         <td><%= f.void_reason %></td>
         <td><%= link_to 'Edit', edit_voidenvelope_path(f) %></td>
         <td><%= link_to 'Delete', f, method: :delete %></td>
       </tr>
-    <% counter += 1 %>
     <% end %>
-  </p>
   </tbody>
 </table>
-</form>
+  <%= submit_tag "Delete selected" %>
+<% end %>
 
 <div class="fixed-action-btn">
   <%= link_to(new_voidenvelope_path, class: 'btn-floating btn-large') do %>
