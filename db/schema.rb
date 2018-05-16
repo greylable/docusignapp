@@ -10,7 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_14_055923) do
+ActiveRecord::Schema.define(version: 2018_05_16_102555) do
+
+  create_table "newenvelopes", force: :cascade do |t|
+    t.string "envelope_id"
+    t.integer "rental"
+    t.string "email"
+    t.string "name"
+    t.string "nric"
+    t.string "mailing_address"
+    t.string "driver_phone_no"
+    t.datetime "birthday"
+    t.datetime "pickup_date"
+    t.string "vehicle_make"
+    t.string "vehicle_model"
+    t.string "vehicle_colour"
+    t.string "licence_plate"
+    t.string "master_rate"
+    t.float "weekly_rate"
+    t.string "min_rental_period"
+    t.integer "deposit"
+    t.string "payee_name"
+    t.string "name_of_bank"
+    t.string "bank_address"
+    t.string "bank_account_no"
+    t.string "bank_code"
+    t.string "branch_code"
+    t.string "swift_code"
+    t.string "driver_licence_no"
+    t.datetime "expiration_date"
+    t.string "driver_licence_class"
+    t.string "emergency_name"
+    t.string "emergency_nric"
+    t.string "emergency_mailing_address"
+    t.string "emergency_email"
+    t.string "emergency_phone_no"
+    t.datetime "emergency_birthday"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_newenvelopes_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

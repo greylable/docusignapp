@@ -1,48 +1,31 @@
 class NewenvelopesController < ApplicationController
   # before_action before_action :set_goal, only: [:destroy, :edit, :update, :show]
+
   def index
-    # @envelopes = current_user.envelopes
+    @newenvelopes = current_user.newenvelopes
   end
 
   def new
-    # @envelope = current_user.envelopes.new
+    @newenvelope = current_user.newenvelopes.new
   end
 
   def create
-    @envelope = current_user.envelopes.new(envelope_params)
-    if @envelope.save!
-      redirect_to envelope_params, notice: 'Journal Created Successfully!'
+    @newenvelope = current_user.newenvelopes.new(newenvelopes_params)
+    if @newenvelope.save!
+      redirect_to newenvelopes_path, notice: 'New Envelope Request Created Successfully!'
     else
       render :new
     end
   end
 
-  def edit
-  end
-
-  def update
-    if @envelope.update(envelope_params)
-      redirect_to envelopes_path, notice: 'Journal Updated Successfully!'
-    else
-      render :edit
-    end
-  end
-
-  def destroy
-    @envelope.destroy
-    redirect_to envelopes_path, notice: 'Journal Deleted Successfully!'
-  end
-
-  def show
-  end
-
   private
 
-  def set_envelope
-    @envelope = envelope.find(params[:id])
+  def set_newenvelope
+    @newenvelope = Newenvelope.find(params[:id])
   end
 
-  def envelope_params
-    params.require(:envelope).permit(:title, :deadline)
+  def newenvelopes_params
+    params.require(:newenvelope).permit(:name, :rental, :nric, :email)
   end
+
 end

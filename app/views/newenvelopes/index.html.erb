@@ -1,1 +1,29 @@
-hii
+<table class="striped">
+  <thead>
+  <tr>
+    <th></th>
+    <th>name</th>
+    <th>rental</th>
+    <th>nric</th>
+    <th>email</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @newenvelopes.each do |f| %>
+    <tr>
+      <td><%= f.name %> </td>
+      <td><%= f.rental %></td>
+      <td><%= f.nric %></td>
+      <td><%= f.email %></td>
+<!--      <td><%#= link_to 'Edit', edit_voidenvelope_path(f) %></td>-->
+<!--      <td><%#= link_to 'Delete', f, method: :delete %></td>-->
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<div class="fixed-action-btn">
+  <%= link_to(new_newenvelope_path, class: 'btn-floating btn-large') do %>
+    <i class="large material-icons">add</i>
+  <% end %>
+</div>

@@ -1,0 +1,71 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  envelope_id: MyString
+  rental: 1
+  email: MyString
+  name: MyString
+  nric: MyString
+  mailing_address: MyString
+  driver_phone_no: MyString
+  birthday: 2018-05-16 18:21:34
+  pickup_date: 2018-05-16 18:21:34
+  vehicle_make: MyString
+  vehicle_model: MyString
+  vehicle_colour: MyString
+  licence_plate: MyString
+  master_rate: MyString
+  weekly_rate: 1.5
+  min_rental_period: MyString
+  deposit: 1
+  payee_name: MyString
+  name_of_bank: MyString
+  bank_address: MyString
+  bank_account_no: MyString
+  bank_code: MyString
+  branch_code: MyString
+  swift_code: MyString
+  driver_licence_no: MyString
+  expiration_date: 2018-05-16 18:21:34
+  driver_licence_class: MyString
+  emergency_name: MyString
+  emergency_nric: MyString
+  emergency_mailing_address: MyString
+  emergency_email: MyString
+  emergency_phone_no: MyString
+  emergency_birthday: 2018-05-16 18:21:34
+
+two:
+  envelope_id: MyString
+  rental: 1
+  email: MyString
+  name: MyString
+  nric: MyString
+  mailing_address: MyString
+  driver_phone_no: MyString
+  birthday: 2018-05-16 18:21:34
+  pickup_date: 2018-05-16 18:21:34
+  vehicle_make: MyString
+  vehicle_model: MyString
+  vehicle_colour: MyString
+  licence_plate: MyString
+  master_rate: MyString
+  weekly_rate: 1.5
+  min_rental_period: MyString
+  deposit: 1
+  payee_name: MyString
+  name_of_bank: MyString
+  bank_address: MyString
+  bank_account_no: MyString
+  bank_code: MyString
+  branch_code: MyString
+  swift_code: MyString
+  driver_licence_no: MyString
+  expiration_date: 2018-05-16 18:21:34
+  driver_licence_class: MyString
+  emergency_name: MyString
+  emergency_nric: MyString
+  emergency_mailing_address: MyString
+  emergency_email: MyString
+  emergency_phone_no: MyString
+  emergency_birthday: 2018-05-16 18:21:34
