@@ -25,17 +25,24 @@ nav {
 }
 
 
-// table
-.search-table-outter {margin:40px -120px 40px -120px;} // border:1px solid red; to put a red solid border around the whole table
-.search-table{table-layout: auto; width: 1000px; margin:40px 10px 40px 10px;} // top right bottom left margin of table
-.search-table, td, th{border-collapse:collapse; border:1px solid #777;}
-th{padding:20px 10px; font-size:15px; color:#000; background:#e2a1a1;} // padding: top-bottom left-right
-td{padding:20px 10px; font-size:15px; height:35px; word-wrap: break-word}
+// table - create envelope
+.create-table-outter {margin:40px -120px 40px -120px;} // border:1px solid red; to put a red solid border around the whole table
+.create-table {table-layout: auto; width: 1000px; margin:40px 10px 40px 10px;} // top right bottom left margin of table
+.create-table, td, th {border-collapse:collapse; border:1px solid #777;}
+th {padding:20px 10px; font-size:15px; color:#000; background:#c4c4c4;} // padding: top-bottom left-right
+td {padding:20px 10px; font-size:15px; height:35px; word-wrap: break-word}
 
-.search-table-outter {overflow-x: scroll;}
-th, td { min-width: 100px; max-width: 300px; }
-td.last { padding:20px 15px; min-width: 50px; border-top: 1px solid #FFF; border-right: 1px solid #FFF; border-bottom: 1px solid #FFF; }
+.create-table-outter {overflow-x: scroll;}
+th, td {min-width: 100px; max-width: 300px;}
+th.first {padding:20px 15px; min-width: 50px;}
+td.first {padding:20px 15px; min-width: 50px;}
+td.last {padding:20px 15px; min-width: 50px; border-top: 1px solid #FFF; border-right: 1px solid #FFF; border-bottom: 1px solid #FFF;}
 
+
+// table - void envelope
+.void-table-outter {margin:80px -120px 40px -120px;} // border:1px solid red; to put a red solid border around the whole table
+.void-table {table-layout: fixed; width: 100%; margin:40px 10px 40px 10px;} // top right bottom left margin of table
+.void-table {border-collapse:collapse; border:1px solid #777;}
 
 // delete selected button
 .delete-table-outter {margin:40px -120px 40px -120px;}
