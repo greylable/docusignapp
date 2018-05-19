@@ -28,6 +28,4 @@ test:
 
 production:
   <<: *default
-  database: docusignapp
-  username: docusignapp
-  password: docusignapp
+  url: <%= ENV['DATABASE_URL'] %>
