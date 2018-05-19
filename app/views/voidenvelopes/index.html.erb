@@ -1,39 +1,43 @@
-<div class="row">
-  <div class="col s12">
-    <div class="card">
-      <div class="card-content">
-        <input type="checkbox" id="selectall" class="filled-in"/>
-        <label for="selectall"></label>
-      </div>
-    </div>
-  </div>
-</div>
+<!--<div class="row">-->
+<!--  <div class="col s12">-->
+<!--    <div class="card">-->
+<!--      <div class="card-content">-->
+<!--        <input type="checkbox" id="selectall" class="filled-in"/>-->
+<!--        <label for="selectall"></label>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 <%= form_tag(destroy_multiple_voidenvelopes_path, method: :post) do %>
-<table class="striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>envelope_id</th>
-      <th>name</th>
-      <th>void_reason</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @voidenvelopes.each do |f| %>
-      <tr>
-        <td><%= check_box_tag "voidenvelope_ids[#{ f.id }]","voidenvelope_ids[#{ f.id }]", false, class: 'filled-in'%>
-          <%= label_tag "voidenvelope_ids[#{ f.id }]", f.id%></td>
-        <td><%= f.envelope_id %> </td>
-        <td><%= f.name %></td>
-        <td><%= f.void_reason %></td>
-        <td><%= link_to 'Edit', edit_voidenvelope_path(f) %></td>
-        <td><%= link_to 'Delete', f, method: :delete %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-  <%= submit_tag "Delete selected" %>
+  <div class="void-table-outter wrapper">
+    <table class="void-table inner">
+      <thead>
+        <tr>
+          <th width="5.5%"><input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
+          <th width="24.5%">envelope_id</th>
+          <th width="21%">name</th>
+          <th width="37%">void_reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @voidenvelopes.each do |f| %>
+          <tr>
+            <td width="5.5%"><%= check_box_tag "voidenvelope_ids[#{ f.id }]","voidenvelope_ids[#{ f.id }]", false, class: 'filled-in'%><%= label_tag "voidenvelope_ids[#{ f.id }]", "" %></td>
+            <td width="24.5%"><%= f.envelope_id %> </td>
+            <td width="21%"><%= f.name %></td>
+            <td width="37%"><%= f.void_reason %></td>
+            <td class="last"><%= link_to 'Edit', edit_voidenvelope_path(f) %></td>
+            <td class="last"><%= link_to 'Delete', f, method: :delete %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="delete-table-outter wrapper">
+    <%= submit_tag "Delete selected" %>
+  </div>
 <% end %>
 
 <div class="fixed-action-btn">
