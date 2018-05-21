@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     collection do
       post :import
       post :destroy_multiple
+      post :hihi
     end
   end
 

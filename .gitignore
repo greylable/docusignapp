@@ -13,6 +13,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/log/*.log
 /tmp/*
 !/log/.keep
 !/tmp/.keep
@@ -24,11 +25,16 @@
 /yarn-error.log
 
 /public/assets
+/public/system/*
 .byebug_history
+.rvmrc
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
 # Ignore local files
 /.DS_Store
-/.idea/workspace.xml
+# /.idea/workspace.xml
+# /.idea/docusignapp.iml
+/.idea *
+/.idea
