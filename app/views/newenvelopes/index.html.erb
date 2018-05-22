@@ -1,95 +1,159 @@
 <%= form_tag(destroy_multiple_newenvelopes_path, method: :post) do %>
-  <div class="create-table-outter wrapper">
-    <table class="create-table inner">
-      <thead>
-        <tr>
-          <th class="first"><input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
-          <th>name</th>
-          <th>rental</th>
-          <th>nric</th>
-          <th>email</th>
-          <th>mailing_address</th>
-          <th>driver_phone_no</th>
-          <th>birthday</th>
-          <th>pickup_date</th>
-          <th>vehicle_make</th>
-          <th>vehicle_model</th>
-          <th>vehicle_colour</th>
-          <th>licence_plate</th>
-          <th>master_rate</th>
-          <th>weekly_rate</th>
-          <th>min_rental_period</th>
-          <th>deposit</th>
-          <th>payee_name</th>
-          <th>name_of_bank</th>
-          <th>bank_address</th>
-          <th>bank_account_no</th>
-          <th>bank_code</th>
-          <th>branch_code</th>
-          <th>swift_code</th>
-          <th>driver_licence_no</th>
-          <th>expiration_date</th>
-          <th>driver_licence_class</th>
-          <th>emergency_name</th>
-          <th>emergency_nric</th>
-          <th>emergency_mailing_address</th>
-          <th>emergency_email</th>
-          <th>emergency_phone_no</th>
-          <th>emergency_birthday</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @newenvelopes.each do |f| %>
-        <tr>
-          <td class="first"><%= check_box_tag "newenvelope_ids[#{ f.id }]", "newenvelope_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "newenvelope_ids[#{ f.id }]", "" %></td>
-          <td><%= f.name %> </td>
-          <td><%= f.rental %></td>
-          <td><%= f.nric %></td>
-          <td><%= f.email %></td>
-          <td><%= f.mailing_address %></td>
-          <td><%= f.driver_phone_no %></td>
-          <td><%= f.birthday %></td>
-          <td><%= f.pickup_date %></td>
-          <td><%= f.vehicle_make %></td>
-          <td><%= f.vehicle_model %></td>
-          <td><%= f.vehicle_colour %></td>
-          <td><%= f.licence_plate %></td>
-          <td><%= f.master_rate %></td>
-          <td><%= f.weekly_rate %></td>
-          <td><%= f.min_rental_period %></td>
-          <td><%= f.deposit %></td>
-          <td><%= f.payee_name %></td>
-          <td><%= f.name_of_bank %></td>
-          <td><%= f.bank_address %></td>
-          <td><%= f.bank_account_no %></td>
-          <td><%= f.bank_code %></td>
-          <td><%= f.branch_code %></td>
-          <td><%= f.swift_code %></td>
-          <td><%= f.driver_licence_no %></td>
-          <td><%= f.expiration_date %></td>
-          <td><%= f.driver_licence_class %></td>
-          <td><%= f.emergency_name %></td>
-          <td><%= f.emergency_nric %></td>
-          <td><%= f.emergency_mailing_address %></td>
-          <td><%= f.emergency_email %></td>
-          <td><%= f.emergency_phone_no %></td>
-          <td><%= f.emergency_birthday %></td>
-          <td class="last"><%= link_to 'Edit', edit_newenvelope_path(f) %></td>
-          <td class="last"><%= link_to 'Delete', f, method: :delete %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="delete-table-outter wrapper">
-    <%= submit_tag "Delete selected" %>
+  <div class="content-wrapper-table">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-sm-6">
+          <i class="fa fa-table"></i> Create Envelopes
+        </div>
+        <div class="col-sm-6">
+          <span class="pull-right">
+            <div class="fixed-action-btn">
+              <%= link_to(new_newenvelope_path, class: 'nav-link') do %>
+                <i class="fa fa-fw fa-plus"></i>
+              <% end %>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="dataTables_length" id=dataTable_length">
+                <label>
+                  Show
+                  <select name="dataTable_length" aria-controls="dataTable" class="form-control-sm">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                   entries
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row top-buffer">
+            <div class="col-sm-12">
+              <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+                     aria-describedby="dataTable_info" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th class="check-box"></th>
+                    <th class="check-box"></th>
+                    <th class="check-box"><input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
+                    <th>name</th>
+                    <th>rental</th>
+                    <th>nric</th>
+                    <th>email</th>
+                    <th>mailing_address</th>
+                    <th>driver_phone_no</th>
+                    <th>birthday</th>
+                    <th>pickup_date</th>
+                    <th>vehicle_make</th>
+                    <th>vehicle_model</th>
+                    <th>vehicle_colour</th>
+                    <th>licence_plate</th>
+                    <th>master_rate</th>
+                    <th>weekly_rate</th>
+                    <th>min_rental_period</th>
+                    <th>deposit</th>
+                    <th>payee_name</th>
+                    <th>name_of_bank</th>
+                    <th>bank_address</th>
+                    <th>bank_account_no</th>
+                    <th>bank_code</th>
+                    <th>branch_code</th>
+                    <th>swift_code</th>
+                    <th>driver_licence_no</th>
+                    <th>expiration_date</th>
+                    <th>driver_licence_class</th>
+                    <th>emergency_name</th>
+                    <th>emergency_nric</th>
+                    <th>emergency_mailing_address</th>
+                    <th>emergency_email</th>
+                    <th>emergency_phone_no</th>
+                    <th>emergency_birthday</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% @newenvelopes.each do |f| %>
+                  <tr>
+                    <td class="check-box"><%= link_to 'Edit', edit_newenvelope_path(f) %></td>
+                    <td class="check-box"><%= link_to 'Delete', f, method: :delete %></td>
+                    <td class="check-box"><%= check_box_tag "newenvelope_ids[#{ f.id }]", "newenvelope_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "newenvelope_ids[#{ f.id }]", "" %></td>
+                    <td><%= f.name %> </td>
+                    <td><%= f.rental %></td>
+                    <td><%= f.nric %></td>
+                    <td><%= f.email %></td>
+                    <td><%= f.mailing_address %></td>
+                    <td><%= f.driver_phone_no %></td>
+                    <td><%= f.birthday %></td>
+                    <td><%= f.pickup_date %></td>
+                    <td><%= f.vehicle_make %></td>
+                    <td><%= f.vehicle_model %></td>
+                    <td><%= f.vehicle_colour %></td>
+                    <td><%= f.licence_plate %></td>
+                    <td><%= f.master_rate %></td>
+                    <td><%= f.weekly_rate %></td>
+                    <td><%= f.min_rental_period %></td>
+                    <td><%= f.deposit %></td>
+                    <td><%= f.payee_name %></td>
+                    <td><%= f.name_of_bank %></td>
+                    <td><%= f.bank_address %></td>
+                    <td><%= f.bank_account_no %></td>
+                    <td><%= f.bank_code %></td>
+                    <td><%= f.branch_code %></td>
+                    <td><%= f.swift_code %></td>
+                    <td><%= f.driver_licence_no %></td>
+                    <td><%= f.expiration_date %></td>
+                    <td><%= f.driver_licence_class %></td>
+                    <td><%= f.emergency_name %></td>
+                    <td><%= f.emergency_nric %></td>
+                    <td><%= f.emergency_mailing_address %></td>
+                    <td><%= f.emergency_email %></td>
+                    <td><%= f.emergency_phone_no %></td>
+                    <td><%= f.emergency_birthday %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row top-buffer" >
+        <div class="col-sm-6">
+          <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
+            <%#= submit_tag "Delete Selected" %>
+            <%= button_tag(type: "delete", class: 'btn btn-default') do %>
+              <i class="fa fa-fw fa-remove"></i> Delete Selected
+            <% end %>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <span class="pull-right">
+            <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
+              <ul class="pagination">
+                <li class="paginate_button page-item previous disabled" id="dataTable_previous">
+                  <a href="#" aria-controls="dataTable" data-dt-idx="0" tableindex="0" class="page-link">Previous</a>
+                </li>
+                <li class="paginate_button page-item active">
+                  <a href="#" aria-controls="dataTable" data-dt-idx="1" tableindex="0" class="page-link">1</a>
+                </li>
+                <li class="paginate_button page-item next" id="dataTable_next">
+                  <a href="#" aria-controls="dataTable" data-dt-idx="2" tableindex="0" class="page-link">Next</a>
+                </li>
+              </ul>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
 
-<div class="fixed-action-btn">
-  <%= link_to(new_newenvelope_path, class: 'btn-floating btn-large') do %>
-    <i class="large material-icons">add</i>
-  <% end %>
-</div>
+
 

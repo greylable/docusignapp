@@ -1,47 +1,100 @@
-<!--<div class="row">-->
-<!--  <div class="col s12">-->
-<!--    <div class="card">-->
-<!--      <div class="card-content">-->
-<!--        <input type="checkbox" id="selectall" class="filled-in"/>-->
-<!--        <label for="selectall"></label>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
 <%= form_tag(destroy_multiple_voidenvelopes_path, method: :post) do %>
-  <div class="void-table-outter wrapper">
-    <table class="void-table inner">
-      <thead>
-        <tr>
-          <th width="5.5%"><input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
-          <th width="24.5%">envelope_id</th>
-          <th width="21%">name</th>
-          <th width="37%">void_reason</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @voidenvelopes.each do |f| %>
-          <tr>
-            <td width="5.5%"><%= check_box_tag "voidenvelope_ids[#{ f.id }]","voidenvelope_ids[#{ f.id }]", false, class: 'filled-in'%><%= label_tag "voidenvelope_ids[#{ f.id }]", "" %></td>
-            <td width="24.5%"><%= f.envelope_id %> </td>
-            <td width="21%"><%= f.name %></td>
-            <td width="37%"><%= f.void_reason %></td>
-            <td class="last"><%= link_to 'Edit', edit_voidenvelope_path(f) %></td>
-            <td class="last"><%= link_to 'Delete', f, method: :delete %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="delete-table-outter wrapper">
-    <%= submit_tag "Delete selected" %>
+  <div class="content-wrapper-table">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-sm-6">
+          <i class="fa fa-table"></i> Delete Envelopes
+        </div>
+        <div class="col-sm-6">
+          <span class="pull-right">
+            <div class="fixed-action-btn">
+              <%= link_to(new_voidenvelope_path, class: 'nav-link') do %>
+                <i class="fa fa-fw fa-plus"></i>
+              <% end %>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="dataTables_length" id=dataTable_length">
+                <label>
+                  Show
+                  <select name="dataTable_length" aria-controls="dataTable" class="form-control-sm">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row top-buffer">
+            <div class="col-sm-12">
+              <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+                     aria-describedby="dataTable_info" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th class="check-box"></th>
+                    <th class="check-box"></th>
+                    <th class="check-box">
+                      <input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label>
+                    </th>
+                    <th width="24.5%">envelope_id</th>
+                    <th width="21%">name</th>
+                    <th width="50%">void_reason</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% @voidenvelopes.each do |f| %>
+                  <tr>
+                    <td class="check-box"><%= link_to 'Edit', edit_voidenvelope_path(f) %></td>
+                    <td class="check-box"><%= link_to 'Delete', f, method: :delete %></td>
+                    <td class="check-box"><%= check_box_tag "voidenvelope_ids[#{ f.id }]", "voidenvelope_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "voidenvelope_ids[#{ f.id }]", "" %></td>
+                    <td width="24.5%"><%= f.envelope_id %> </td>
+                    <td width="21%"><%= f.name %></td>
+                    <td width="50%"><%= f.void_reason %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row top-buffer">
+        <div class="col-sm-6">
+          <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
+            <%#= submit_tag "Delete Selected" %>
+            <%= button_tag(type: "delete", class: 'btn btn-default') do %>
+              <i class="fa fa-fw fa-remove"></i> Delete Selected
+            <% end %>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <span class="pull-right">
+            <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
+              <ul class="pagination">
+                <li class="paginate_button page-item previous disabled" id="dataTable_previous">
+                  <a href="#" aria-controls="dataTable" data-dt-idx="0" tableindex="0" class="page-link">Previous</a>
+                </li>
+                <li class="paginate_button page-item active">
+                  <a href="#" aria-controls="dataTable" data-dt-idx="1" tableindex="0" class="page-link">1</a>
+                </li>
+                <li class="paginate_button page-item next" id="dataTable_next">
+                  <a href="#" aria-controls="dataTable" data-dt-idx="2" tableindex="0" class="page-link">Next</a>
+                </li>
+              </ul>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
-
-<div class="fixed-action-btn">
-  <%= link_to(new_voidenvelope_path, class: 'btn-floating btn-large') do %>
-    <i class="large material-icons">add</i>
-  <% end %>
-</div>

@@ -14,49 +14,51 @@
  //*= require_self
  */
 
-//@import "materialize";
-//
-//nav {
-//  background-color: #4ABDAC;
-//  .brand-logo {
-//    img {
-//      max-height: 64px;
-//    }
-//  }
-//}
-//
-//
-
 
 
 @import "font-awesome";
 @import "bootstrap";
 
 
-.content-wrapper {
+.content-wrapper-dashboard {
   text-align: center;
   padding-top: 100px;
 }
 
 
-// table - create envelope
-.create-table-outter {margin:40px -120px 40px -120px;} // border:1px solid red; to put a red solid border around the whole table
-.create-table {table-layout: auto; width: 1000px; margin:40px 10px 40px 10px;} // top right bottom left margin of table
-.create-table, td, th {border-collapse:collapse; border:1px solid #777;}
+.content-wrapper-table {
+  margin:80px -120px 40px -120px;
+  font-size:17px;
+}
+
+
+.top-buffer { margin-top:20px; }
+
+
 th {padding:20px 10px; font-size:15px; color:#000; background:#c4c4c4;} // padding: top-bottom left-right
 td {padding:20px 10px; font-size:15px; height:35px; word-wrap: break-word}
-
-.create-table-outter {overflow-x: scroll;}
 th, td {min-width: 100px; max-width: 300px;}
-th.first {padding:20px 15px; min-width: 50px;}
-td.first {padding:20px 15px; min-width: 50px;}
-td.last {padding:20px 15px; min-width: 50px; border-top: 1px solid #FFF; border-right: 1px solid #FFF; border-bottom: 1px solid #FFF;}
+.check-box {padding:15px 15px; min-width: 50px;}
 
 
-// table - void envelope
-.void-table-outter {margin:80px -120px 40px -120px;} // border:1px solid red; to put a red solid border around the whole table
-.void-table {table-layout: fixed; width: 100%; margin:40px 10px 40px 10px;} // top right bottom left margin of table
-.void-table {border-collapse:collapse; border:1px solid #777;}
+//// table - create envelope
+//.create-table-outter {margin:40px -120px 40px -120px;} // border:1px solid red; to put a red solid border around the whole table
+//.create-table {table-layout: auto; width: 1000px; margin:40px 10px 40px 10px;} // top right bottom left margin of table
+//.create-table, td, th {border-collapse:collapse; border:1px solid #777;}
+//th {padding:20px 10px; font-size:15px; color:#000; background:#c4c4c4;} // padding: top-bottom left-right
+//td {padding:20px 10px; font-size:15px; height:35px; word-wrap: break-word}
+//
+//.create-table-outter {overflow-x: scroll;}
+//th, td {min-width: 100px; max-width: 300px;}
+//th.first {padding:20px 15px; min-width: 50px;}
+//td.first {padding:20px 15px; min-width: 50px;}
+//td.last {padding:20px 15px; min-width: 50px; border-top: 1px solid #FFF; border-right: 1px solid #FFF; border-bottom: 1px solid #FFF;}
+//
+//
+//// table - void envelope
+//.void-table-outter {margin:80px -120px 40px -120px;} // border:1px solid red; to put a red solid border around the whole table
+//.void-table {table-layout: fixed; width: 100%; margin:40px 10px 40px 10px;} // top right bottom left margin of table
+//.void-table {border-collapse:collapse; border:1px solid #777;}
 
 // delete selected button
-.delete-table-outter {margin:40px -120px 40px -120px;}
+//.delete-table-outter {margin:40px -120px 40px -120px;}
