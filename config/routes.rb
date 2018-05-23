@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   resources :voidenvelopes do
     collection do
       post :import
-      post :destroy_multiple
+      # post :destroy_multiple
+      # post :void_selected
+      post :select_multiple
     end
   end
 

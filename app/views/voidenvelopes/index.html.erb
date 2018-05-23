@@ -8,8 +8,8 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</div>-->
-
-<%= form_tag(destroy_multiple_voidenvelopes_path, method: :post) do %>
+@completed_envelopes TAB1
+<%= form_tag(select_multiple_voidenvelopes_path, method: :post) do %>
   <div class="void-table-outter wrapper">
     <table class="void-table inner">
       <thead>
@@ -37,6 +37,7 @@
 
   <div class="delete-table-outter wrapper">
     <%= submit_tag "Delete selected" %>
+    <%= submit_tag "Void selected" %>
   </div>
 <% end %>
 

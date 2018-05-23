@@ -45,20 +45,62 @@ class VoidenvelopesController < ApplicationController
   def show
   end
 
-  def destroy_multiple
-    if params[:voidenvelope_ids].blank?
-      redirect_to voidenvelopes_path, notice: "No contacts selected"
-    else
-      @voidenvelope_hash =  params[:voidenvelope_ids]
-      @array_try = []
-      @voidenvelope_hash.each { |k,v| @array_try.push(k)}
-      Voidenvelope.where(id: @array_try).destroy_all
-      respond_to do |format|
-        format.html { redirect_to voidenvelopes_path, notice: 'Void Request Deleted Successfully!' }
-        format.json { head :no_content }
+  def select_multiple
+    if params[:commit] == "Delete selected"
+      if params[:voidenvelope_ids].blank?
+        redirect_to voidenvelopes_path, notice: "No envelopes selected"
+      else
+        @voidenvelope_hash =  params[:voidenvelope_ids]
+        @array_try = []
+        @voidenvelope_hash.each { |k,v| @array_try.push(k)}
+        Voidenvelope.where(id: @array_try).destroy_all
+        respond_to do |format|
+          format.html { redirect_to voidenvelopes_path, notice: 'Void Request Deleted Successfully!' }
+          format.json { head :no_content }
+        end
+      end
+    else params[:commit] == "Void selected"
+      puts 'Voiding these envelopes tentatively'
+      if params[:voidenvelope_ids].blank?
+        redirect_to voidenvelopes_path, notice: "No envelopes selected"
+      else
+        @voidenvelope_hash =  params[:voidenvelope_ids]
+        @array_try = []
+        @voidenvelope_hash.each { |k,v| @array_try.push(k)}
+        puts @array_try
+        @voidenvelopes = current_user.voidenvelopes.where(id: @array_try)
+        puts @voidenvelopes
+        Voidenvelope.void(@voidenvelopes)
+        #
+        # respond_to do |format|
+        #   format.html { redirect_to voidenvelopes_path, notice: 'Void Request Voided Successfully!' }
+        #   format.json { head :no_content }
+        # end
       end
     end
   end
+
+  # def destroy_multiple
+  #   if params[:voidenvelope_ids].blank?
+  #     redirect_to voidenvelopes_path, notice: "No contacts selected"
+  #   else
+  #     @voidenvelope_hash =  params[:voidenvelope_ids]
+  #     @array_try = []
+  #     @voidenvelope_hash.each { |k,v| @array_try.push(k)}
+  #     Voidenvelope.where(id: @array_try).destroy_all
+  #     respond_to do |format|
+  #       format.html { redirect_to voidenvelopes_path, notice: 'Void Request Deleted Successfully!' }
+  #       format.json { head :no_content }
+  #     end
+  #   end
+  # end
+
+  # def void_selected
+  #   selected = params[:selected_envelopes]
+  #   account_id = ''# TODO: get the acct id
+  #   Voidenvelope.void(account_id, selected)
+  #   redirect_to voidenvelopes_path, notice: 'Voided!'
+  # end
 
   private
 

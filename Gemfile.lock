@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/greylable/docusign-ruby-client
+  revision: 26f7b91ebdd0cab8e91ff049f62caeb176073e8a
+  specs:
+    docusign_esign (1.0.0)
+      json (~> 1.8, >= 1.8.3)
+      jwt (~> 2.0, >= 2.0.0)
+      typhoeus (~> 1.0, >= 1.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -84,6 +93,8 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.7.1)
+    ethon (0.11.0)
+      ffi (>= 1.3.0)
     execjs (2.7.0)
     ffi (1.9.23)
     globalid (0.4.1)
@@ -98,6 +109,8 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
+    json (1.8.6)
+    jwt (2.1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -205,6 +218,8 @@ GEM
     turbolinks (5.1.1)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
+    typhoeus (1.3.0)
+      ethon (>= 0.9.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.1.10)
@@ -232,6 +247,7 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   devise
+  docusign_esign!
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
