@@ -41,6 +41,12 @@ th, td {min-width: 100px; max-width: 300px;}
 .check-box {padding:15px 15px; min-width: 50px;}
 
 
+.link-to-text-color {
+  text-decoration:none !important;
+  color:#000;
+}
+
+
 //// table - create envelope
 //.create-table-outter {margin:40px -120px 40px -120px;} // border:1px solid red; to put a red solid border around the whole table
 //.create-table {table-layout: auto; width: 1000px; margin:40px 10px 40px 10px;} // top right bottom left margin of table
