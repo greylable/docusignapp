@@ -91,8 +91,11 @@
         <div class="col-sm-6">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
-            <%= button_tag(type: "delete", class: 'btn btn-default') do %>
+            <%= button_tag(name: 'commit', value: 'Delete selected', type: "submit", class: 'btn btn-default') do %>
               <i class="fa fa-fw fa-remove"></i> Delete Selected
+            <% end %>
+            <%= button_tag(name: 'commit', value: 'Create selected', type: "submit", class: 'btn btn-default') do %>
+              <i class="fa fa-fw fa-remove"></i> Create Selected
             <% end %>
           </div>
         </div>
