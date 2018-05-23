@@ -3,8 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.4.1'
 
-# Views
-gem 'materialize-sass', '0.97.8'
+# # Views
+# gem 'materialize-sass', '0.97.8'
+
 # Devise for Login
 gem 'devise'
 # Simple Form
@@ -43,6 +44,10 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
+# Views
+gem 'bootstrap', '~> 4.1.1'
+
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -73,3 +78,6 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# font
+gem 'font-awesome-rails'

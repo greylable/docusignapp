@@ -1,6 +1,7 @@
-<% if user_signed_in? %>
-  <h1>Welcome <%= @user.email %>!</h1>
-  <h2>Weiling Koh is testing to publish</h2>
-<% else %>
-  <h1>Please sign up or log in to use</h1>
-<% end %>
+<div class="content-wrapper-dashboard">
+  <% if user_signed_in? %>
+    <h1>Welcome <%= @user.email %>!</h1>
+  <% else %>
+    <h1>Please sign up or log in to use</h1>
+  <% end %>
+</div>

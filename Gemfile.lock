@@ -56,10 +56,16 @@ GEM
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
+    autoprefixer-rails (8.5.0)
+      execjs
     bcrypt (3.1.11)
     bindex (0.5.0)
     bootsnap (1.3.0)
       msgpack (~> 1.0)
+    bootstrap (4.1.1)
+      autoprefixer-rails (>= 6.0.3)
+      popper_js (>= 1.12.9, < 2)
+      sass (>= 3.5.2)
     builder (3.2.3)
     byebug (10.0.2)
     capybara (3.1.0)
@@ -97,6 +103,8 @@ GEM
       ffi (>= 1.3.0)
     execjs (2.7.0)
     ffi (1.9.23)
+    font-awesome-rails (4.7.0.4)
+      railties (>= 3.2, < 6.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     i18n (1.0.1)
@@ -122,8 +130,6 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.2)
       mimemagic (~> 0.3.2)
-    materialize-sass (0.97.8)
-      sass (~> 3.3)
     method_source (0.9.0)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -145,6 +151,7 @@ GEM
       mime-types
       mimemagic (~> 0.3.0)
     pg (0.18.4)
+    popper_js (1.12.9)
     public_suffix (3.0.2)
     puma (3.11.4)
     rack (2.0.5)
@@ -242,16 +249,17 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
+  bootstrap (~> 4.1.1)
   byebug
   capybara (>= 2.15, < 4.0)
   chromedriver-helper
   coffee-rails (~> 4.2)
   devise
   docusign_esign!
+  font-awesome-rails
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
-  materialize-sass (= 0.97.8)
   paperclip (~> 5.2.1)
   pg (~> 0.18.4)
   puma (~> 3.11)
