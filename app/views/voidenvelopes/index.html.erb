@@ -3,7 +3,7 @@
     <div class="card-header">
       <div class="row">
         <div class="col-sm-6">
-          <i class="fa fa-table"></i> Delete Envelopes
+          <i class="fa fa-table"></i> Void Envelopes
         </div>
         <div class="col-sm-6">
           <span class="pull-right">
@@ -72,7 +72,7 @@
         <div class="col-sm-6">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
-            <%= button_tag(type: "delete", class: 'btn btn-default') do %>
+            <%= button_tag(name: 'commit', value: 'Delete selected', type: "submit", class: 'btn btn-default') do %>
               <i class="fa fa-fw fa-remove"></i> Delete Selected
             <% end %>
           </div>
