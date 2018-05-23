@@ -12,6 +12,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :ip_newenvelopes do
+    collection do
+      post :import
+      post :destroy_multiple
+    end
+  end
+
   resources :voidenvelopes do
     collection do
       post :import

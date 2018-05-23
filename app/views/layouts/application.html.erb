@@ -33,6 +33,12 @@
           <% end %>
         </li>
 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create">
+          <%= link_to(ip_newenvelopes_path, class: 'nav-link') do %>
+            <i class="fa fa-fw fa-plus-circle"></i>Create In Person
+          <% end %>
+        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Void">
           <%= link_to(voidenvelopes_path, class: 'nav-link') do %>
             <i class="fa fa-fw fa-minus-circle"></i>Void

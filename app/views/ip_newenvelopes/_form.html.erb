@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col s8 offset-s2">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">List an envelope to create</span>
+        <%= simple_form_for @ip_newenvelope do |f| %>
+          <%= f.input :ip_email %>
+          <%= f.input :nric %>
+          <%= f.input :ip_name %>
+          <%= f.input :driver_phone_no %>
+          <%= f.input :licence_plate %>
+          <%= f.input :min_rental_period %>
+          <%= f.input :name_of_bank %>
+          <%= f.input :bank_account_no %>
+          <%= f.input :emergency_name %>
+          <%= f.input :emergency_phone_no %>
+          <%= f.input :vehicle_make %>
+          <%= f.input :vehicle_model %>
+          <%= f.text_field :pickup_date, class: 'datepicker', placeholder: 'Pickup Date' %>
+          <div class="card-action">
+            <%= link_to 'back', :back %>
+            <%= f.button :submit, class: 'right' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

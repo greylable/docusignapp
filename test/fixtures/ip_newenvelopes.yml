@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ip_email: MyString
+  nric: MyString
+  ip_name: MyString
+  driver_phone_no: MyString
+  licence_plate: MyString
+  min_rental_period: MyString
+  name_of_bank: MyString
+  bank_account_no: MyString
+  emergency_name: MyString
+  emergency_phone_no: MyString
+  vehicle_make: MyString
+  vehicle_model: MyString
+  pickup_date: 2018-05-23 15:52:59
+
+two:
+  ip_email: MyString
+  nric: MyString
+  ip_name: MyString
+  driver_phone_no: MyString
+  licence_plate: MyString
+  min_rental_period: MyString
+  name_of_bank: MyString
+  bank_account_no: MyString
+  emergency_name: MyString
+  emergency_phone_no: MyString
+  vehicle_make: MyString
+  vehicle_model: MyString
+  pickup_date: 2018-05-23 15:52:59
