@@ -10,10 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_16_102555) do
+ActiveRecord::Schema.define(version: 2018_05_23_075602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ip_newenvelopes", force: :cascade do |t|
+    t.string "ip_email"
+    t.string "nric"
+    t.string "ip_name"
+    t.string "driver_phone_no"
+    t.string "licence_plate"
+    t.string "min_rental_period"
+    t.string "name_of_bank"
+    t.string "bank_account_no"
+    t.string "emergency_name"
+    t.string "emergency_phone_no"
+    t.string "vehicle_make"
+    t.string "vehicle_model"
+    t.datetime "pickup_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_ip_newenvelopes_on_user_id"
+  end
 
   create_table "newenvelopes", force: :cascade do |t|
     t.string "envelope_id"
@@ -83,6 +103,7 @@ ActiveRecord::Schema.define(version: 2018_05_16_102555) do
     t.index ["user_id"], name: "index_voidenvelopes_on_user_id"
   end
 
+  add_foreign_key "ip_newenvelopes", "users"
   add_foreign_key "newenvelopes", "users"
   add_foreign_key "voidenvelopes", "users"
 end
