@@ -5,6 +5,11 @@ class NewenvelopesController < ApplicationController
     @newenvelopes = current_user.newenvelopes
   end
 
+  def import
+    Newenvelope.import(params[:file], current_user)
+    redirect_to newenvelopes_path, notice: "Activity Data Imported!"
+  end
+
   def new
     @newenvelope = current_user.newenvelopes.new
   end

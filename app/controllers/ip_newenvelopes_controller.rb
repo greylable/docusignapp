@@ -5,6 +5,11 @@ class IpNewenvelopesController < ApplicationController
     @ip_newenvelopes = current_user.ip_newenvelopes
   end
 
+  def import
+    IpNewenvelope.import(params[:file], current_user)
+    redirect_to ip_newenvelopes_path, notice: "Activity Data Imported!"
+  end
+
   def new
     @ip_newenvelope = current_user.ip_newenvelopes.new
   end

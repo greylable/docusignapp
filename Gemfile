@@ -45,7 +45,6 @@ gem 'jbuilder', '~> 2.5'
 # Views
 gem 'bootstrap', '~> 4.1.1'
 
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -79,3 +78,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # font
 gem 'font-awesome-rails'
+

@@ -32,15 +32,15 @@
           <% end %>
         </li>
 
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Void Signer">
-          <%= link_to(voidenvelopes_path, class: 'nav-link') do %>
-            <i class="fa fa-fw fa-minus-circle"></i>Void Signer
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create In Person">
+          <%= link_to(ip_newenvelopes_path, class: 'nav-link') do %>
+            <i class="fa fa-fw fa-plus-circle"></i>Create In Person
           <% end %>
         </li>
 
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create In Person">
-          <%= link_to(ip_newenvelopes_path, class: 'nav-link') do %>
-            <i class="fa fa-fw fa-plus-square"></i>Create In Person
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Void">
+          <%= link_to(voidenvelopes_path, class: 'nav-link') do %>
+            <i class="fa fa-fw fa-minus-circle"></i>Void
           <% end %>
         </li>
 
@@ -68,7 +68,11 @@
   <% end %>
 
 </nav>
-<p class="notice"><%= notice %></p>
+
+<div class="notice-wrapper">
+  <p class="notice"><%= notice %></p>
+</div>
+
 <div class="container">
   <%= yield %>
 </div>

@@ -1,11 +1,11 @@
 <%= form_tag(destroy_multiple_newenvelopes_path, method: :post) do %>
-  <div class="content-wrapper-table">
+  <div class="content-wrapper">
     <div class="card-header">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-6">
           <i class="fa fa-table"></i> Create Envelopes for Signer
         </div>
-        <div class="col-sm-6">
+        <div class="col-6">
           <span class="pull-right">
             <div class="fixed-action-btn">
               <%= link_to(new_newenvelope_path, class: 'nav-link') do %>
@@ -20,7 +20,7 @@
       <div class="table-responsive">
         <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-6">
               <div class="dataTables_length" id=dataTable_length">
                 <label>
                   Show
@@ -125,7 +125,7 @@
         </div>
       </div>
       <div class="row top-buffer" >
-        <div class="col-sm-6">
+        <div class="col-6">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
             <%= button_tag(type: "delete", class: 'btn btn-default') do %>
@@ -133,7 +133,7 @@
             <% end %>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-6">
           <span class="pull-right">
             <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
               <ul class="pagination">

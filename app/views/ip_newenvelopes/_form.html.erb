@@ -1,28 +1,52 @@
-<div class="row">
-  <div class="col s8 offset-s2">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">List an envelope to create</span>
-        <%= simple_form_for @ip_newenvelope do |f| %>
-          <%= f.input :ip_email %>
-          <%= f.input :nric %>
-          <%= f.input :ip_name %>
-          <%= f.input :driver_phone_no %>
-          <%= f.input :licence_plate %>
-          <%= f.input :min_rental_period %>
-          <%= f.input :name_of_bank %>
-          <%= f.input :bank_account_no %>
-          <%= f.input :emergency_name %>
-          <%= f.input :emergency_phone_no %>
-          <%= f.input :vehicle_make %>
-          <%= f.input :vehicle_model %>
-          <%= f.text_field :pickup_date, class: 'datepicker', placeholder: 'Pickup Date' %>
-          <div class="card-action">
-            <%= link_to 'back', :back %>
-            <%= f.button :submit, class: 'right' %>
-          </div>
-        <% end %>
+<div class="content-wrapper-table">
+  <div class="card border-dark mb-3">
+
+    <div class="card-header">
+      <div class="row">
+        <div class="col-6">
+          <i class="fa fa-envelope"></i> List an envelope to create for In Person
+        </div>
       </div>
     </div>
+
+    <div class="card-body">
+      <div class="form-group">
+
+        <%= simple_form_for @ip_newenvelope do |f| %>
+          <div class="col">
+            <%= f.input :ip_email, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :nric, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :ip_name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :driver_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :licence_plate, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :min_rental_period, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :name_of_bank, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :bank_account_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :emergency_name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :emergency_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :vehicle_make, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :vehicle_model, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :pickup_date, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
+          </div>
+
+          <div class="row top-buffer">
+            <div class="col-1">
+              <%= button_tag(type: "submit", class: 'btn btn-default') do %>
+                Submit
+              <% end %>
+            </div>
+            <div class="col-11">
+              <span class="pull-right">
+               <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+                <% link_to 'Back', ip_newenvelopes_path, class: 'link-to-text-color' %>
+              <% end %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+
   </div>
 </div>

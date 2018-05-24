@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_23_075602) do
+ActiveRecord::Schema.define(version: 2018_05_24_081722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 2018_05_23_075602) do
   end
 
   create_table "newenvelopes", force: :cascade do |t|
-    t.string "envelope_id"
     t.integer "rental"
     t.string "email"
     t.string "name"
@@ -53,25 +52,11 @@ ActiveRecord::Schema.define(version: 2018_05_23_075602) do
     t.float "weekly_rate"
     t.string "min_rental_period"
     t.integer "deposit"
-    t.string "payee_name"
-    t.string "name_of_bank"
-    t.string "bank_address"
-    t.string "bank_account_no"
-    t.string "bank_code"
-    t.string "branch_code"
-    t.string "swift_code"
-    t.string "driver_licence_no"
-    t.datetime "expiration_date"
-    t.string "driver_licence_class"
-    t.string "emergency_name"
-    t.string "emergency_nric"
-    t.string "emergency_mailing_address"
-    t.string "emergency_email"
-    t.string "emergency_phone_no"
-    t.datetime "emergency_birthday"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.string "accesscode"
+    t.string "note"
     t.index ["user_id"], name: "index_newenvelopes_on_user_id"
   end
 

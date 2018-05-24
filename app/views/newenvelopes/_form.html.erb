@@ -1,47 +1,121 @@
-<div class="row">
-  <div class="col s8 offset-s2">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">List an envelope to create</span>
-        <%= simple_form_for @newenvelope do |f| %>
-          <%= f.input :name %>
-          <%= f.input :rental %>
-          <%= f.input :nric %>
-          <%= f.input :email %>
-          <%= f.input :mailing_address %>
-          <%= f.input :driver_phone_no %>
-          <%= f.text_field :birthday, class: 'datepicker', placeholder: 'Birthday' %>
-          <%= f.text_field :pickup_date, class: 'datepicker', placeholder: 'Pickup date' %>
-          <%= f.input :vehicle_make %>
-          <%= f.input :vehicle_model %>
-          <%= f.input :vehicle_colour %>
-          <%= f.input :licence_plate %>
-          <%= f.input :master_rate %>
-          <%= f.input :weekly_rate %>
-          <%= f.input :min_rental_period %>
-          <%= f.input :deposit %>
-          <%= f.input :payee_name %>
-          <%= f.input :name_of_bank %>
-          <%= f.input :bank_address %>
-          <%= f.input :bank_account_no %>
-          <%= f.input :bank_code %>
-          <%= f.input :branch_code %>
-          <%= f.input :swift_code %>
-          <%= f.input :driver_licence_no %>
-          <%= f.text_field :expiration_date, class: 'datepicker', placeholder: 'Expiration date' %>
-          <%= f.input :driver_licence_class %>
-          <%= f.input :emergency_name %>
-          <%= f.input :emergency_nric %>
-          <%= f.input :emergency_mailing_address %>
-          <%= f.input :emergency_email %>
-          <%= f.input :emergency_phone_no %>
-          <%= f.text_field :emergency_birthday, class: 'datepicker', placeholder: 'Emergency birthday' %>
-          <div class="card-action">
-            <%= link_to 'back', :back %>
-            <%= f.button :submit, class: 'right' %>
-          </div>
-        <% end %>
+<!--<div class="row">-->
+<!--  <div class="col s8 offset-s2">-->
+<!--    <div class="card">-->
+<!--      <div class="card-content">-->
+<!--        <span class="card-title">List an envelope to create</span>-->
+        <%#= simple_form_for @newenvelope do |f| %>
+          <%#= f.input :name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :rental, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :nric, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :email, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :mailing_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :driver_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.text_field :birthday, label_html: {class: 'col-2'}, input_html: {class: 'col-10 datepicker'}, placeholder: 'Birthday' %>
+          <%#= f.text_field :pickup_date, label_html: {class: 'col-2'}, input_html: {class: 'col-10 datepicker'}, placeholder: 'Pickup date' %>
+          <%#= f.input :vehicle_make, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :vehicle_model, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :vehicle_colour, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :licence_plate, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :master_rate, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :weekly_rate, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :min_rental_period, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :deposit, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :payee_name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :name_of_bank, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :bank_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :bank_account_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :bank_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :branch_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :swift_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :driver_licence_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.text_field :expiration_date, label_html: {class: 'col-2'}, input_html: {class: 'col-10 datepicker'}, placeholder: 'Expiration date' %>
+          <%#= f.input :driver_licence_class, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :emergency_name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :emergency_nric, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :emergency_mailing_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :emergency_email, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.input :emergency_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          <%#= f.text_field :emergency_birthday, label_html: {class: 'col-2'}, input_html: {class: 'col-10 datepicker'}, placeholder: 'Emergency birthday' %>
+<!--          <div class="card-action">-->
+            <%#= link_to 'back', :back %>
+            <%#= f.button :submit, class: 'right' %>
+<!--          </div>-->
+        <%# end %>
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<div class="content-wrapper-table">
+  <div class="card border-dark mb-3">
+
+    <div class="card-header">
+      <div class="row">
+        <div class="col-6">
+          <i class="fa fa-envelope"></i> List an envelope to create for Signer
+        </div>
       </div>
     </div>
+
+    <div class="card-body">
+      <div class="form-group">
+
+        <%= simple_form_for @newenvelope do |f| %>
+          <div class="col">
+            <%= f.input :name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :rental, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :nric, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :email, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :mailing_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :driver_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :birthday, as: :string, label_html: {class: 'col-2'}, input_html: {class:"datetimepicker"} %>
+            <%= f.text_field :pickup_date, label_html: {class: 'col-2'}, input_html: {class: 'col-10'}, placeholder: 'Pickup date' %>
+            <%= f.input :vehicle_make, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :vehicle_model, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :vehicle_colour, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :licence_plate, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :master_rate, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :weekly_rate, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :min_rental_period, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :deposit, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :payee_name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :name_of_bank, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :bank_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :bank_account_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :bank_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :branch_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :swift_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :driver_licence_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.text_field :expiration_date, label_html: {class: 'col-2'}, input_html: {class: 'col-10 datepicker'}, placeholder: 'Expiration date' %>
+            <%= f.input :driver_licence_class, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :emergency_name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :emergency_nric, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :emergency_mailing_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :emergency_email, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :emergency_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.text_field :emergency_birthday, label_html: {class: 'col-2'}, input_html: {class: 'col-10 datepicker'}, placeholder: 'Emergency birthday' %>
+          </div>
+
+          <div class="row top-buffer">
+            <div class="col-1">
+              <%= button_tag(type: "submit", class: 'btn btn-default') do %>
+                Submit
+              <% end %>
+            </div>
+            <div class="col-11">
+              <span class="pull-right">
+               <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+                <% link_to 'Back', newenvelopes_path, class: 'link-to-text-color' %>
+              <% end %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+
   </div>
 </div>
