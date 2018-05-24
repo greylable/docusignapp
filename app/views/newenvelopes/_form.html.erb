@@ -64,14 +64,14 @@
 
         <%= simple_form_for @newenvelope do |f| %>
           <div class="col">
-            <%= f.input :name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :rental, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :nric, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :email, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :rental, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :nric, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :mailing_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :driver_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :birthday, as: :string, label_html: {class: 'col-2'}, input_html: {class:"datetimepicker"} %>
-            <%= f.text_field :pickup_date, label_html: {class: 'col-2'}, input_html: {class: 'col-10'}, placeholder: 'Pickup date' %>
+            <%= f.input :birthday, as: :date, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
+            <%= f.input :pickup_date, as: :date, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
             <%= f.input :vehicle_make, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :vehicle_model, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :vehicle_colour, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
@@ -80,22 +80,8 @@
             <%= f.input :weekly_rate, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :min_rental_period, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :deposit, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :payee_name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :name_of_bank, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :bank_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :bank_account_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :bank_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :branch_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :swift_code, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :driver_licence_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.text_field :expiration_date, label_html: {class: 'col-2'}, input_html: {class: 'col-10 datepicker'}, placeholder: 'Expiration date' %>
-            <%= f.input :driver_licence_class, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :emergency_name, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :emergency_nric, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :emergency_mailing_address, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :emergency_email, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :emergency_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.text_field :emergency_birthday, label_html: {class: 'col-2'}, input_html: {class: 'col-10 datepicker'}, placeholder: 'Emergency birthday' %>
+            <%= f.input :accesscode, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :note, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
           </div>
 
           <div class="row top-buffer">

@@ -26,7 +26,7 @@
             <%= f.input :emergency_phone_no, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :vehicle_make, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :vehicle_model, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :pickup_date, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
+            <%= f.input :pickup_date, as: :date, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
           </div>
 
           <div class="row top-buffer">

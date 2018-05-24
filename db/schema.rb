@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_24_081722) do
+ActiveRecord::Schema.define(version: 2018_05_24_100629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2018_05_24_081722) do
     t.string "emergency_phone_no"
     t.string "vehicle_make"
     t.string "vehicle_model"
-    t.datetime "pickup_date"
+    t.date "pickup_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 2018_05_24_081722) do
     t.string "nric"
     t.string "mailing_address"
     t.string "driver_phone_no"
-    t.datetime "birthday"
-    t.datetime "pickup_date"
+    t.date "birthday"
+    t.date "pickup_date"
     t.string "vehicle_make"
     t.string "vehicle_model"
     t.string "vehicle_colour"
