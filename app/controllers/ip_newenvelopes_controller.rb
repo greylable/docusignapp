@@ -39,21 +39,6 @@ class IpNewenvelopesController < ApplicationController
     redirect_to ip_newenvelopes_path, notice: 'New Envelope Request Deleted Successfully!'
   end
 
-  def destroy_multiple
-    if params[:ip_newenvelope_ids].blank?
-      redirect_to ip_newenvelopes_path, notice: "No contacts selected"
-    else
-      @ip_newenvelope_hash =  params[:ip_newenvelope_ids]
-      @array_try = []
-      @ip_newenvelope_hash.each { |k,v| @array_try.push(k)}
-      IpNewenvelope.where(id: @array_try).destroy_all
-      respond_to do |format|
-        format.html { redirect_to ip_newenvelopes_path, notice: 'New Envelope Request Deleted Successfully!' }
-        format.json { head :no_content }
-      end
-    end
-  end
-
   def select_multiple
     if params[:commit] == "Delete selected"
       if params[:ip_newenvelope_ids].blank?
@@ -79,7 +64,6 @@ class IpNewenvelopesController < ApplicationController
         puts @array_try
         @ip_newenvelopes = current_user.ip_newenvelopes.where(id: @array_try)
         IpNewenvelope.send_env(@ip_newenvelopes)
-
         respond_to do |format|
           format.html { redirect_to ip_newenvelopes_path, notice: 'New Envelope Request Sent Out Successfully!' }
           format.json { head :no_content }

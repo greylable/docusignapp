@@ -71,36 +71,13 @@ class VoidenvelopesController < ApplicationController
         @voidenvelopes = current_user.voidenvelopes.where(id: @array_try)
         puts @voidenvelopes
         Voidenvelope.void(@voidenvelopes)
-        #
-        # respond_to do |format|
-        #   format.html { redirect_to voidenvelopes_path, notice: 'Void Request Voided Successfully!' }
-        #   format.json { head :no_content }
-        # end
+        respond_to do |format|
+          format.html { redirect_to voidenvelopes_path, notice: 'Void Request Voided Successfully!' }
+          format.json { head :no_content }
+        end
       end
     end
   end
-
-  # def destroy_multiple
-  #   if params[:voidenvelope_ids].blank?
-  #     redirect_to voidenvelopes_path, notice: "No contacts selected"
-  #   else
-  #     @voidenvelope_hash =  params[:voidenvelope_ids]
-  #     @array_try = []
-  #     @voidenvelope_hash.each { |k,v| @array_try.push(k)}
-  #     Voidenvelope.where(id: @array_try).destroy_all
-  #     respond_to do |format|
-  #       format.html { redirect_to voidenvelopes_path, notice: 'Void Request Deleted Successfully!' }
-  #       format.json { head :no_content }
-  #     end
-  #   end
-  # end
-
-  # def void_selected
-  #   selected = params[:selected_envelopes]
-  #   account_id = ''# TODO: get the acct id
-  #   Voidenvelope.void(account_id, selected)
-  #   redirect_to voidenvelopes_path, notice: 'Voided!'
-  # end
 
   private
 

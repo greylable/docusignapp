@@ -61,70 +61,15 @@ class Voidenvelope < ApplicationRecord
   end
 
   def self.void(selected_envelopes)
-    puts self.docu_auth
+    self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     ee = DocuSign_eSign::Envelope.new
     selected_envelopes.each do |env|
       print(env.envelope_id.to_s)
       puts ea
       ee.status = 'voided'
-      # ee.voided_reason = Voidenvelope.where # TODO: make the status column
       ee.voided_reason = 'Dear ' + env.name.to_s + ' ' + env.void_reason.to_s
       ea.update(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=env.envelope_id,envelope=ee)
-      # puts ea.get_form_data(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=env.envelope_id)
     end
   end
-
-  # def create_envelope_on_document(status, is_embedded_signing)
-  #   if(!$account_id.nil?)
-  #     # STEP 2: Create envelope definition
-  #     # Add a document to the envelope
-  #     document_path = "../docs/Test.pdf"
-  #     document_name = "Test.pdf"
-  #     document = DocuSign_eSign::Document.new
-  #     document.document_base64 = Base64.encode64(File.open(document_path).read)
-  #     document.name = document_name
-  #     document.document_id = '1'
-  #
-  #     # Create a |SignHere| tab somewhere on the document for the recipient to sign
-  #     signHere = DocuSign_eSign::SignHere.new
-  #     signHere.x_position = "100"
-  #     signHere.y_position = "100"
-  #     signHere.document_id = "1"
-  #     signHere.page_number = "1"
-  #     signHere.recipient_id = "1"
-  #
-  #     tabs = DocuSign_eSign::Tabs.new
-  #     tabs.sign_here_tabs = Array(signHere)
-  #
-  #     signer = DocuSign_eSign::Signer.new
-  #     signer.email = $recipient_email
-  #     signer.name = $recipient_name
-  #     signer.recipient_id = "1"
-  #
-  #     if(is_embedded_signing)
-  #       signer.client_user_id = $client_user_id
-  #     end
-  #
-  #     signer.tabs = tabs
-  #
-  #     # Add a recipient to sign the document
-  #     recipients = DocuSign_eSign::Recipients.new
-  #     recipients.signers = Array(signer)
-  #
-  #     envelop_definition = DocuSign_eSign::EnvelopeDefinition.new
-  #     envelop_definition.email_subject = "[DocuSign Ruby SDK] - Please sign this doc"
-  #
-  #     # set envelope status to "sent" to immediately send the signature request
-  #     envelop_definition.status = status.nil? ? 'sent' : status
-  #     envelop_definition.recipients = recipients
-  #     envelop_definition.documents = Array(document)
-  #
-  #     options = DocuSign_eSign::CreateEnvelopeOptions.new
-  #
-  #     # STEP 3: Create envelope
-  #     envelopes_api = DocuSign_eSign::EnvelopesApi.new(@api_client)
-  #     return envelopes_api.create_envelope($account_id, envelop_definition, options)
-  #   end
-  # end
 end

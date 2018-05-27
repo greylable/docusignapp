@@ -86,22 +86,19 @@ class IpNewenvelope < ApplicationRecord
   end
 
   def self.send_env(selected_envelopes)
-    puts self.docu_auth
+    self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     ed = DocuSign_eSign::EnvelopeDefinition.new
     ed.template_id = '28d4b9b6-4627-455a-bfd6-dfed3b08c97c'
     ee = DocuSign_eSign::Envelope.new
     selected_envelopes.each do |i|
-      print(i)
       create_env = ea.create_envelope(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4', envelope_definition=ed)
       e_id = create_env.envelope_id
       options = DocuSign_eSign::ListTabsOptions.new
       options.include_metadata = "True"
       env_tabs = ea.list_tabs(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,recipient_id="1",options)
-      # puts env_tabs
       contain_one = []
       contain = []
-      # puts env_tabs.email_tabs
       env_tabs.email_tabs.each do |k|
         empty_dict_1 = {}
         empty_dict_1["value"] = self.allocate_tabs(i,k.tab_label)
@@ -127,18 +124,10 @@ class IpNewenvelope < ApplicationRecord
                                                "routingOrder":1,"recipientId":"1",
                                                "tabs":text_tabs_list}]}
       ee.recipients = signer_placeholder
-      # options2 = DocuSign_eSign::ListRecipientsOptions.new
-      # options2.include_tabs = "True"
-      # options2.include_metadata = "True"
-      # options2.include_extended = "True"
-
       options3 = DocuSign_eSign::UpdateOptions.new
       options3.advanced_update = "True"
 
       ea.update(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,envelope=ee,options3)
-      # hehe = ea.list_recipients(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,options2)
-      # puts hehe
-      # puts hihi
     end
   end
 end
