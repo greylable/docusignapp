@@ -64,7 +64,7 @@ class IpNewenvelopesController < ApplicationController
         end
       end
     else params[:commit] == "Create selected"
-      puts 'Voiding these envelopes tentatively'
+      puts 'Sending out these envelopes tentatively'
       if params[:ip_newenvelope_ids].blank?
         redirect_to ip_newenvelopes_path, notice: "No envelopes selected"
       else
@@ -73,7 +73,6 @@ class IpNewenvelopesController < ApplicationController
         @ip_newenvelope_hash.each { |k,v| @array_try.push(k)}
         puts @array_try
         @ip_newenvelopes = current_user.ip_newenvelopes.where(id: @array_try)
-        puts @voidenvelopes
         IpNewenvelope.send_env(@ip_newenvelopes)
 
         respond_to do |format|

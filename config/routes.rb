@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :ip_newenvelopes do
     collection do
       post :import
-      post :destroy_multiple
+      post :select_multiple
     end
   end
 

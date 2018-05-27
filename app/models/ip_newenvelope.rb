@@ -4,7 +4,7 @@ class IpNewenvelope < ApplicationRecord
 
   def self.import(file, user)
     CSV.foreach(file.path, headers:true) do |row|
-      Ip_newenvelope.create(envelope_id: row[0], name: row[1], void_reason: row[2], user: user)
+      IpNewenvelope.create(envelope_id: row[0], name: row[1], void_reason: row[2], user: user)
     end
   end
 
@@ -52,97 +52,90 @@ class IpNewenvelope < ApplicationRecord
 
   def self.allocate_tabs(array_ml,tab_label_str)
     if tab_label_str == "IP_Email"
-        return array_ml[0]
+        return array_ml.ip_email
     elsif tab_label_str == "NRIC"
-        return array_ml[1]
+        return array_ml.nric
     elsif tab_label_str == "IP_Name"
-        return array_ml[2]
+        return array_ml.ip_name
     elsif tab_label_str == "Driver_Phone_No"
-        return array_ml[3]
+        return array_ml.driver_phone_no
     elsif tab_label_str == "Licence_Plate"
-        return array_ml[4]
+        return array_ml.licence_plate
     elsif tab_label_str == "Min_Rental_Period"
-        return array_ml[5]
+        return array_ml.min_rental_period
     elsif tab_label_str == "Name_of_Bank"
-        return array_ml[6]
+        return array_ml.name_of_bank
     elsif tab_label_str == "Bank_Account_No"
-        return array_ml[7]
+        return array_ml.bank_account_no
     elsif tab_label_str == "Emergency_Name"
-        return array_ml[8]
+        return array_ml.emergency_name
     elsif tab_label_str == "Emergency_Phone_No"
-        return array_ml[9]
+        return array_ml.emergency_phone_no
     elsif tab_label_str == "Vehicle_Make"
-        return array_ml[10]
+        return array_ml.vehicle_make
     elsif tab_label_str == "Vehicle_Model"
-        return array_ml[11]
+        return array_ml.vehicle_model
     elsif tab_label_str == "Pickup_Date"
-        return array_ml[12]
+        return array_ml.pickup_date
     elsif tab_label_str == "Payee_Name"
-        return array_ml[2]
+        return array_ml.ip_name
     end
-
-  def send_env(self,df_ml):
-    ea = docusign.EnvelopesApi()
-    ed = docusign.EnvelopeDefinition()
-    ed.template_id = self.template_id
-    ee = docusign.Envelope()
-    t1 = docusign.TemplatesApi()
-
-    counter = 0
-    # t1_tabs = t1.get_document_tabs(account_id=self.account_id,document_id="1",template_id=self.template_id)
-    # print(t1_tabs)
-    for i in df_ml:
-      print(i)
-      counter = counter + 1
-      create_env = ea.create_envelope(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4', envelope_definition=ed)
-      e_id = create_env.envelope_id
-      env_tabs = ea.get_document_tabs(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,document_id="1")
-      # create_tabs_1 = ea.create_tabs(account_id=account_id,envelope_id=e_id,recipient_id="1",tabs=t1_tabs)
-      contain = []
-      contain_one = []
-      # print(env_tabs)
-      for k in env_tabs.email_tabs:
-        empty_dict_1 = {}
-        empty_dict_1["value"] = self.allocate_tabs(i,k.tab_label)
-        empty_dict_1["documentId"] = "1"
-        empty_dict_1["tabId"] = k.tab_id
-        # print(empty_dict_1)
-        contain_one = contain_one + [empty_dict_1]
-        for j in env_tabs.text_tabs:
-          empty_dict = {}
-          empty_dict["value"] = self.allocate_tabs(i,j.tab_label)
-          empty_dict["documentId"] = "1"
-          empty_dict["tabId"] = j.tab_id
-          contain = contain + [empty_dict]
-          # print(j)
-          text_tabs_list = {"textTabs":contain,"emailTabs":contain_one}
-          ee.email_subject = 'LCR Contract In Person ' + str(i[1])
-          # ee.email_blurb = open('FRD_Eligible.txt','r').read()
-          ee.status = 'sent'
-          ee.brand_id = "a7acf8d2-d402-40a9-b096-52d7962cccd5" # Brand_LCR
-          signer_placeholder ={"inPersonSigners":[{"hostEmail":"operations@lioncityrentals.com.sg",
-                                                   "hostName":"LCR Contracts","signerName":str(i[2]),
-                                                   "signerEmail":str(i[0]),
-                                                   "routingOrder":1,"recipientId":"1",
-                                                   "tabs":text_tabs_list}]}
-          # "note":open('docusign_html.txt','r').read()
-          ee.recipients = signer_placeholder
-          ea.update(account_id=account_id,envelope_id=e_id,envelope=ee,advanced_update=True)
-    end
-
+  end
 
   def self.send_env(selected_envelopes)
     puts self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
+    ed = DocuSign_eSign::EnvelopeDefinition.new
+    ed.template_id = '28d4b9b6-4627-455a-bfd6-dfed3b08c97c'
     ee = DocuSign_eSign::Envelope.new
-    selected_envelopes.each do |env|
-      print(env.envelope_id.to_s)
-      puts ea
-      ee.status = 'voided'
-      # ee.voided_reason = Voidenvelope.where # TODO: make the status column
-      ee.voided_reason = 'Dear ' + env.name.to_s + ' ' + env.void_reason.to_s
-      ea.update(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=env.envelope_id,envelope=ee)
-      # puts ea.get_form_data(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=env.envelope_id)
+    selected_envelopes.each do |i|
+      print(i)
+      create_env = ea.create_envelope(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4', envelope_definition=ed)
+      e_id = create_env.envelope_id
+      options = DocuSign_eSign::ListTabsOptions.new
+      options.include_metadata = "True"
+      env_tabs = ea.list_tabs(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,recipient_id="1",options)
+      # puts env_tabs
+      contain_one = []
+      contain = []
+      # puts env_tabs.email_tabs
+      env_tabs.email_tabs.each do |k|
+        empty_dict_1 = {}
+        empty_dict_1["value"] = self.allocate_tabs(i,k.tab_label)
+        empty_dict_1[:documentId] = "1"
+        empty_dict_1[:tabId] = k.tab_id
+        contain_one = contain_one + [empty_dict_1]
+      end
+      env_tabs.text_tabs.each do |j|
+        empty_dict = {}
+        empty_dict[:value] = self.allocate_tabs(i,j.tab_label)
+        empty_dict[:documentId] = "1"
+        empty_dict[:tabId] = j.tab_id
+        contain = contain + [empty_dict]
+      end
+      text_tabs_list = {"textTabs":contain,"emailTabs":contain_one}
+      ee.email_subject = 'LCR Contract YL Demo Webapp 2 ' + i.nric.to_s
+      # ee.email_blurb = open('FRD_Eligible.txt','r').read()
+      ee.status = 'sent'
+      # ee.brand_id = "a7acf8d2-d402-40a9-b096-52d7962cccd5" # Brand_LCR
+      signer_placeholder ={"inPersonSigners":[{"hostEmail":"contracts@lioncityrentals.com.sg",
+                                               "hostName":"LCR Contracts","signerName":i.ip_name.to_s,
+                                               "signerEmail":i.ip_email.to_s,
+                                               "routingOrder":1,"recipientId":"1",
+                                               "tabs":text_tabs_list}]}
+      ee.recipients = signer_placeholder
+      # options2 = DocuSign_eSign::ListRecipientsOptions.new
+      # options2.include_tabs = "True"
+      # options2.include_metadata = "True"
+      # options2.include_extended = "True"
+
+      options3 = DocuSign_eSign::UpdateOptions.new
+      options3.advanced_update = "True"
+
+      ea.update(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,envelope=ee,options3)
+      # hehe = ea.list_recipients(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,options2)
+      # puts hehe
+      # puts hihi
     end
   end
 end

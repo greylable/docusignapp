@@ -38,3 +38,6 @@
 # /.idea/docusignapp.iml
 /.idea *
 /.idea
+
+# Docusign keys
+/config/demo_private_key.txt
