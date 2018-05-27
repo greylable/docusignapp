@@ -10,10 +10,9 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- //*= require_tree .
- //*= require_self
+ *= require_tree .
+ *= require_self
  */
-
 
 
 @import "font-awesome";
@@ -26,9 +25,22 @@
 }
 
 
-.content-wrapper-table {
-  margin:80px -120px 40px -120px;
+.content-wrapper {
+  margin:140px -120px 0px -120px;
   font-size:17px;
+}
+
+
+.content-wrapper-table {
+  margin:20px -120px 0px -120px;
+  font-size:17px;
+}
+
+
+.notice-wrapper {
+  margin:80px -120px -70px 40px;
+  font-size:25px;
+  color:#d11010;
 }
 
 

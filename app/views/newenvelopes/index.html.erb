@@ -1,11 +1,11 @@
 <%= form_tag(destroy_multiple_newenvelopes_path, method: :post) do %>
-  <div class="content-wrapper-table">
+  <div class="content-wrapper">
     <div class="card-header">
       <div class="row">
-        <div class="col-sm-6">
-          <i class="fa fa-table"></i> Create Envelopes
+        <div class="col-6">
+          <i class="fa fa-table"></i> Create Envelopes for Signer
         </div>
-        <div class="col-sm-6">
+        <div class="col-6">
           <span class="pull-right">
             <div class="fixed-action-btn">
               <%= link_to(new_newenvelope_path, class: 'nav-link') do %>
@@ -20,7 +20,7 @@
       <div class="table-responsive">
         <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-6">
               <div class="dataTables_length" id=dataTable_length">
                 <label>
                   Show
@@ -44,10 +44,10 @@
                     <th class="check-box"></th>
                     <th class="check-box"></th>
                     <th class="check-box"><input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
-                    <th>name</th>
-                    <th>rental</th>
-                    <th>nric</th>
                     <th>email</th>
+                    <th>rental</th>
+                    <th>name</th>
+                    <th>nric</th>
                     <th>mailing_address</th>
                     <th>driver_phone_no</th>
                     <th>birthday</th>
@@ -60,22 +60,8 @@
                     <th>weekly_rate</th>
                     <th>min_rental_period</th>
                     <th>deposit</th>
-                    <th>payee_name</th>
-                    <th>name_of_bank</th>
-                    <th>bank_address</th>
-                    <th>bank_account_no</th>
-                    <th>bank_code</th>
-                    <th>branch_code</th>
-                    <th>swift_code</th>
-                    <th>driver_licence_no</th>
-                    <th>expiration_date</th>
-                    <th>driver_licence_class</th>
-                    <th>emergency_name</th>
-                    <th>emergency_nric</th>
-                    <th>emergency_mailing_address</th>
-                    <th>emergency_email</th>
-                    <th>emergency_phone_no</th>
-                    <th>emergency_birthday</th>
+                    <th>accessnote</th>
+                    <th>note</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -84,10 +70,10 @@
                     <td class="check-box"><%= link_to 'Edit', edit_newenvelope_path(f) %></td>
                     <td class="check-box"><%= link_to 'Delete', f, method: :delete %></td>
                     <td class="check-box"><%= check_box_tag "newenvelope_ids[#{ f.id }]", "newenvelope_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "newenvelope_ids[#{ f.id }]", "" %></td>
-                    <td><%= f.name %> </td>
+                    <td><%= f.email %> </td>
                     <td><%= f.rental %></td>
+                    <td><%= f.name %></td>
                     <td><%= f.nric %></td>
-                    <td><%= f.email %></td>
                     <td><%= f.mailing_address %></td>
                     <td><%= f.driver_phone_no %></td>
                     <td><%= f.birthday %></td>
@@ -100,22 +86,8 @@
                     <td><%= f.weekly_rate %></td>
                     <td><%= f.min_rental_period %></td>
                     <td><%= f.deposit %></td>
-                    <td><%= f.payee_name %></td>
-                    <td><%= f.name_of_bank %></td>
-                    <td><%= f.bank_address %></td>
-                    <td><%= f.bank_account_no %></td>
-                    <td><%= f.bank_code %></td>
-                    <td><%= f.branch_code %></td>
-                    <td><%= f.swift_code %></td>
-                    <td><%= f.driver_licence_no %></td>
-                    <td><%= f.expiration_date %></td>
-                    <td><%= f.driver_licence_class %></td>
-                    <td><%= f.emergency_name %></td>
-                    <td><%= f.emergency_nric %></td>
-                    <td><%= f.emergency_mailing_address %></td>
-                    <td><%= f.emergency_email %></td>
-                    <td><%= f.emergency_phone_no %></td>
-                    <td><%= f.emergency_birthday %></td>
+                    <td><%= f.accesscode %></td>
+                    <td><%= f.note %></td>
                   </tr>
                 <% end %>
                 </tbody>
@@ -125,7 +97,7 @@
         </div>
       </div>
       <div class="row top-buffer" >
-        <div class="col-sm-6">
+        <div class="col-6">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
             <%= button_tag(type: "delete", class: 'btn btn-default') do %>
@@ -133,7 +105,7 @@
             <% end %>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-6">
           <span class="pull-right">
             <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
               <ul class="pagination">
