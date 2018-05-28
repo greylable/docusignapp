@@ -7,7 +7,7 @@ class IpNewenvelopesController < ApplicationController
 
   def import
     IpNewenvelope.import(params[:file], current_user)
-    redirect_to ip_newenvelopes_path, notice: "Activity Data Imported!"
+    redirect_to ip_newenvelopes_path, notice: 'Activity Data Imported!'
   end
 
   def new
@@ -42,7 +42,7 @@ class IpNewenvelopesController < ApplicationController
   def select_multiple
     if params[:commit] == "Delete selected"
       if params[:ip_newenvelope_ids].blank?
-        redirect_to ip_newenvelopes_path, notice: "No envelopes selected"
+        redirect_to ip_newenvelopes_path, notice: 'No envelopes selected'
       else
         @ip_newenvelope_hash =  params[:ip_newenvelope_ids]
         @array_try = []
@@ -56,7 +56,7 @@ class IpNewenvelopesController < ApplicationController
     else params[:commit] == "Create selected"
       puts 'Sending out these envelopes tentatively'
       if params[:ip_newenvelope_ids].blank?
-        redirect_to ip_newenvelopes_path, notice: "No envelopes selected"
+        redirect_to ip_newenvelopes_path, notice: 'No envelopes selected'
       else
         @ip_newenvelope_hash =  params[:ip_newenvelope_ids]
         @array_try = []

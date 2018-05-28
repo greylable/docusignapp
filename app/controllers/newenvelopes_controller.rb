@@ -7,7 +7,7 @@ class NewenvelopesController < ApplicationController
 
   def import
     Newenvelope.import(params[:file], current_user)
-    redirect_to newenvelopes_path, notice: "Activity Data Imported!"
+    redirect_to newenvelopes_path, notice: 'Activity Data Imported!'
   end
 
   def new
@@ -41,7 +41,7 @@ class NewenvelopesController < ApplicationController
 
   def destroy_multiple
     if params[:newenvelope_ids].blank?
-      redirect_to newenvelopes_path, notice: "No contacts selected"
+      redirect_to newenvelopes_path, notice: 'No contacts selected'
     else
       @newenvelope_hash =  params[:newenvelope_ids]
       @array_try = []

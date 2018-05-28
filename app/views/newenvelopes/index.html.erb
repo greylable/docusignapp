@@ -70,7 +70,7 @@
                     <td class="check-box"><%= link_to 'Edit', edit_newenvelope_path(f) %></td>
                     <td class="check-box"><%= link_to 'Delete', f, method: :delete %></td>
                     <td class="check-box"><%= check_box_tag "newenvelope_ids[#{ f.id }]", "newenvelope_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "newenvelope_ids[#{ f.id }]", "" %></td>
-                    <td><%= f.email %> </td>
+                    <td><%= f.email %></td>
                     <td><%= f.rental %></td>
                     <td><%= f.name %></td>
                     <td><%= f.nric %></td>

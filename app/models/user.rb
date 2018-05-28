@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_many :voidenvelopes
   has_many :newenvelopes
   has_many :ip_newenvelopes
+  has_many :masterlists
 end

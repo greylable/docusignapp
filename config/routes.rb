@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   get 'dashboard/index'
   root 'dashboard#index'
 
+  resources :masterlists do
+  end
+
   resources :newenvelopes do
     collection do
       post :import

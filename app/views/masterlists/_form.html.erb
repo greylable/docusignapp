@@ -1,0 +1,55 @@
+<div class="content-wrapper-table">
+  <div class="card border-dark mb-3">
+
+    <div class="card-header">
+      <div class="row">
+        <div class="col-6">
+          <i class="fa fa-envelope"></i> List an envelope for Hirer
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="form-group">
+
+        <%= simple_form_for @masterlist do |f| %>
+          <div class="col">
+            <%= f.input :envelope_id, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :created_time, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
+            <%= f.input :recipient_email, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :status, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :recipient_type, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :completed_time, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :declined_time, as: :date, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :declined_reason, as: :date, label_html: {class: 'col-2'}, input_html: {class: 'col-10'}  %>
+            <%= f.input :subject_title, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :auth_status, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :auth_timestamp, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :delivered_date_time, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :note, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :accesscode, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :recipient_status, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :rental, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+          </div>
+
+          <div class="row top-buffer">
+            <div class="col-1">
+              <%= button_tag(type: "submit", class: 'btn btn-default') do %>
+                Submit
+              <% end %>
+            </div>
+            <div class="col-11">
+              <span class="pull-right">
+               <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+                <% link_to 'Back', masterlists_path, class: 'link-to-text-color' %>
+              <% end %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+
+  </div>
+</div>
