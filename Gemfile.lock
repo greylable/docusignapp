@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/greylable/docusign-ruby-client
-  revision: eb0c0a117bbcb5e77338586a666bce759203f9bc
+  revision: f3c7f84b81f13f77810c2543d3e34465d9a7e91f
   specs:
     docusign_esign (1.0.0)
       json (~> 1.8, >= 1.8.3)
@@ -98,6 +98,10 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
+    dotenv (2.4.0)
+    dotenv-rails (2.4.0)
+      dotenv (= 2.4.0)
+      railties (>= 3.2, < 6.0)
     erubi (1.7.1)
     ethon (0.11.0)
       ffi (>= 1.3.0)
@@ -256,6 +260,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   docusign_esign!
+  dotenv-rails
   font-awesome-rails
   jbuilder (~> 2.5)
   jquery-rails
