@@ -1,6 +1,10 @@
 class IpNewenvelope < ApplicationRecord
   belongs_to :user, required: true
   require 'csv'
+  require 'openssl'
+  require 'base64'
+  # require 'dotenv'
+  # Dotenv.load('../.env')
 
   def self.import(file, user)
     CSV.foreach(file.path, headers:true) do |row|
@@ -17,14 +21,17 @@ class IpNewenvelope < ApplicationRecord
     user_id = 'b2a3170b-dab0-4d0d-ba2e-c7580ae92125'
     expires_in_seconds = 3600 #1 hour
     auth_server = 'account-d.docusign.com'
-    private_key_filename = '/Users/yetlinong/docusignapp/config/demo_private_key.txt'
+    # private_key_filename = '/Users/yetlinong/docusignapp/config/demo_private_key.txt'
+    @private_key_filename = ENV["PRIVATE_KEY_DEMO"]
+    puts ENV["PRIVATE_KEY_DEMO"]
+    # private_key_filename = ENV["PRIVATE_KEY_DEMO"].to_s.gsub("\\n", "\n")
 
     # STEP 1: Initialize API Client
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = host
 
     @api_client = DocuSign_eSign::ApiClient.new(configuration)
-    @api_client.configure_jwt_authorization_flow(private_key_filename, auth_server, integrator_key, user_id, expires_in_seconds)
+    @api_client.configure_jwt_authorization_flow(@private_key_filename, auth_server, integrator_key, user_id, expires_in_seconds)
 
     # STEP 2: Initialize Authentication API using the API Client
     authentication_api = DocuSign_eSign::AuthenticationApi.new(@api_client)
@@ -53,6 +60,14 @@ class IpNewenvelope < ApplicationRecord
     end
   end
 
+  def self.convert_date(date_str)
+    day_str = date_str.split('-')[2]
+    month_str = date_str.split('-')[1]
+    year_str = date_str.split('-')[0][2,2]
+    final_date = day_str+'/'+month_str+'/'+year_str
+    return final_date
+  end
+
   def self.allocate_tabs(array_ml,tab_label_str)
     if tab_label_str == "IP_Email"
         return array_ml.ip_email
@@ -79,7 +94,7 @@ class IpNewenvelope < ApplicationRecord
     elsif tab_label_str == "Vehicle_Model"
         return array_ml.vehicle_model
     elsif tab_label_str == "Pickup_Date"
-        return array_ml.pickup_date
+        return self.convert_date(array_ml.pickup_date.to_s)
     elsif tab_label_str == "Payee_Name"
         return array_ml.ip_name
     end

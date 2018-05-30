@@ -41,3 +41,4 @@
 
 # Docusign keys
 /config/demo_private_key.txt
+/.env

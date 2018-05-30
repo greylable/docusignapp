@@ -3,7 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.4.1'
 
-# # Views
+# Environment Variables
+gem 'dotenv-rails', groups: [:development, :test]
+# Views
 # gem 'materialize-sass', '0.97.8'
 
 # Devise for Login
