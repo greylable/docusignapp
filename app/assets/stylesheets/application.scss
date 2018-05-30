@@ -51,12 +51,20 @@ th {padding:20px 10px; font-size:15px; color:#000; background:#c4c4c4;} // paddi
 td {padding:20px 10px; font-size:15px; height:35px; word-wrap: break-word}
 th, td {min-width: 100px; max-width: 300px;}
 .check-box {padding:15px 15px; min-width: 50px;}
+.download_env {padding:15px 15px; min-width: 100px;}
+
 
 
 .link-to-text-color {
   text-decoration:none !important;
   color:#000;
 }
+
+
+.borderless td, .borderless th {
+  border: none;
+}
+
 
 
 //// table - create envelope

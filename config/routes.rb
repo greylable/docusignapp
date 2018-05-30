@@ -5,13 +5,17 @@ Rails.application.routes.draw do
   root 'dashboard#index'
 
   resources :masterlists do
+    collection do
+      get :search
+      get :search_view
+      get :search_go
+    end
   end
 
   resources :newenvelopes do
     collection do
       post :import
       post :destroy_multiple
-      post :hihi
     end
   end
 

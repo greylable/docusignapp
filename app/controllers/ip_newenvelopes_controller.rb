@@ -2,7 +2,7 @@ class IpNewenvelopesController < ApplicationController
   before_action :set_ip_newenvelope, only: [:destroy, :edit, :update, :show]
 
   def index
-    @ip_newenvelopes = current_user.ip_newenvelopes.page params[:page]
+    @ip_newenvelopes = current_user.ip_newenvelopes
   end
 
   def import

@@ -1,8 +1,24 @@
 class MasterlistsController < ApplicationController
-  before_action :set_masterlist, only: [:edit, :update, :show]
+  before_action :set_masterlist, only: [:edit, :update]
 
   def index
-    @masterlists = current_user.masterlists
+    @masterlists = current_user.masterlists.page params[:page]
+  end
+
+  def search
+  end
+
+  def search_go
+    if params[:envelope_id]!=""
+      @masterlist_search = Masterlist.where('envelope_id LIKE ?', "%#{params[:envelope_id]}%")
+      puts @masterlist_search
+      puts params[:envelope_id]
+      redirect_to search_view_masterlists_path
+    end
+  end
+
+  def search_view
+    @masterlist_search
   end
 
   def new
