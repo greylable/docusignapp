@@ -2,12 +2,12 @@ class IpNewenvelopesController < ApplicationController
   before_action :set_ip_newenvelope, only: [:destroy, :edit, :update, :show]
 
   def index
-    @ip_newenvelopes = current_user.ip_newenvelopes
+    @ip_newenvelopes = current_user.ip_newenvelopes.page params[:page]
   end
 
   def import
     IpNewenvelope.import(params[:file], current_user)
-    redirect_to ip_newenvelopes_path, notice: "Activity Data Imported!"
+    redirect_to ip_newenvelopes_path, notice: 'Activity Data Imported!'
   end
 
   def new
@@ -42,7 +42,7 @@ class IpNewenvelopesController < ApplicationController
   def select_multiple
     if params[:commit] == "Delete selected"
       if params[:ip_newenvelope_ids].blank?
-        redirect_to ip_newenvelopes_path, notice: "No envelopes selected"
+        redirect_to ip_newenvelopes_path, notice: 'No envelopes selected'
       else
         @ip_newenvelope_hash =  params[:ip_newenvelope_ids]
         @array_try = []
@@ -56,7 +56,7 @@ class IpNewenvelopesController < ApplicationController
     else params[:commit] == "Create selected"
       puts 'Sending out these envelopes tentatively'
       if params[:ip_newenvelope_ids].blank?
-        redirect_to ip_newenvelopes_path, notice: "No envelopes selected"
+        redirect_to ip_newenvelopes_path, notice: 'No envelopes selected'
       else
         @ip_newenvelope_hash =  params[:ip_newenvelope_ids]
         @array_try = []
@@ -64,6 +64,7 @@ class IpNewenvelopesController < ApplicationController
         puts @array_try
         @ip_newenvelopes = current_user.ip_newenvelopes.where(id: @array_try)
         IpNewenvelope.send_env(@ip_newenvelopes)
+        IpNewenvelope.where(id: @array_try).destroy_all
         respond_to do |format|
           format.html { redirect_to ip_newenvelopes_path, notice: 'New Envelope Request Sent Out Successfully!' }
           format.json { head :no_content }

@@ -26,6 +26,12 @@
     <div>
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Masterlist">
+          <%= link_to(masterlists_path, class: 'nav-link') do %>
+            <i class="fa fa-fw fa fa-envelope"></i>Masterlist
+          <% end %>
+        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create Signer">
           <%= link_to(newenvelopes_path, class: 'nav-link') do %>
             <i class="fa fa-fw fa-plus-circle"></i>Create Signer

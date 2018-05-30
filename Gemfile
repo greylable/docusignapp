@@ -5,6 +5,8 @@ ruby '2.4.1'
 
 # Environment Variables
 gem 'dotenv-rails', groups: [:development, :test]
+# Paginator
+gem 'kaminari'
 # Views
 # gem 'materialize-sass', '0.97.8'
 

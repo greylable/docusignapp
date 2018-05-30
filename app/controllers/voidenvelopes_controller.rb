@@ -10,7 +10,7 @@ class VoidenvelopesController < ApplicationController
 
   def import
     Voidenvelope.import(params[:file], current_user)
-    redirect_to voidenvelopes_path, notice: "Activity Data Imported!"
+    redirect_to voidenvelopes_path, notice: 'Activity Data Imported!'
   end
 
   def new
@@ -48,7 +48,7 @@ class VoidenvelopesController < ApplicationController
   def select_multiple
     if params[:commit] == "Delete selected"
       if params[:voidenvelope_ids].blank?
-        redirect_to voidenvelopes_path, notice: "No envelopes selected"
+        redirect_to voidenvelopes_path, notice: 'No envelopes selected'
       else
         @voidenvelope_hash =  params[:voidenvelope_ids]
         @array_try = []
@@ -62,7 +62,7 @@ class VoidenvelopesController < ApplicationController
     else params[:commit] == "Void selected"
       puts 'Voiding these envelopes tentatively'
       if params[:voidenvelope_ids].blank?
-        redirect_to voidenvelopes_path, notice: "No envelopes selected"
+        redirect_to voidenvelopes_path, notice: 'No envelopes selected'
       else
         @voidenvelope_hash =  params[:voidenvelope_ids]
         @array_try = []

@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  envelope_id: MyString
+  created_time: 2018-05-28 16:33:18
+  recipient_email: MyString
+  status: MyString
+  recipient_type: MyString
+  completed_time: 2018-05-28 16:33:18
+  declined_time: 2018-05-28 16:33:18
+  declined_reason: MyString
+  subject_title: MyString
+  auth_status: MyString
+  auth_timestamp: 2018-05-28 16:33:18
+  delivered_date_time: 2018-05-28 16:33:18
+  note: MyString
+  accesscode: MyString
+  recipient_status: MyString
+  rental: 1
+
+two:
+  envelope_id: MyString
+  created_time: 2018-05-28 16:33:18
+  recipient_email: MyString
+  status: MyString
+  recipient_type: MyString
+  completed_time: 2018-05-28 16:33:18
+  declined_time: 2018-05-28 16:33:18
+  declined_reason: MyString
+  subject_title: MyString
+  auth_status: MyString
+  auth_timestamp: 2018-05-28 16:33:18
+  delivered_date_time: 2018-05-28 16:33:18
+  note: MyString
+  accesscode: MyString
+  recipient_status: MyString
+  rental: 1
