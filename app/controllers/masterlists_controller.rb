@@ -10,7 +10,7 @@ class MasterlistsController < ApplicationController
   end
 
   def create
-    @masterlist = current_user.masterlists.new(newenvelopes_params)
+    @masterlist = current_user.masterlists.new(masterlists_params)
     if @masterlist.save!
       redirect_to masterlists_path, notice: 'Request Created Successfully!'
     else
