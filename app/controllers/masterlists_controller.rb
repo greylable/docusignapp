@@ -29,6 +29,14 @@ class MasterlistsController < ApplicationController
     end
   end
 
+  def select_multiple
+    if params[:commit] == "Refresh masterlist"
+      Masterlist.destroy_all
+      Masterlist.refresh_masterlist
+      redirect_to masterlists_path, notice: 'New Envelope Request Deleted Successfully!'
+    end
+  end
+
   private
 
   def set_masterlist

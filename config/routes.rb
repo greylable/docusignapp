@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   root 'dashboard#index'
 
   resources :masterlists do
+    collection do
+      post :select_multiple
+    end
   end
 
   resources :newenvelopes do

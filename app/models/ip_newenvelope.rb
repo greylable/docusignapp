@@ -103,11 +103,11 @@ class IpNewenvelope < ApplicationRecord
     ed.template_id = '28d4b9b6-4627-455a-bfd6-dfed3b08c97c'
     ee = DocuSign_eSign::Envelope.new
     selected_envelopes.each do |i|
-      create_env = ea.create_envelope(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4', envelope_definition=ed)
+      create_env = ea.create_envelope(account_id=ENV["ACCOUNT_ID_DEMO"], envelope_definition=ed)
       e_id = create_env.envelope_id
       options = DocuSign_eSign::ListTabsOptions.new
       options.include_metadata = "True"
-      env_tabs = ea.list_tabs(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,recipient_id="1",options)
+      env_tabs = ea.list_tabs(account_id=ENV["ACCOUNT_ID_DEMO"],envelope_id=e_id,recipient_id="1",options)
       contain_one = []
       contain = []
       env_tabs.email_tabs.each do |k|
@@ -138,7 +138,7 @@ class IpNewenvelope < ApplicationRecord
       options3 = DocuSign_eSign::UpdateOptions.new
       options3.advanced_update = "True"
 
-      ea.update(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,envelope=ee,options3)
+      ea.update(account_id=ENV["ACCOUNT_ID_DEMO"],envelope_id=e_id,envelope=ee,options3)
     end
   end
 end
