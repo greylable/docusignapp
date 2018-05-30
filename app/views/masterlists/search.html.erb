@@ -1,0 +1,91 @@
+<%= form_tag(search_go_masterlists_path, method: :get) do %>
+  <div class="content-wrapper">
+    <h1>Make a Search Request</h1>
+  </div>
+
+  <div class="content-wrapper-table">
+    <div class="card border-dark mb-3">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-6">
+            <i class="fa fa-search"></i> Search
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <table class="table borderless" id="search_form" width="100%" cellspacing="0" >
+<!--            <tbody>-->
+<!--              <tr>-->
+<!--                <td width="10%">envelope_id</td>-->
+<!--                <td width="90%"><input id="envelope_id" name="envelope_id" size="130" type="text"></td>-->
+<!--                <td width="90%"><%#= text_field_tag :envelope_id, params[:envelope_id] %></td>-->
+<!--                <td width="90%"><%#= text_field_tag :envelope_id %></td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td width="10%">nric</td>-->
+<!--                <td width="90%"><input id="nric" name="nric" size="130" type="text"></td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td width="10%">rental</td>-->
+<!--                <td width="90%"><input id="rental" name="rental" type="number"></td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td width="10%">email</td>-->
+<!--                <td width="90%"><input id="email" name="email" size="130" type="email"></td>-->
+<!--              </tr>-->
+<!--              <tr>-->
+<!--                <td width="10%">subject</td>-->
+<!--                <td width="90%"><input id="subject" name="subject" size="130" type="text"></td>-->
+<!--              </tr>-->
+<!--            </tbody>-->
+
+            <tbody>
+            <tr>
+              <td width="10%">envelope_id</td>
+              <td width="90%"><%= text_field_tag :envelope_id, params[:envelope_id] %></td>
+            </tr>
+            <tr>
+              <td width="10%">nric</td>
+              <td width="90%"><%= text_field_tag :accesscode, params[:accesscode] %></td>
+            </tr>
+            <tr>
+              <td width="10%">rental</td>
+              <td width="90%"><%= number_field_tag :rental, params[:rental] %></td>
+            </tr>
+            <tr>
+              <td width="10%">email</td>
+              <td width="90%"><%= email_field_tag :recipient_email, params[:recipient_email] %></td>
+            </tr>
+            <tr>
+              <td width="10%">subject</td>
+              <td width="90%"><%= text_field_tag :subject_title, params[:subject_title] %></td>
+            </tr>
+            </tbody>
+
+          </table>
+
+          <div class="row top-buffer">
+            <div class="col-1">
+              <%= button_tag(type: "submit", class: 'btn btn-default') do %>
+                Search
+              <% end %>
+            </div>
+            <div class="col-11">
+              <span class="pull-right">
+               <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+                <% link_to 'Back', masterlists_path, class: 'link-to-text-color' %>
+              <% end %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%#= form_tag(masterlists_path method: :get) do %>
+<!--  Store <%#= text_field_tag :envelope_id, params[:envelope_id] %>-->
+  <%#= submit_tag 'Search' %>
+<%# end %>

@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   resources :masterlists do
     collection do
       post :select_multiple
+      get :search
+      get :search_view
+      get :search_go
     end
   end
 
@@ -14,7 +17,6 @@ Rails.application.routes.draw do
     collection do
       post :import
       post :destroy_multiple
-      post :hihi
     end
   end
 

@@ -1,18 +1,17 @@
-<%= form_tag(select_multiple_masterlists_path, method: :post) do %>
+<!--<div class="content-wrapper">-->
+  <%# @masterlist_search.each do |r|%>
+    <%#= r.envelope_id %>
+    <%#= r.car_modal %>
+  <%# end %>
+<!--</div>-->
+
+
+<%= form_tag(search_view_masterlists_path, method: :get) do %>
   <div class="content-wrapper">
     <div class="card-header">
       <div class="row">
-        <div class="col-6">
-          <i class="fa fa-table"></i> Envelopes Masterlist
-        </div>
-        <div class="col-5">
-          <span class="pull-right">
-            <div class="fixed-action-btn">
-              <%= link_to(new_masterlist_path, class: 'nav-link') do %>
-                <i class="fa fa-fw fa-plus"></i>
-              <% end %>
-            </div>
-          </span>
+        <div class="col-11">
+          <i class="fa fa-table"></i> Search Result
         </div>
         <div class="col-1">
           <span class="pull-right">
@@ -30,22 +29,6 @@
     <div class="card-body">
       <div class="table-responsive">
         <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-<!--          <div class="row">-->
-<!--            <div class="col-6">-->
-<!--              <div class="dataTables_length" id=dataTable_length">-->
-<!--                <label>-->
-<!--                  Show-->
-<!--                  <select name="dataTable_length" aria-controls="dataTable" class="form-control-sm">-->
-<!--                    <option value="10">10</option>-->
-<!--                    <option value="25">25</option>-->
-<!--                    <option value="50">50</option>-->
-<!--                    <option value="100">100</option>-->
-<!--                  </select>-->
-<!--                  entries-->
-<!--                </label>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
           <div class="row top-buffer">
             <div class="col-sm-12">
               <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
@@ -75,12 +58,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% @masterlists.each do |f| %>
+                <% @masterlist_search.each do |f| %>
                   <tr>
                     <td class="check-box"><%= link_to 'Edit', edit_masterlist_path(f) %></td>
                     <% if f.status == 'completed' %>
                       <td class="download_env"><%= 'Download' %></td>
-  <!--                    <td class="check-box"><%#= link_to 'Download', f, method: :download %></td>-->
+                      <!--                    <td class="check-box"><%#= link_to 'Download', f, method: :download %></td>-->
                     <% else %>
                       <td class="download_env"><% 'Download' %></td>
                     <% end %>
@@ -113,21 +96,21 @@
         <div class="col-6">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
-            <%= button_tag(name: 'commit', value: 'Refresh masterlist', type: "submit", class: 'btn btn-default') do %>
-              <i class="fa fa-fw fa-refresh"></i> Refresh
-            <% end %>
             <%= button_tag(type: "submit", class: 'btn btn-default') do %>
               <i class="fa fa-fw fa-download"></i> Export
             <% end %>
+            <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+              <% link_to 'Back', masterlists_path, class: 'link-to-text-color' %>
+            <% end %>
           </div>
         </div>
-        <div class="col-6">
-          <span class="pull-right">
-            <div>
-              <%= paginate @masterlists %>
-            </div>
-          </span>
-        </div>
+<!--        <div class="col-6">-->
+<!--          <span class="pull-right">-->
+<!--            <div>-->
+              <%#= paginate @masterlist_search %>
+<!--            </div>-->
+<!--          </span>-->
+<!--        </div>-->
       </div>
     </div>
   </div>

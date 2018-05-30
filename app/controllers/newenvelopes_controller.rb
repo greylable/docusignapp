@@ -54,9 +54,6 @@ class NewenvelopesController < ApplicationController
     end
   end
 
-  def hihi
-  end
-
   private
 
   def set_newenvelope
