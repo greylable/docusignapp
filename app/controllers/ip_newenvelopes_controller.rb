@@ -2,7 +2,7 @@ class IpNewenvelopesController < ApplicationController
   before_action :set_ip_newenvelope, only: [:destroy, :edit, :update, :show]
 
   def index
-    @ip_newenvelopes = current_user.ip_newenvelopes
+    @ip_newenvelopes = current_user.ip_newenvelopes.page params[:page]
   end
 
   def import
@@ -64,6 +64,7 @@ class IpNewenvelopesController < ApplicationController
         puts @array_try
         @ip_newenvelopes = current_user.ip_newenvelopes.where(id: @array_try)
         IpNewenvelope.send_env(@ip_newenvelopes)
+        IpNewenvelope.where(id: @array_try).destroy_all
         respond_to do |format|
           format.html { redirect_to ip_newenvelopes_path, notice: 'New Envelope Request Sent Out Successfully!' }
           format.json { head :no_content }

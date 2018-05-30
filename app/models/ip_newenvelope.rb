@@ -1,8 +1,6 @@
 class IpNewenvelope < ApplicationRecord
   belongs_to :user, required: true
   require 'csv'
-  require 'openssl'
-  require 'base64'
   # require 'dotenv'
   # Dotenv.load('../.env')
 
@@ -17,8 +15,8 @@ class IpNewenvelope < ApplicationRecord
 
   def self.docu_auth
     host = 'https://demo.docusign.net/restapi'
-    integrator_key = '8df67330-80dc-43c7-ab37-8d02bd7ef07f'
-    user_id = 'b2a3170b-dab0-4d0d-ba2e-c7580ae92125'
+    integrator_key = ENV["INTEGRATOR_KEY"]
+    user_id = ENV["USER_ID_DEMO"]
     expires_in_seconds = 3600 #1 hour
     auth_server = 'account-d.docusign.com'
     # private_key_filename = '/Users/yetlinong/docusignapp/config/demo_private_key.txt'
