@@ -16,12 +16,12 @@ class IpNewenvelope < ApplicationRecord
   def self.docu_auth
     host = 'https://demo.docusign.net/restapi'
     integrator_key = ENV["INTEGRATOR_KEY"]
-    user_id = ENV["USER_ID_DEMO"]
+    user_id = ENV["USER_ID_LIVE"]
     expires_in_seconds = 3600 #1 hour
     auth_server = 'account-d.docusign.com'
     # private_key_filename = '/Users/yetlinong/docusignapp/config/demo_private_key.txt'
-    @private_key_filename = ENV["PRIVATE_KEY_DEMO"]
-    puts ENV["PRIVATE_KEY_DEMO"]
+    @private_key_filename = ENV["PRIVATE_KEY_LIVE"]
+    # puts ENV["PRIVATE_KEY_DEMO"]
     # private_key_filename = ENV["PRIVATE_KEY_DEMO"].to_s.gsub("\\n", "\n")
 
     # STEP 1: Initialize API Client
@@ -102,14 +102,14 @@ class IpNewenvelope < ApplicationRecord
     self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     ed = DocuSign_eSign::EnvelopeDefinition.new
-    ed.template_id = '28d4b9b6-4627-455a-bfd6-dfed3b08c97c'
+    ed.template_id = '864a92e9-0094-4e29-b59f-bdaa035faa9d'
     ee = DocuSign_eSign::Envelope.new
     selected_envelopes.each do |i|
-      create_env = ea.create_envelope(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4', envelope_definition=ed)
+      create_env = ea.create_envelope(account_id=ENV["ACCOUNT_ID_LIVE"], envelope_definition=ed)
       e_id = create_env.envelope_id
       options = DocuSign_eSign::ListTabsOptions.new
       options.include_metadata = "True"
-      env_tabs = ea.list_tabs(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,recipient_id="1",options)
+      env_tabs = ea.list_tabs(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=e_id,recipient_id="1",options)
       contain_one = []
       contain = []
       env_tabs.email_tabs.each do |k|
@@ -127,11 +127,11 @@ class IpNewenvelope < ApplicationRecord
         contain = contain + [empty_dict]
       end
       text_tabs_list = {"textTabs":contain,"emailTabs":contain_one}
-      ee.email_subject = 'LCR Contract YL Demo Webapp 2 ' + i.nric.to_s
+      ee.email_subject = 'LCR Contract In Person' + i.nric.to_s
       # ee.email_blurb = open('FRD_Eligible.txt','r').read()
       ee.status = 'sent'
-      # ee.brand_id = "a7acf8d2-d402-40a9-b096-52d7962cccd5" # Brand_LCR
-      signer_placeholder ={"inPersonSigners":[{"hostEmail":"contracts@lioncityrentals.com.sg",
+      ee.brand_id = "a7acf8d2-d402-40a9-b096-52d7962cccd5" # Brand_LCR
+      signer_placeholder ={"inPersonSigners":[{"hostEmail":"operations@lioncityrentals.com.sg",
                                                "hostName":"LCR Contracts","signerName":i.ip_name.to_s,
                                                "signerEmail":i.ip_email.to_s,
                                                "routingOrder":1,"recipientId":"1",
@@ -140,7 +140,7 @@ class IpNewenvelope < ApplicationRecord
       options3 = DocuSign_eSign::UpdateOptions.new
       options3.advanced_update = "True"
 
-      ea.update(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=e_id,envelope=ee,options3)
+      ea.update(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=e_id,envelope=ee,options3)
     end
   end
 end
