@@ -1,5 +1,15 @@
 class Masterlist < ApplicationRecord
   belongs_to :user, required: true
+  require 'csv'
+
+  def self.import(file, user)
+    CSV.foreach(file.path, headers:true) do |row|
+      Masterlist.create(envelope_id: row[0],created_time: row[1], recipient_email: row[2], status: row[3], recipient_type: row[4],
+                           completed_time: row[5], declined_time: row[6], declined_reason: row[7],
+                           subject_title: row[8], auth_status: row[9], auth_timestamp: row[10],
+                           delivered_date_time: row[11], note: row[12], accesscode: row[13], recipient_status: row[14],rental: row[15], user: user)
+    end
+  end
 
   def self.docu_auth
     host = 'https://demo.docusign.net/restapi'
@@ -54,28 +64,30 @@ class Masterlist < ApplicationRecord
     self.docu_auth
     start_date_sf = DateTime.strptime('2018-04-25 19:00:00', "%Y-%m-%d %H:%M:%S") - 15.hours
     end_date_sf = DateTime.strptime('2028-04-24 23:59:59', "%Y-%m-%d %H:%M:%S") - 15.hours
-    folders_1 = DocuSign_eSign::FoldersApi.new(@api_client)
-    options = DocuSign_eSign::SearchOptions.new
-    options.include_recipients = "True"
-    options.from_date = start_date_sf
-    options.to_date = end_date_sf
-    options.count = 100
-    # The time is the creation time of the envelope i.e Sent time
-    position = -100
-    folder_items_contain = []
-    while position <= 30000 do
-      position = position + 100
-      options.start_position = position
-      folder_2 = folders_1.search(account_id=ENV["ACCOUNT_ID_DEMO"],search_folder_id="all",options).folder_items
-      if folder_2.present?
-        folder_items_contain = folder_items_contain + folder_2
-      else
-        puts 'the end!'
-        break
-      end
-    end
-    folder_items_contain.each do |i|
+    # folders_1 = DocuSign_eSign::FoldersApi.new(@api_client)
+    # options = DocuSign_eSign::SearchOptions.new
+    # options.include_recipients = "True"
+    # options.from_date = start_date_sf
+    # options.to_date = end_date_sf
+    # options.count = 100
+    # # The time is the creation time of the envelope i.e Sent time
+    # position = -100
+    # folder_items_contain = []
+    # while position <= 30000 do
+    #   position = position + 100
+    #   options.start_position = position
+    #   folder_2 = folders_1.search(account_id=ENV["ACCOUNT_ID_DEMO"],search_folder_id="all",options).folder_items
+    #   if folder_2.present?
+    #     folder_items_contain = folder_items_contain + folder_2
+    #   else
+    #     puts 'the end!'
+    #     break
+    #   end
+    # end
+    # folder_items_contain.each do |i|
+    #
+    # end
 
-    end
+
   end
 end

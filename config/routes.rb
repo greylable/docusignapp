@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post :select_multiple
       get :search
       get :results
+      post :import
     end
   end
 

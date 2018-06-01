@@ -6,6 +6,11 @@ class MasterlistsController < ApplicationController
     @masterlists = current_user.masterlists.page params[:page]
   end
 
+  def import
+    Masterlist.import(params[:file], current_user)
+    redirect_to masterlists_path, notice: 'Activity Data Imported!'
+  end
+
   def search
   end
 
@@ -38,7 +43,7 @@ class MasterlistsController < ApplicationController
 
   def select_multiple
     if params[:commit] == "Refresh masterlist"
-      # Masterlist.destroy_all
+      Masterlist.destroy_all
       Masterlist.refresh_masterlist
       redirect_to masterlists_path, notice: 'Masterlist Refreshed Successfully!'
     end
