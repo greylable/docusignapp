@@ -44,6 +44,12 @@ class Masterlist < ApplicationRecord
     end
   end
 
+  def self.testing_only(var_1)
+    var_1.each do |f|
+      puts f.envelope_id
+    end
+  end
+
   def self.refresh_masterlist
     self.docu_auth
     start_date_sf = DateTime.strptime('2018-04-25 19:00:00', "%Y-%m-%d %H:%M:%S") - 15.hours
@@ -55,19 +61,21 @@ class Masterlist < ApplicationRecord
     options.to_date = end_date_sf
     options.count = 100
     # The time is the creation time of the envelope i.e Sent time
-    position = 0
+    position = -100
     folder_items_contain = []
     while position <= 30000 do
-      options.start_position = position
-      folder_2 = folders_1.search(account_id=ENV["ACCOUNT_ID_DEMO"],search_folder_id="all",options)#.folder_items
-      # print(folder_2)
-      if folder_2 != []
-          folder_items_contain = folder_items_contain + folder_2
-      else
-          break
       position = position + 100
-      print(folder_items_contain)
+      options.start_position = position
+      folder_2 = folders_1.search(account_id=ENV["ACCOUNT_ID_DEMO"],search_folder_id="all",options).folder_items
+      if folder_2.present?
+        folder_items_contain = folder_items_contain + folder_2
+      else
+        puts 'the end!'
+        break
       end
+    end
+    folder_items_contain.each do |i|
+
     end
   end
 end

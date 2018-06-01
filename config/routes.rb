@@ -8,8 +8,7 @@ Rails.application.routes.draw do
     collection do
       post :select_multiple
       get :search
-      get :search_view
-      get :search_go
+      get :results
     end
   end
 

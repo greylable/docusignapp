@@ -1,12 +1,12 @@
 <!--<div class="content-wrapper">-->
-  <%# @masterlist_search.each do |r|%>
-    <%#= r.envelope_id %>
-    <%#= r.car_modal %>
-  <%# end %>
+<%# @masterlist_search.each do |r|%>
+<%#= r.envelope_id %>
+<%#= r.car_modal %>
+<%# end %>
 <!--</div>-->
 
 
-<%= form_tag(search_view_masterlists_path, method: :get) do %>
+<%= form_tag(results_masterlists_path, method: :get) do %>
   <div class="content-wrapper">
     <div class="card-header">
       <div class="row">
@@ -104,13 +104,13 @@
             <% end %>
           </div>
         </div>
-<!--        <div class="col-6">-->
-<!--          <span class="pull-right">-->
-<!--            <div>-->
-              <%#= paginate @masterlist_search %>
-<!--            </div>-->
-<!--          </span>-->
-<!--        </div>-->
+        <!--        <div class="col-6">-->
+        <!--          <span class="pull-right">-->
+        <!--            <div>-->
+        <%#= paginate @masterlist_search %>
+        <!--            </div>-->
+        <!--          </span>-->
+        <!--        </div>-->
       </div>
     </div>
   </div>

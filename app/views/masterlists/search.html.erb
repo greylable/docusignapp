@@ -1,4 +1,4 @@
-<%= form_tag(search_go_masterlists_path, method: :get) do %>
+<%= form_tag(results_masterlists_path, method: :get) do %>
   <div class="content-wrapper">
     <h1>Make a Search Request</h1>
   </div>
@@ -62,7 +62,6 @@
               <td width="90%"><%= text_field_tag :subject_title, params[:subject_title] %></td>
             </tr>
             </tbody>
-
           </table>
 
           <div class="row top-buffer">
