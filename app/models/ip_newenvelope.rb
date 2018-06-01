@@ -14,11 +14,11 @@ class IpNewenvelope < ApplicationRecord
   end
 
   def self.docu_auth
-    host = 'https://demo.docusign.net/restapi'
+    host = 'https://eu.docusign.net/restapi'
     integrator_key = ENV["INTEGRATOR_KEY"]
     user_id = ENV["USER_ID_LIVE"]
     expires_in_seconds = 3600 #1 hour
-    auth_server = 'account-d.docusign.com'
+    auth_server = 'account.docusign.com'
     # private_key_filename = '/Users/yetlinong/docusignapp/config/demo_private_key.txt'
     @private_key_filename = ENV["PRIVATE_KEY_LIVE"]
     # puts ENV["PRIVATE_KEY_DEMO"]
