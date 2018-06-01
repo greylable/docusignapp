@@ -127,7 +127,7 @@ class IpNewenvelope < ApplicationRecord
         contain = contain + [empty_dict]
       end
       text_tabs_list = {"textTabs":contain,"emailTabs":contain_one}
-      ee.email_subject = 'LCR Contract In Person' + i.nric.to_s
+      ee.email_subject = 'LCR Contract In Person ' + i.nric.to_s
       # ee.email_blurb = open('FRD_Eligible.txt','r').read()
       ee.status = 'sent'
       ee.brand_id = "a7acf8d2-d402-40a9-b096-52d7962cccd5" # Brand_LCR
