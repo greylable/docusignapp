@@ -9,7 +9,12 @@ Rails.application.routes.draw do
       get :search
       get :search_view
       get :search_go
+      post :select_multiple
     end
+
+    # member do
+    #   get :download
+    # end
   end
 
   resources :newenvelopes do

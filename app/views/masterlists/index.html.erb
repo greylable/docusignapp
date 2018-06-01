@@ -1,4 +1,4 @@
-<%= form_tag(masterlists_path, method: :post) do %>
+<%= form_tag(select_multiple_masterlists_path, method: :post) do %>
   <div class="content-wrapper">
     <div class="card-header">
       <div class="row">
@@ -53,7 +53,6 @@
                 <thead>
                 <tr>
                   <th class="check-box"></th>
-                  <th class="check-box"></th>
                   <th class="check-box">
                     <input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
                   <th>envelope_id</th>
@@ -78,29 +77,23 @@
                 <% @masterlists.each do |f| %>
                   <tr>
                     <td class="check-box"><%= link_to 'Edit', edit_masterlist_path(f) %></td>
-                    <% if f.status == 'completed' %>
-                      <td class="download_env"><%= 'Download' %></td>
-  <!--                    <td class="check-box"><%#= link_to 'Download', f, method: :download %></td>-->
-                    <% else %>
-                      <td class="download_env"><% 'Download' %></td>
-                    <% end %>
                     <td class="check-box"><%= check_box_tag "masterlist_ids[#{ f.id }]", "masterlist_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "masterlist_ids[#{ f.id }]", "" %></td>
-                    <td><%= f.envelope_id %></th>
-                    <td><%= f.created_time %></th>
-                    <td><%= f.recipient_email %></th>
-                    <td><%= f.status %></th>
-                    <td><%= f.recipient_type %></th>
-                    <td><%= f.completed_time %></th>
-                    <td><%= f.declined_time %></th>
-                    <td><%= f.declined_reason %></th>
-                    <td><%= f.subject_title %></th>
-                    <td><%= f.auth_status %></th>
-                    <td><%= f.auth_timestamp %></th>
-                    <td><%= f.delivered_date_time %></th>
-                    <td><%= f.note %></th>
-                    <td><%= f.accesscode %></th>
-                    <td><%= f.recipient_status %></th>
-                    <td><%= f.rental %></th>
+                    <td><%= f.envelope_id %></td>
+                    <td><%= f.created_time %></td>
+                    <td><%= f.recipient_email %></td>
+                    <td><%= f.status %></td>
+                    <td><%= f.recipient_type %></td>
+                    <td><%= f.completed_time %></td>
+                    <td><%= f.declined_time %></td>
+                    <td><%= f.declined_reason %></td>
+                    <td><%= f.subject_title %></td>
+                    <td><%= f.auth_status %></td>
+                    <td><%= f.auth_timestamp %></td>
+                    <td><%= f.delivered_date_time %></td>
+                    <td><%= f.note %></td>
+                    <td><%= f.accesscode %></td>
+                    <td><%= f.recipient_status %></td>
+                    <td><%= f.rental %></td>
                   </tr>
                 <% end %>
                 </tbody>
@@ -110,18 +103,24 @@
         </div>
       </div>
       <div class="row top-buffer">
-        <div class="col-6">
+        <div class="col-9">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
             <%= button_tag(name: 'commit', value: 'Refresh masterlist', type: "submit", class: 'btn btn-default') do %>
               <i class="fa fa-fw fa-refresh"></i> Refresh
             <% end %>
             <%= button_tag(type: "submit", class: 'btn btn-default') do %>
-              <i class="fa fa-fw fa-download"></i> Export
+              <i class="fa fa-fw fa-file-excel-o"></i> Export to CSV
+            <% end %>
+            <%= button_tag(name: 'commit', value: 'Download selected', type: "submit", class: 'btn btn-default') do %>
+              <i class="fa fa-fw fa-file-pdf-o"></i> Download Selected
+            <% end %>
+            <%= button_tag(name: 'commit', value: 'Delete selected', type: "submit", class: 'btn btn-default') do %>
+              <i class="fa fa-fw fa-trash"></i> Delete Selected
             <% end %>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-3">
           <span class="pull-right">
             <div>
               <%= paginate @masterlists %>
