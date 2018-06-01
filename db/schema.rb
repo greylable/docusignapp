@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_28_083530) do
+ActiveRecord::Schema.define(version: 2018_06_01_085507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,32 @@ ActiveRecord::Schema.define(version: 2018_05_28_083530) do
     t.index ["user_id"], name: "index_newenvelopes_on_user_id"
   end
 
+  create_table "resendenvs", force: :cascade do |t|
+    t.string "envelope_id"
+    t.integer "rental"
+    t.string "email"
+    t.string "name"
+    t.string "nric"
+    t.string "mailing_address"
+    t.string "driver_phone_no"
+    t.date "birthday"
+    t.date "pickup_date"
+    t.string "vehicle_make"
+    t.string "vehicle_model"
+    t.string "vehicle_colour"
+    t.string "licence_plate"
+    t.string "master_rate"
+    t.float "weekly_rate"
+    t.string "min_rental_period"
+    t.integer "deposit"
+    t.string "accesscode"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_resendenvs_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -114,5 +140,6 @@ ActiveRecord::Schema.define(version: 2018_05_28_083530) do
   add_foreign_key "ip_newenvelopes", "users"
   add_foreign_key "masterlists", "users"
   add_foreign_key "newenvelopes", "users"
+  add_foreign_key "resendenvs", "users"
   add_foreign_key "voidenvelopes", "users"
 end

@@ -1,7 +1,6 @@
 class Masterlist < ApplicationRecord
   belongs_to :user, required: true
   require 'base64'
-  require 'fileutils'
 
   def self.docu_auth
     host = 'https://demo.docusign.net/restapi'
@@ -54,9 +53,6 @@ class Masterlist < ApplicationRecord
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
 
     selected_envelopes.each do |i|
-      puts i.envelope_id
-      puts i.rental
-      puts i.status
       if i.status == "completed"
         file_contents = ea.get_document(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4', recipient_id="1", envelope_id=i.envelope_id)
         fileName = 'Rental_' + i.rental.to_s + '_Envelope_' + i.envelope_id.to_s

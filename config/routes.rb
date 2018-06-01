@@ -11,10 +11,6 @@ Rails.application.routes.draw do
       get :search_go
       post :select_multiple
     end
-
-    # member do
-    #   get :download
-    # end
   end
 
   resources :newenvelopes do
@@ -36,6 +32,13 @@ Rails.application.routes.draw do
       post :import
       # post :destroy_multiple
       # post :void_selected
+      post :select_multiple
+    end
+  end
+
+  resources :resendenvs do
+    collection do
+      post :import
       post :select_multiple
     end
   end
