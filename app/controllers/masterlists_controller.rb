@@ -43,7 +43,7 @@ class MasterlistsController < ApplicationController
 
   def select_multiple
     if params[:commit] == "Refresh masterlist"
-      Masterlist.destroy_all
+      # Masterlist.destroy_all
       Masterlist.refresh_masterlist
       redirect_to masterlists_path, notice: 'Masterlist Refreshed Successfully!'
     end
