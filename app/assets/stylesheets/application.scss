@@ -49,7 +49,7 @@
 
 th {padding:20px 10px; font-size:15px; color:#000; background:#c4c4c4;} // padding: top-bottom left-right
 td {padding:20px 10px; font-size:15px; height:35px; word-wrap: break-word}
-th, td {min-width: 100px; max-width: 300px;}
+th, td {min-width: 100px; max-width: 600px;}
 .check-box {padding:15px 15px; min-width: 50px;}
 .download_env {padding:15px 15px; min-width: 100px;}
 
@@ -65,7 +65,10 @@ th, td {min-width: 100px; max-width: 300px;}
   border: none;
 }
 
-.note_class {min-width: 400px;}
+.note_class {min-width: 300px;}
+.email_blurb_class {min-width: 600px;}
+
+.email_text {min-width: 1278px; max-width: 1278px;}
 
 
 

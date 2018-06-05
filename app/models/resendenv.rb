@@ -8,6 +8,16 @@ class Resendenv < ApplicationRecord
     end
   end
 
+  def self.import_msg(selected_envelopes, file, user)
+    contain = ''
+    File.foreach(file.path).with_index do |line|
+      contain = contain + line
+    end
+    selected_envelopes.each do |i|
+      Resendenv.where('envelope_id LIKE ?', i.envelope_id).update(email_blurb: contain, user: user)
+    end
+  end
+
   def self.docu_auth
     host = 'https://eu.docusign.net/restapi'
     integrator_key = ENV["INTEGRATOR_KEY"]
@@ -53,7 +63,7 @@ class Resendenv < ApplicationRecord
     end
   end
 
-    def self.fetch_info(selected_envelopes, user)
+  def self.fetch_info(selected_envelopes, user)
     self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     selected_envelopes.each do |i|
@@ -66,7 +76,7 @@ class Resendenv < ApplicationRecord
         empty_dict[j.name] = j.value
       end
 
-      header_list = ["Email","Rental","Name","NRIC","Mailing_Address","Driver_Phone_No","Birthday","Pickup_Date",
+      header_list = ["Rental","NRIC","Mailing_Address","Driver_Phone_No","Birthday","Pickup_Date",
                      "Vehicle_Make","Vehicle_Model","Vehicle_Colour","Licence_Plate","Master_Rate","Weekly_Rate",
                      "Min_Rental_Period","Deposit"]
       contain_value = []
@@ -84,16 +94,92 @@ class Resendenv < ApplicationRecord
       signer_details = ea.list_recipients(account_id='bb376ad2-0e72-4e2f-8226-615ea4fecfcf',envelope_id=i.envelope_id).signers[0]
       access_code = signer_details.access_code
       note = signer_details.note
-      row = row + [access_code] + [note]
+      name = signer_details.name
+      email = signer_details.email
+      row = row + [access_code] + [note] + [name] + [email]
 
-      Resendenv.where('envelope_id LIKE ?', i.envelope_id).update(envelope_id: row[0], email: row[1], rental: row[2], name: row[3], nric: row[4],
-                                                                               mailing_address: row[5], driver_phone_no: row[6], birthday: row[7], pickup_date: row[8],
-                                                                               vehicle_make: row[9], vehicle_model: row[10], vehicle_colour: row[11], licence_plate: row[12],
-                                                                               master_rate: row[13], weekly_rate: row[14], min_rental_period: row[15], deposit: row[16],
-                                                                               accesscode: row[17], note: row[18], user: user)
+
+      Resendenv.where('envelope_id LIKE ?', i.envelope_id).update(envelope_id: row[0], rental: row[1], nric: row[2],
+                                                                  mailing_address: row[3], driver_phone_no: row[4],
+                                                                  birthday: row[5], pickup_date: row[6], vehicle_make: row[7],
+                                                                  vehicle_model: row[8], vehicle_colour: row[9],
+                                                                  licence_plate: row[10], master_rate: row[11],
+                                                                  weekly_rate: row[12], min_rental_period: row[13],
+                                                                  deposit: row[14], accesscode: row[15], note: row[16],
+                                                                  name: row[17], email: row[18], user: user)
 
     end
+  end
 
+  def self.allocate_tabs(array_ml,tab_label_str)
+    if tab_label_str == "Rental"
+      return array_ml.rental
+    elsif tab_label_str == "NRIC"
+      return array_ml.nric
+    elsif tab_label_str == "Mailing_Address"
+      return array_ml.mailing_address
+    elsif tab_label_str == "Driver_Phone_No"
+      return array_ml.driver_phone_no
+    elsif tab_label_str == "Birthday"
+      return array_ml.birthday
+    elsif tab_label_str == "Pickup_Date"
+      return array_ml.pickup_date
+    elsif tab_label_str == "Vehicle_Make"
+      return array_ml.vehicle_make
+    elsif tab_label_str == "Vehicle_Model"
+      return array_ml.vehicle_model
+    elsif tab_label_str == "Vehicle_Colour"
+      return array_ml.vehicle_colour
+    elsif tab_label_str == "Licence_Plate"
+      return array_ml.licence_plate
+    elsif tab_label_str == "Master_Rate"
+      return array_ml.master_rate
+    elsif tab_label_str == "Weekly_Rate"
+      return array_ml.weekly_rate
+    elsif tab_label_str == "Min_Rental_Period"
+      return array_ml.min_rental_period
+    elsif tab_label_str == "Deposit"
+      return array_ml.deposit
+    end
+  end
+
+  def self.resend_env(selected_envelopes)
+    self.docu_auth
+    ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
+    # ed = DocuSign_eSign::EnvelopeDefinition.new
+    # ed.template_id = '864a92e9-0094-4e29-b59f-bdaa035faa9d'
+    ee = DocuSign_eSign::Envelope.new
+    selected_envelopes.each do |i|
+      # create_env = ea.create_envelope(account_id=ENV["ACCOUNT_ID_LIVE"], envelope_definition=ed)
+      # e_id = create_env.envelope_id
+      options = DocuSign_eSign::ListTabsOptions.new
+      options.include_metadata = "True"
+      env_tabs = ea.list_tabs(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=i.envelope_id,recipient_id="1",options)
+      contain = []
+      env_tabs.text_tabs.each do |j|
+        empty_dict = {}
+        empty_dict[:value] = self.allocate_tabs(i,j.tab_label)
+        empty_dict[:documentId] = "1"
+        empty_dict[:tabId] = j.tab_id
+        contain = contain + [empty_dict]
+      end
+      text_tabs_list = {"textTabs":contain}
+      ee.email_subject = 'LCR Contract ' + i.email
+      ee.email_blurb = i.email_blurb
+      ee.status = 'sent'
+      ee.brand_id = "a7acf8d2-d402-40a9-b096-52d7962cccd5" # Brand_LCR
+      signer_placeholder ={"Signers":[{"name":i.name,
+                                               "email":i.email,
+                                               "routingOrder":1,"recipientId":"1",
+                                               "tabs":text_tabs_list,
+                                               "accessCode":i.accesscode,
+                                               "note":i.note}]}
+      ee.recipients = signer_placeholder
+      options3 = DocuSign_eSign::UpdateOptions.new
+      options3.advanced_update = "True"
+      options3.resend_envelope = "True"
+      ea.update(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=i.envelope_id,envelope=ee,options3)
+    end
   end
 
 end

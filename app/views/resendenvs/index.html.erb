@@ -1,4 +1,4 @@
-<%= form_tag(select_multiple_resendenvs_path, method: :post) do %>
+<%= form_tag(select_multiple_resendenvs_path, method: :post, multipart: true) do %>
   <div class="content-wrapper">
     <div class="card-header">
       <div class="row">
@@ -17,24 +17,20 @@
       </div>
     </div>
     <div class="card-body">
+
+      <div class="dataTables_wrapper container-fluid dt-bootstrap4">
+        <div class="row">
+          <%= file_field_tag :file %>
+        </div>
+        <div class="row top-buffer">
+          <%= button_tag(name: 'commit', value: 'Email blurb', type: "submit", class: 'btn btn-default') do %>
+            Import Email Blurb
+          <% end %>
+        </div>
+      </div>
+
       <div class="table-responsive">
         <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-          <!--          <div class="row">-->
-          <!--            <div class="col-6">-->
-          <!--              <div class="dataTables_length" id=dataTable_length">-->
-          <!--                <label>-->
-          <!--                  Show-->
-          <!--                  <select name="dataTable_length" aria-controls="dataTable" class="form-control-sm">-->
-          <!--                    <option value="10">10</option>-->
-          <!--                    <option value="25">25</option>-->
-          <!--                    <option value="50">50</option>-->
-          <!--                    <option value="100">100</option>-->
-          <!--                  </select>-->
-          <!--                   entries-->
-          <!--                </label>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
           <div class="row top-buffer">
             <div class="col-sm-12">
               <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
@@ -64,6 +60,7 @@
                   <th>deposit</th>
                   <th>accesscode</th>
                   <th>note</th>
+                  <th>email_blurb</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -91,6 +88,7 @@
                     <td><%= f.deposit %></td>
                     <td><%= f.accesscode %></td>
                     <td class="note_class"><%= f.note %></td>
+                    <td class="email_blurb_class"><%= f.email_blurb %></td>
                   </tr>
                 <% end %>
                 </tbody>
@@ -100,7 +98,7 @@
         </div>
       </div>
       <div class="row top-buffer">
-        <div class="col-6">
+        <div class="col-8">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
             <%= button_tag(name: 'commit', value: 'Delete selected', type: "delete", class: 'btn btn-default') do %>
@@ -109,9 +107,15 @@
             <%= button_tag(name: 'commit', value: 'Fetch selected', type: "submit", class: 'btn btn-default') do %>
               <i class="fa fa-fw fa-spinner"></i> Fetch Selected
             <% end %>
-            <%= button_tag(name: 'commit', value: 'Resend selected', type: "submit", class: 'btn btn-default') do %>
-              <i class="fa fa-fw fa-send"></i> Resend Selected
-            <% end %>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
+            <span class="pull-right">
+              <%= button_tag(name: 'commit', value: 'Resend selected', type: "submit", class: 'btn btn-default') do %>
+                <i class="fa fa-fw fa-send"></i> Resend Selected
+              <% end %>
+            </span>
           </div>
         </div>
       </div>

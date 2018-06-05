@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_04_095349) do
+ActiveRecord::Schema.define(version: 2018_06_05_102417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2018_06_04_095349) do
     t.string "emergency_phone_no"
     t.string "vehicle_make"
     t.string "vehicle_model"
-    t.date "pickup_date"
+    t.string "pickup_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2018_06_04_095349) do
     t.string "note"
     t.string "accesscode"
     t.string "recipient_status"
-    t.integer "rental"
+    t.string "rental"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -59,33 +59,7 @@ ActiveRecord::Schema.define(version: 2018_06_04_095349) do
   end
 
   create_table "newenvelopes", force: :cascade do |t|
-    t.integer "rental"
-    t.string "email"
-    t.string "name"
-    t.string "nric"
-    t.string "mailing_address"
-    t.string "driver_phone_no"
-    t.date "birthday"
-    t.date "pickup_date"
-    t.string "vehicle_make"
-    t.string "vehicle_model"
-    t.string "vehicle_colour"
-    t.string "licence_plate"
-    t.string "master_rate"
-    t.float "weekly_rate"
-    t.string "min_rental_period"
-    t.integer "deposit"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.string "accesscode"
-    t.string "note"
-    t.index ["user_id"], name: "index_newenvelopes_on_user_id"
-  end
-
-  create_table "resendenvs", force: :cascade do |t|
-    t.string "envelope_id"
-    t.integer "rental"
+    t.string "rental"
     t.string "email"
     t.string "name"
     t.string "nric"
@@ -100,12 +74,39 @@ ActiveRecord::Schema.define(version: 2018_06_04_095349) do
     t.string "master_rate"
     t.float "weekly_rate"
     t.string "min_rental_period"
-    t.integer "deposit"
+    t.string "deposit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.string "accesscode"
+    t.string "note"
+    t.index ["user_id"], name: "index_newenvelopes_on_user_id"
+  end
+
+  create_table "resendenvs", force: :cascade do |t|
+    t.string "envelope_id"
+    t.string "rental"
+    t.string "email"
+    t.string "name"
+    t.string "nric"
+    t.string "mailing_address"
+    t.string "driver_phone_no"
+    t.string "birthday"
+    t.string "pickup_date"
+    t.string "vehicle_make"
+    t.string "vehicle_model"
+    t.string "vehicle_colour"
+    t.string "licence_plate"
+    t.string "master_rate"
+    t.float "weekly_rate"
+    t.string "min_rental_period"
+    t.string "deposit"
     t.string "accesscode"
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.string "email_blurb"
     t.index ["user_id"], name: "index_resendenvs_on_user_id"
   end
 
