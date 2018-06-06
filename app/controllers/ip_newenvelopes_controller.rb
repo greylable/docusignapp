@@ -6,8 +6,12 @@ class IpNewenvelopesController < ApplicationController
   end
 
   def import
-    IpNewenvelope.import(params[:file], current_user)
-    redirect_to ip_newenvelopes_path, notice: 'Activity Data Imported!'
+    if params[:file].present?
+      IpNewenvelope.import(params[:file], current_user)
+      redirect_to ip_newenvelopes_path, notice: 'Activity Data Imported!'
+    else
+      redirect_to new_ip_newenvelope_path, notice: 'Please Upload a File'
+    end
   end
 
   def new

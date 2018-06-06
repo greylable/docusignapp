@@ -9,8 +9,12 @@ class VoidenvelopesController < ApplicationController
   end
 
   def import
-    Voidenvelope.import(params[:file], current_user)
-    redirect_to voidenvelopes_path, notice: 'Activity Data Imported!'
+    if params[:file].present?
+      Voidenvelope.import(params[:file], current_user)
+      redirect_to voidenvelopes_path, notice: 'Activity Data Imported!'
+    else
+      redirect_to new_voidenvelope_path, notice: 'Please Upload a File'
+    end
   end
 
   def new

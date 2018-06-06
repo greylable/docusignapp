@@ -6,8 +6,12 @@ class ResendenvsController < ApplicationController
   end
 
   def import
-    Resendenv.import(params[:file], current_user)
-    redirect_to resendenvs_path, notice: 'Activity Data Imported!'
+    if params[:file].present?
+      Resendenv.import(params[:file], current_user)
+      redirect_to resendenvs_path, notice: 'Activity Data Imported!'
+    else
+      redirect_to new_resendenv_path, notice: 'Please Upload a File'
+    end
   end
 
   def new
@@ -81,10 +85,14 @@ class ResendenvsController < ApplicationController
         @array_try = []
         @resendenv_hash.each { |k,v| @array_try.push(k)}
         @resendenvs = current_user.resendenvs.where(id: @array_try)
-        Resendenv.import_msg(@resendenvs, params[:file], current_user)
-        respond_to do |format|
-          format.html { redirect_to resendenvs_path, notice: 'Email Blurb Uploaded!' }
-          format.json { head :no_content }
+        if params[:file].present?
+          Resendenv.import_msg(@resendenvs, params[:file], current_user)
+          respond_to do |format|
+            format.html { redirect_to resendenvs_path, notice: 'Email Blurb Uploaded!' }
+            format.json { head :no_content }
+          end
+        else
+          redirect_to resendenvs_path, notice: 'Please Upload a File'
         end
       end
 
