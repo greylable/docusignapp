@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get :results
       post :import
       get :export
+      post :select_multiple
     end
   end
 
@@ -33,6 +34,13 @@ Rails.application.routes.draw do
       post :import
       # post :destroy_multiple
       # post :void_selected
+      post :select_multiple
+    end
+  end
+
+  resources :resendenvs do
+    collection do
+      post :import
       post :select_multiple
     end
   end

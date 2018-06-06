@@ -1,0 +1,36 @@
+<div class="content-wrapper">
+  <h1>Make a Resend Envelope Request</h1>
+</div>
+
+<div class="content-wrapper-table">
+  <div class="card border-dark mb-3">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-6">
+          <i class="fa fa-upload"></i> Upload CSV of Envelopes to Resend
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="form-group">
+
+        <%= form_tag(import_resendenvs_path, multipart: true) do %>
+          <div class="col">
+            <%= file_field_tag :file %>
+          </div>
+          <div class="row top-buffer">
+            <div class="col-1">
+              <%= button_tag(name: 'commit', value: 'Import CSV', type: "submit", class: 'btn btn-default') do %>
+                Import CSV
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: 'form', locals: { resend_env: @resendenv }  %>

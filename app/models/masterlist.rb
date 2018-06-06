@@ -1,6 +1,7 @@
 class Masterlist < ApplicationRecord
   belongs_to :user, required: false
   require 'csv'
+  require 'base64'
   # require 'tzinfo'
 
   def self.import(file, user)
@@ -13,14 +14,6 @@ class Masterlist < ApplicationRecord
   end
 
   def self.to_csv
-    # attributes = %w{envelope_id	created_time recipient_email status recipient_type completed_time declined_time	declined_reason	subject_title	auth_status	auth_timestamp delivered_date_time note	accesscode recipient_status rental}
-    # CSV.generate(headers: true) do |csv|
-    #   csv << attributes
-    #
-    #   all.each do |user|
-    #     csv << attributes.map{ |attr| user.send(attr) }
-    #   end
-    # end
     attributes = %w{envelope_id	created_time recipient_email status recipient_type completed_time declined_time	declined_reason	subject_title	auth_status	auth_timestamp delivered_date_time note	accesscode recipient_status rental}
     CSV.generate(headers: true) do |csv|
 
@@ -70,6 +63,22 @@ class Masterlist < ApplicationRecord
           # IMPORTANT: Use the base url from the login account to update the api client which will be used in future api calls
           base_uri = URI.parse(base_url)
           @api_client.config.host = "%s://%s/restapi" % [base_uri.scheme, base_uri.host]
+        end
+      end
+    end
+  end
+
+  def self.get_doc(selected_envelopes)
+    self.docu_auth
+    ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
+
+    selected_envelopes.each do |i|
+      if i.status == "completed"
+        file_contents = ea.get_document(account_id=ENV["ACCOUNT_ID_LIVE"], recipient_id="1", envelope_id=i.envelope_id)
+        fileName = 'Rental_' + i.rental.to_s + '_Envelope_' + i.envelope_id.to_s
+        base64_doc = Base64.encode64(File.open(file_contents, "rb").read).encode('iso-8859-1').force_encoding('utf-8')
+        File.open(fileName + '.pdf', "wb") do |f|
+          f.write(Base64.decode64(base64_doc))
         end
       end
     end
@@ -213,3 +222,7 @@ class Masterlist < ApplicationRecord
     end
   end
 end
+
+
+
+

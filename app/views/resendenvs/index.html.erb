@@ -1,0 +1,126 @@
+<%= form_tag(select_multiple_resendenvs_path, method: :post, multipart: true) do %>
+  <div class="content-wrapper">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-6">
+          <i class="fa fa-table"></i> Resend Envelopes
+        </div>
+        <div class="col-6">
+          <span class="pull-right">
+            <div class="fixed-action-btn">
+              <%= link_to(new_resendenv_path, class: 'nav-link') do %>
+                <i class="fa fa-fw fa-plus"></i>
+              <% end %>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="dataTables_wrapper container-fluid dt-bootstrap4">
+        <div class="row">
+          <%= file_field_tag :file %>
+        </div>
+        <div class="row top-buffer">
+          <%= button_tag(name: 'commit', value: 'Email blurb', type: "submit", class: 'btn btn-default') do %>
+            Import Email Blurb
+          <% end %>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+          <div class="row top-buffer">
+            <div class="col-sm-12">
+              <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+                     aria-describedby="dataTable_info" style="width: 100%;">
+                <thead>
+                <tr>
+                  <th class="check-box"></th>
+                  <th class="check-box"></th>
+                  <th class="check-box">
+                    <input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
+                  <th>status</th>
+                  <th>envelope_id</th>
+                  <th>email</th>
+                  <th>rental</th>
+                  <th>name</th>
+                  <th>nric</th>
+                  <th>mailing_address</th>
+                  <th>driver_phone_no</th>
+                  <th>birthday</th>
+                  <th>pickup_date</th>
+                  <th>vehicle_make</th>
+                  <th>vehicle_model</th>
+                  <th>vehicle_colour</th>
+                  <th>licence_plate</th>
+                  <th>master_rate</th>
+                  <th>weekly_rate</th>
+                  <th>min_rental_period</th>
+                  <th>deposit</th>
+                  <th>accesscode</th>
+                  <th>note</th>
+                  <th>email_blurb</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @resendenvs.each do |f| %>
+                  <tr>
+                    <td class="check-box"><%= link_to 'Edit', edit_resendenv_path(f) %></td>
+                    <td class="check-box"><%= link_to 'Delete', f, method: :delete %></td>
+                    <td class="check-box"><%= check_box_tag "resendenv_ids[#{ f.id }]", "resendenv_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "resendenv_ids[#{ f.id }]", "" %></td>
+                    <td><%= f.status %></td>
+                    <td><%= f.envelope_id %></td>
+                    <td><%= f.email %></td>
+                    <td><%= f.rental %></td>
+                    <td><%= f.name %></td>
+                    <td><%= f.nric %></td>
+                    <td><%= f.mailing_address %></td>
+                    <td><%= f.driver_phone_no %></td>
+                    <td><%= f.birthday %></td>
+                    <td><%= f.pickup_date %></td>
+                    <td><%= f.vehicle_make %></td>
+                    <td><%= f.vehicle_model %></td>
+                    <td><%= f.vehicle_colour %></td>
+                    <td><%= f.licence_plate %></td>
+                    <td><%= f.master_rate %></td>
+                    <td><%= f.weekly_rate %></td>
+                    <td><%= f.min_rental_period %></td>
+                    <td><%= f.deposit %></td>
+                    <td><%= f.accesscode %></td>
+                    <td class="note_class"><%= f.note %></td>
+                    <td class="email_blurb_class"><%= f.email_blurb %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row top-buffer">
+        <div class="col-8">
+          <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
+            <%#= submit_tag "Delete Selected" %>
+            <%= button_tag(name: 'commit', value: 'Delete selected', type: "delete", class: 'btn btn-default') do %>
+              <i class="fa fa-fw fa-trash"></i> Delete Selected
+            <% end %>
+            <%= button_tag(name: 'commit', value: 'Fetch selected', type: "submit", class: 'btn btn-default') do %>
+              <i class="fa fa-fw fa-spinner"></i> Fetch Selected
+            <% end %>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
+            <span class="pull-right">
+              <%= button_tag(name: 'commit', value: 'Resend selected', type: "submit", class: 'btn btn-default') do %>
+                <i class="fa fa-fw fa-send"></i> Resend Selected
+              <% end %>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

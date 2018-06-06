@@ -44,6 +44,12 @@
           <% end %>
         </li>
 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Resend">
+          <%= link_to(resendenvs_path, class: 'nav-link') do %>
+            <i class="fa fa-fw fa-paper-plane-o"></i>Resend
+          <% end %>
+        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Void">
           <%= link_to(voidenvelopes_path, class: 'nav-link') do %>
             <i class="fa fa-fw fa-minus-circle"></i>Void

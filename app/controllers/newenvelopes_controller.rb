@@ -61,11 +61,9 @@ class NewenvelopesController < ApplicationController
   end
 
   def newenvelopes_params
-    params.require(:newenvelope).permit(:name, :rental, :nric, :email, :mailing_address, :driver_phone_no, :birthday, :pickup_date,
+    params.require(:newenvelope).permit(:email, :rental, :name, :nric, :mailing_address, :driver_phone_no, :birthday, :pickup_date,
                                         :vehicle_make, :vehicle_model, :vehicle_colour, :licence_plate,  :master_rate, :weekly_rate,
-                                        :min_rental_period, :deposit, :payee_name, :name_of_bank, :bank_address, :bank_account_no,
-                                        :bank_code, :branch_code, :swift_code, :driver_licence_no, :expiration_date, :driver_licence_class,
-                                        :emergency_name, :emergency_nric, :emergency_mailing_address, :emergency_email, :emergency_phone_no, :emergency_birthday)
+                                        :min_rental_period, :deposit, :acccessnote, :note)
   end
 
 end

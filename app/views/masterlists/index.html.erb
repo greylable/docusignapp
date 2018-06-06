@@ -53,7 +53,6 @@
                 <thead>
                 <tr>
                   <th class="check-box"></th>
-                  <th class="check-box"></th>
                   <th class="check-box">
                     <input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
                   <th>envelope_id</th>
@@ -78,12 +77,6 @@
                 <% @masterlists.each do |f| %>
                   <tr>
                     <td class="check-box"><%= link_to 'Edit', edit_masterlist_path(f) %></td>
-                    <% if f.status == 'completed' %>
-                      <td class="download_env"><%= 'Download' %></td>
-  <!--                    <td class="check-box"><%#= link_to 'Download', f, method: :download %></td>-->
-                    <% else %>
-                      <td class="download_env"><% 'Download' %></td>
-                    <% end %>
                     <td class="check-box"><%= check_box_tag "masterlist_ids[#{ f.id }]", "masterlist_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "masterlist_ids[#{ f.id }]", "" %></td>
                     <td><%= f.envelope_id %></th>
                     <td><%= f.created_time %></th>
@@ -110,7 +103,7 @@
         </div>
       </div>
       <div class="row top-buffer">
-        <div class="col-6">
+        <div class="col-9">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
             <%= button_tag(name: 'commit', value: 'Refresh masterlist', type: "submit", class: 'btn btn-default') do %>
@@ -119,9 +112,12 @@
             <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
               <%= link_to "CSV", export_masterlists_path(format: "csv"), class: 'link-to-text-color'%>
             <% end %>
+            <%= button_tag(name: 'commit', value: 'Download selected', type: "submit", class: 'btn btn-default') do %>
+              <i class="fa fa-fw fa-file-pdf-o"></i> Download Selected
+            <% end %>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-3">
           <span class="pull-right">
             <div>
               <%= paginate @masterlists %>

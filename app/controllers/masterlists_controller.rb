@@ -49,11 +49,29 @@ class MasterlistsController < ApplicationController
     end
   end
 
+
   def select_multiple
     if params[:commit] == "Refresh masterlist"
       # Masterlist.destroy_all
       Masterlist.refresh_masterlist
       redirect_to masterlists_path, notice: 'Masterlist Refreshed Successfully!'
+
+    else params[:commit] == "Download selected"
+      puts 'Downloading these envelopes tentatively'
+      if params[:masterlist_ids].blank?
+        redirect_to masterlists_path, notice: 'No envelopes selected'
+      else
+        @masterlist_hash =  params[:masterlist_ids]
+        @array_try = []
+        @masterlist_hash.each { |k,v| @array_try.push(k)}
+        puts @array_try
+        @masterlists = Masterlist.where(id: @array_try)
+        Masterlist.get_doc(@masterlists)
+        respond_to do |format|
+          format.html { redirect_to masterlists_path, notice: 'Envelope Downloaded Successfully!' }
+          format.json { head :no_content }
+        end
+      end
     end
   end
 

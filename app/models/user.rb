@@ -8,4 +8,5 @@ class User < ApplicationRecord
   has_many :newenvelopes
   has_many :ip_newenvelopes
   has_many :masterlists
+  has_many :resendenvs
 end
