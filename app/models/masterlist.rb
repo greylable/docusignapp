@@ -13,13 +13,13 @@ class Masterlist < ApplicationRecord
   end
 
   def self.docu_auth
-    host = 'https://demo.docusign.net/restapi'
+    host = 'https://eu.docusign.net/restapi'
     integrator_key = ENV["INTEGRATOR_KEY"]
-    user_id = ENV["USER_ID_DEMO"]
+    user_id = ENV["USER_ID_LIVE"]
     expires_in_seconds = 3600 #1 hour
-    auth_server = 'account-d.docusign.com'
-    @private_key_filename = ENV["PRIVATE_KEY_DEMO"]
-    puts ENV["PRIVATE_KEY_DEMO"]
+    auth_server = 'account.docusign.com'
+    @private_key_filename = ENV["PRIVATE_KEY_LIVE"]
+    puts ENV["PRIVATE_KEY_LIVE"]
 
     # STEP 1: Initialize API Client
     configuration = DocuSign_eSign::Configuration.new
@@ -68,7 +68,7 @@ class Masterlist < ApplicationRecord
     else
       time_3 = Time.zone.parse(utc_time).getlocal
       # time_4 = time_3.change(:offset => "+8000")
-      puts time_3
+      # puts time_3
       return time_3
     end
   end
@@ -90,7 +90,7 @@ class Masterlist < ApplicationRecord
     while position <= 30000 do
       position = position + 100
       options.start_position = position
-      folder_2 = folders_1.search(account_id=ENV["ACCOUNT_ID_DEMO"],search_folder_id="all",options).folder_items
+      folder_2 = folders_1.search(account_id=ENV["ACCOUNT_ID_LIVE"],search_folder_id="all",options).folder_items
       if folder_2.present?
         folder_items_contain = folder_items_contain + folder_2
       else
@@ -152,16 +152,36 @@ class Masterlist < ApplicationRecord
       end
 
       masterlist_search = Masterlist.where('envelope_id LIKE ?', i.envelope_id)
+      # if masterlist_search is nil, append everything
+      # else, update if not com,void,decline
       masterlist_search.each do |f|
-        @env_id = f.envelope_id
-        @row_status = f.status
+        row_status = f.status
+        if row_status != ('completed' or 'voided' or 'declined')
+          masterlist_search.update(envelope_id: contain[0], created_time: contain[1], recipient_email: contain[2], status: contain[3], recipient_type: contain[4],
+                                   completed_time: contain[5], declined_time: contain[6], declined_reason: contain[7], subject_title: contain[8], auth_status: contain[9],
+                                   auth_timestamp: contain[10], delivered_date_time: contain[11], note: contain[12], accesscode: contain[13], recipient_status: contain[14])
+        end
       end
-      if @row_status != ('completed' or 'voided' or 'declined')
-        puts @env_id
-        masterlist_search.update(envelope_id: contain[0], created_time: contain[1], recipient_email: contain[2], status: contain[3], recipient_type: contain[4],
-                                                                     completed_time: contain[5], declined_time: contain[6], declined_reason: contain[7], subject_title: contain[8], auth_status: contain[9],
-                                                                     auth_timestamp: contain[10], delivered_date_time: contain[11], note: contain[12], accesscode: contain[13], recipient_status: contain[14])
+    end
+
+    ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
+    rental_search = Masterlist.where('rental IS ? AND status IN (?)', nil, ['completed','declined','voided'])
+    puts rental_search
+    rental_search.each do |b|
+      rental_search_env = b.envelope_id
+      puts rental_search_env
+      envelope_data = ea.get_form_data(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=b.envelope_id)
+      form_data = envelope_data.form_data
+      # puts form_data
+      form_data.each do |a|
+        if a.name == 'Rental' and a.value != nil
+          @rental_number = a.value
+        else
+          @rental_number = nil
+        end
       end
+      # puts @rental_search_env
+      b.update(envelope_id: rental_search_env, rental: @rental_number)
     end
   end
 end
