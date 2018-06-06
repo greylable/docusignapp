@@ -59,12 +59,20 @@ class Voidenvelope < ApplicationRecord
 
   def self.void(selected_envelopes)
     self.docu_auth
+    void_array = []
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     ee = DocuSign_eSign::Envelope.new
     selected_envelopes.each do |env|
       ee.status = 'voided'
       ee.voided_reason = 'Dear ' + env.name.to_s + ' ' + env.void_reason.to_s
-      ea.update(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=env.envelope_id,envelope=ee)
+      begin
+        ea.update(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=env.envelope_id,envelope=ee)
+        void_array = void_array + [env.id]
+      rescue
+        next
+      end
+
     end
+    return void_array
   end
 end

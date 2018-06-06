@@ -71,10 +71,9 @@ class VoidenvelopesController < ApplicationController
         @voidenvelope_hash =  params[:voidenvelope_ids]
         @array_try = []
         @voidenvelope_hash.each { |k,v| @array_try.push(k)}
-        puts @array_try
         @voidenvelopes = current_user.voidenvelopes.where(id: @array_try)
-        puts @voidenvelopes
-        Voidenvelope.void(@voidenvelopes)
+        @void_array = Voidenvelope.void(@voidenvelopes)
+        Voidenvelope.where(id: @void_array).destroy_all
         respond_to do |format|
           format.html { redirect_to voidenvelopes_path, notice: 'Void Request Voided Successfully!' }
           format.json { head :no_content }
