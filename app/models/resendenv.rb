@@ -3,7 +3,7 @@ class Resendenv < ApplicationRecord
   require 'csv'
 
   def self.import(file, user)
-    CSV.foreach(file.path, headers:true) do |row|
+    CSV.foreach(file.path, headers:true, encoding: 'iso-8859-1:utf-8') do |row|
       Resendenv.create(envelope_id: row[0], user: user)
     end
   end
@@ -67,7 +67,7 @@ class Resendenv < ApplicationRecord
     self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     selected_envelopes.each do |i|
-      envelope_data = ea.get_form_data(account_id='bb376ad2-0e72-4e2f-8226-615ea4fecfcf',envelope_id=i.envelope_id)
+      envelope_data = ea.get_form_data(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=i.envelope_id)
       form_data = envelope_data.form_data
       empty_dict = {}
 

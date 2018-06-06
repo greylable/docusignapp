@@ -6,32 +6,29 @@ class Voidenvelope < ApplicationRecord
   require 'uri'
 
   def self.import(file, user)
-    CSV.foreach(file.path, headers:true) do |row|
+    CSV.foreach(file.path, headers:true, encoding: 'iso-8859-1:utf-8') do |row|
       puts row[0]
-      v = Voidenvelope.create(envelope_id: row[0], name: row[1], void_reason: row[2], user: user)
-    end
-  end
-
-  def self.del_all(array_id)
-    array_id.each do |f|
-      puts f
+      Voidenvelope.create(envelope_id: row[0], name: row[1], void_reason: row[2], user: user)
     end
   end
 
   def self.docu_auth
-    host = 'https://demo.docusign.net/restapi'
-    integrator_key = '8df67330-80dc-43c7-ab37-8d02bd7ef07f'
-    user_id = 'b2a3170b-dab0-4d0d-ba2e-c7580ae92125'
+    host = 'https://eu.docusign.net/restapi'
+    integrator_key = ENV["INTEGRATOR_KEY"]
+    user_id = ENV["USER_ID_LIVE"]
     expires_in_seconds = 3600 #1 hour
-    auth_server = 'account-d.docusign.com'
-    private_key_filename = '/Users/yetlinong/docusignapp/config/demo_private_key.txt'
+    auth_server = 'account.docusign.com'
+    # private_key_filename = '/Users/yetlinong/docusignapp/config/demo_private_key.txt'
+    @private_key_filename = ENV["PRIVATE_KEY_LIVE"]
+    puts ENV["PRIVATE_KEY_LIVE"]
+    # private_key_filename = ENV["PRIVATE_KEY_DEMO"].to_s.gsub("\\n", "\n")
 
     # STEP 1: Initialize API Client
     configuration = DocuSign_eSign::Configuration.new
     configuration.host = host
 
     @api_client = DocuSign_eSign::ApiClient.new(configuration)
-    @api_client.configure_jwt_authorization_flow(private_key_filename, auth_server, integrator_key, user_id, expires_in_seconds)
+    @api_client.configure_jwt_authorization_flow(@private_key_filename, auth_server, integrator_key, user_id, expires_in_seconds)
 
     # STEP 2: Initialize Authentication API using the API Client
     authentication_api = DocuSign_eSign::AuthenticationApi.new(@api_client)
@@ -65,11 +62,9 @@ class Voidenvelope < ApplicationRecord
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     ee = DocuSign_eSign::Envelope.new
     selected_envelopes.each do |env|
-      print(env.envelope_id.to_s)
-      puts ea
       ee.status = 'voided'
       ee.voided_reason = 'Dear ' + env.name.to_s + ' ' + env.void_reason.to_s
-      ea.update(account_id='25ec1df6-8160-48a6-9e25-407b8356bbc4',envelope_id=env.envelope_id,envelope=ee)
+      ea.update(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=env.envelope_id,envelope=ee)
     end
   end
 end

@@ -5,7 +5,7 @@ class IpNewenvelope < ApplicationRecord
   # Dotenv.load('../.env')
 
   def self.import(file, user)
-    CSV.foreach(file.path, headers:true) do |row|
+    CSV.foreach(file.path, headers:true, encoding: 'iso-8859-1:utf-8') do |row|
       IpNewenvelope.create(ip_email: row[1], nric: row[2], ip_name: row[3], driver_phone_no: row[4],
                            licence_plate: row[5], min_rental_period: row[6], name_of_bank: row[7],
                            bank_account_no: row[8], emergency_name: row[9], emergency_phone_no: row[10],
