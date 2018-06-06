@@ -62,10 +62,11 @@ class ResendenvsController < ApplicationController
       else
         @resendenv_hash =  params[:resendenv_ids]
         @array_try = []
+
         @resendenv_hash.each { |k,v| @array_try.push(k)}
         @resendenvs = current_user.resendenvs.where(id: @array_try)
-        Resendenv.resend_env(@resendenvs)
-        Resendenv.where(id: @array_try).destroy_all
+        @resent_array = Resendenv.resend_env(@resendenvs)
+        Resendenv.where(id: @resent_array).destroy_all
         respond_to do |format|
           format.html { redirect_to resendenvs_path, notice: 'Envelope Resent Successfully!' }
           format.json { head :no_content }

@@ -41,6 +41,7 @@
                   <th class="check-box"></th>
                   <th class="check-box">
                     <input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
+                  <th>status</th>
                   <th>envelope_id</th>
                   <th>email</th>
                   <th>rental</th>
@@ -69,6 +70,7 @@
                     <td class="check-box"><%= link_to 'Edit', edit_resendenv_path(f) %></td>
                     <td class="check-box"><%= link_to 'Delete', f, method: :delete %></td>
                     <td class="check-box"><%= check_box_tag "resendenv_ids[#{ f.id }]", "resendenv_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "resendenv_ids[#{ f.id }]", "" %></td>
+                    <td><%= f.status %></td>
                     <td><%= f.envelope_id %></td>
                     <td><%= f.email %></td>
                     <td><%= f.rental %></td>
