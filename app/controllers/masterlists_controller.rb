@@ -3,12 +3,20 @@ class MasterlistsController < ApplicationController
   before_action :set_masterlist_search, only: [:results]
 
   def index
-    @masterlists = current_user.masterlists.page params[:page]
+    @masterlists = Masterlist.page params[:page]
   end
 
   def import
     Masterlist.import(params[:file], current_user)
     redirect_to masterlists_path, notice: 'Activity Data Imported!'
+  end
+
+  def export
+    respond_to do |format|
+      format.html
+      format.csv { send_data Masterlist.to_csv }
+      # redirect_to masterlists_path, notice: 'Activity Data Exported!'
+    end
   end
 
   def search
@@ -18,11 +26,11 @@ class MasterlistsController < ApplicationController
   end
 
   def new
-    @masterlist = current_user.masterlists.new
+    @masterlist = Masterlist.new
   end
 
   def create
-    @masterlist = current_user.masterlists.new(masterlists_params)
+    @masterlist = Masterlist.new(masterlists_params)
     if @masterlist.save!
       redirect_to masterlists_path, notice: 'Request Created Successfully!'
     else

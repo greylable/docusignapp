@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get :search
       get :results
       post :import
+      get :export
     end
   end
 
