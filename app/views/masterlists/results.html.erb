@@ -36,7 +36,6 @@
                 <thead>
                 <tr>
                   <th class="check-box"></th>
-                  <th class="check-box"></th>
                   <th class="check-box">
                     <input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
                   <th>envelope_id</th>
@@ -61,12 +60,6 @@
                 <% @masterlist_search.each do |f| %>
                   <tr>
                     <td class="check-box"><%= link_to 'Edit', edit_masterlist_path(f) %></td>
-                    <% if f.status == 'completed' %>
-                      <td class="download_env"><%= 'Download' %></td>
-                      <!--                    <td class="check-box"><%#= link_to 'Download', f, method: :download %></td>-->
-                    <% else %>
-                      <td class="download_env"><% 'Download' %></td>
-                    <% end %>
                     <td class="check-box"><%= check_box_tag "masterlist_ids[#{ f.id }]", "masterlist_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "masterlist_ids[#{ f.id }]", "" %></td>
                     <td><%= f.envelope_id %></th>
                     <td><%= f.created_time %></th>
@@ -96,9 +89,6 @@
         <div class="col-6">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
-            <%= button_tag(type: "submit", class: 'btn btn-default') do %>
-              <i class="fa fa-fw fa-download"></i> Export
-            <% end %>
             <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
               <% link_to 'Back', masterlists_path, class: 'link-to-text-color' %>
             <% end %>

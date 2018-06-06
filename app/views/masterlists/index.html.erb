@@ -110,7 +110,9 @@
               <i class="fa fa-fw fa-refresh"></i> Refresh
             <% end %>
             <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
-              <%= link_to "CSV", export_masterlists_path(format: "csv"), class: 'link-to-text-color'%>
+              <%= link_to(export_masterlists_path(format: "csv"), class: 'link-to-text-color') do %>
+                <i class="fa fa-fw fa-file-excel-o"></i>Export
+              <% end %>
             <% end %>
             <%= button_tag(name: 'commit', value: 'Download selected', type: "submit", class: 'btn btn-default') do %>
               <i class="fa fa-fw fa-file-pdf-o"></i> Download Selected

@@ -14,21 +14,21 @@
 
         <%= simple_form_for @masterlist do |f| %>
           <div class="col">
-            <%= f.input :envelope_id, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :envelope_id, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :created_time, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
-            <%= f.input :recipient_email, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :status, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :recipient_type, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :recipient_email, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :status, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :recipient_type, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :completed_time, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
             <%= f.input :declined_time, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
-            <%= f.input :declined_reason, label_html: {class: 'col-2'}, input_html: {class: 'col-10'}  %>
-            <%= f.input :subject_title, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :auth_status, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :declined_reason, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'}  %>
+            <%= f.input :subject_title, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :auth_status, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :auth_timestamp, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
             <%= f.input :delivered_date_time, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'datepicker'} %>
-            <%= f.input :note, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :accesscode, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
-            <%= f.input :recipient_status, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :note, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :accesscode, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+            <%= f.input :recipient_status, disabled: true, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
             <%= f.input :rental, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
           </div>
 
