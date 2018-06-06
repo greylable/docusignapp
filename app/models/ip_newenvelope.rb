@@ -9,7 +9,7 @@ class IpNewenvelope < ApplicationRecord
       IpNewenvelope.create(ip_email: row[1], nric: row[2], ip_name: row[3], driver_phone_no: row[4],
                            licence_plate: row[5], min_rental_period: row[6], name_of_bank: row[7],
                            bank_account_no: row[8], emergency_name: row[9], emergency_phone_no: row[10],
-                           vehicle_make: row[11], vehicle_model: row[12], pickup_date: row[13], user: user)
+                           vehicle_make: row[11], vehicle_model: row[12], pickup_date: self.convert_date(row[13]), user: user)
     end
   end
 
@@ -92,7 +92,7 @@ class IpNewenvelope < ApplicationRecord
     elsif tab_label_str == "Vehicle_Model"
         return array_ml.vehicle_model
     elsif tab_label_str == "Pickup_Date"
-        return self.convert_date(array_ml.pickup_date.to_s)
+        return array_ml.pickup_date
     elsif tab_label_str == "Payee_Name"
         return array_ml.ip_name
     end

@@ -5,7 +5,10 @@ class IpNewenvelopesController < ApplicationController
     @ip_newenvelopes = current_user.ip_newenvelopes
   end
 
-
+  def import
+    IpNewenvelope.import(params[:file], current_user)
+    redirect_to ip_newenvelopes_path, notice: 'Activity Data Imported!'
+  end
 
   def new
     @ip_newenvelope = current_user.ip_newenvelopes.new
@@ -63,7 +66,7 @@ class IpNewenvelopesController < ApplicationController
         IpNewenvelope.send_env(@ip_newenvelopes)
         IpNewenvelope.where(id: @array_try).destroy_all
         respond_to do |format|
-          format.html { redirect_to ip_newenvelopes_path, notice: 'New Envelope Request Sent Out Successfully!' }
+          format.html { redirect_to ip_newenvelopes_url, notice: 'New Envelope Request Sent Out Successfully!' }
           format.json { head :no_content }
         end
       end
