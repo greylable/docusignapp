@@ -1,6 +1,8 @@
 class MasterlistsController < ApplicationController
   before_action :set_masterlist, only: [:edit, :update]
   before_action :set_masterlist_search, only: [:results]
+  before_action :authenticate_user!, except: [:refresh]
+
 
   def index
     @masterlists = Masterlist.page params[:page]
@@ -24,6 +26,7 @@ class MasterlistsController < ApplicationController
 
   def results
   end
+
 
   def new
     @masterlist = Masterlist.new
@@ -64,12 +67,14 @@ class MasterlistsController < ApplicationController
         @masterlist_hash =  params[:masterlist_ids]
         @array_try = []
         @masterlist_hash.each { |k,v| @array_try.push(k)}
-        puts @array_try
         @masterlists = Masterlist.where(id: @array_try)
-        Masterlist.get_doc(@masterlists)
-        respond_to do |format|
-          format.html { redirect_to masterlists_path, notice: 'Envelope Downloaded Successfully!' }
-          format.json { head :no_content }
+        @masterlists.each do |b|
+          if b.status == 'completed'
+            @related_data = Masterlist.get_doc(b)
+            @filename = @related_data[0]
+            @base64_data = @related_data[1]
+            send_data(@base64_data, :type => 'application/pdf', :filename => @filename)
+          end
         end
       end
     end

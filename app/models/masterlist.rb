@@ -68,20 +68,14 @@ class Masterlist < ApplicationRecord
     end
   end
 
-  def self.get_doc(selected_envelopes)
+  def self.get_doc(i)
     self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
-
-    selected_envelopes.each do |i|
-      if i.status == "completed"
-        file_contents = ea.get_document(account_id=ENV["ACCOUNT_ID_LIVE"], recipient_id="1", envelope_id=i.envelope_id)
-        fileName = 'Rental_' + i.rental.to_s + '_Envelope_' + i.envelope_id.to_s
-        base64_doc = Base64.encode64(File.open(file_contents, "rb").read).encode('iso-8859-1').force_encoding('utf-8')
-        File.open(fileName + '.pdf', "wb") do |f|
-          f.write(Base64.decode64(base64_doc))
-        end
-      end
-    end
+    file_contents = ea.get_document(account_id=ENV["ACCOUNT_ID_LIVE"], recipient_id="1", envelope_id=i.envelope_id)
+    fileName = 'Rental_' + i.rental.to_s + '_Envelope_' + i.envelope_id.to_s+'.pdf'
+    base64_doc = Base64.encode64(File.open(file_contents, "rb").read).encode('iso-8859-1').force_encoding('utf-8')
+    decoded_doc = Base64.decode64(base64_doc)
+    return [fileName,decoded_doc]
   end
 
   def self.testing_only(var_1)
