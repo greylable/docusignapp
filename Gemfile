@@ -9,6 +9,8 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'kaminari'
 # Views
 # gem 'materialize-sass', '0.97.8'
+# Download PDFs
+gem 'rubyzip'
 
 # Devise for Login
 gem 'devise'

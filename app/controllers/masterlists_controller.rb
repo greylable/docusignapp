@@ -3,7 +3,6 @@ class MasterlistsController < ApplicationController
   before_action :set_masterlist_search, only: [:results]
   before_action :authenticate_user!, except: [:refresh]
 
-
   def index
     @masterlists = Masterlist.page params[:page]
   end
@@ -16,7 +15,7 @@ class MasterlistsController < ApplicationController
   def export
     respond_to do |format|
       format.html
-      format.csv { send_data Masterlist.to_csv }
+      format.csv {send_data Masterlist.to_csv}
       # redirect_to masterlists_path, notice: 'Activity Data Exported!'
     end
   end
@@ -59,25 +58,60 @@ class MasterlistsController < ApplicationController
       Masterlist.refresh_masterlist
       redirect_to masterlists_path, notice: 'Masterlist Refreshed Successfully!'
 
-    else params[:commit] == "Download selected"
-      puts 'Downloading these envelopes tentatively'
+      # else params[:commit] == "Download selected"
+      #   puts 'Downloading these envelopes tentatively'
+      #   if params[:masterlist_ids].blank?
+      #     redirect_to masterlists_path, notice: 'No envelopes selected'
+      #   else
+      #     @masterlist_hash =  params[:masterlist_ids]
+      #     @array_try = []
+      #     @masterlist_hash.each { |k,v| @array_try.push(k)}
+      #     @masterlists = Masterlist.where(id: @array_try)
+      #     @masterlists.each do |b|
+      #       if b.status == 'completed'
+      #         @related_data = Masterlist.get_doc(b)
+      #         @filename = @related_data[0]
+      #         @base64_data = @related_data[1]
+      #         send_data(@base64_data, :type => 'application/pdf', :filename => @filename)
+      #       end
+      #     end
+      #   end
+    elsif params[:commit] == "Download selected"
       if params[:masterlist_ids].blank?
         redirect_to masterlists_path, notice: 'No envelopes selected'
       else
-        @masterlist_hash =  params[:masterlist_ids]
+        @masterlist_hash = params[:masterlist_ids]
         @array_try = []
-        @masterlist_hash.each { |k,v| @array_try.push(k)}
+        @masterlist_hash.each {|k, v| @array_try.push(k)}
         @masterlists = Masterlist.where(id: @array_try)
-        @masterlists.each do |b|
-          if b.status == 'completed'
-            @related_data = Masterlist.get_doc(b)
-            @filename = @related_data[0]
-            @base64_data = @related_data[1]
-            send_data(@base64_data, :type => 'application/pdf', :filename => @filename)
-          end
+
+        download_zip(@masterlists)
+      end
+    end
+  end
+
+  def download_zip(masterlists)
+    require 'rubygems'
+    require 'zip'
+
+    compressed_filestream = Zip::OutputStream.write_buffer do |stream|
+      masterlists.each do |masterlist|
+        if masterlist.status == 'completed'
+          related_data = Masterlist.get_doc(masterlist)
+          filename = related_data[0]
+          base64_data = related_data[1]
+          temp_pdf = Tempfile.new(filename)
+          temp_pdf.binmode
+          temp_pdf.write base64_data
+          temp_pdf.rewind
+          stream.put_next_entry("#{filename}.pdf")
+          stream.write IO.read("#{temp_pdf.path}")
+          temp_pdf.close
         end
       end
     end
+    compressed_filestream.rewind
+    send_data compressed_filestream .read, filename: "contracts.zip"
   end
 
   private
