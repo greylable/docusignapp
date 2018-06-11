@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       post :import
       get :export
       post :select_multiple
+      get :refresh
     end
   end
 

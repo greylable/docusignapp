@@ -26,6 +26,12 @@ class MasterlistsController < ApplicationController
   def results
   end
 
+  def refresh
+    # head :ok
+    Masterlist.refresh_masterlist
+    # render :nothing => true
+  end
+
 
   def new
     @masterlist = Masterlist.new
@@ -53,11 +59,7 @@ class MasterlistsController < ApplicationController
 
 
   def select_multiple
-    if params[:commit] == "Refresh masterlist"
-      # Masterlist.destroy_all
-      Masterlist.refresh_masterlist
-      redirect_to masterlists_path, notice: 'Masterlist Refreshed Successfully!'
-    elsif params[:commit] == "Download selected"
+    if params[:commit] == "Download selected"
       if params[:masterlist_ids].blank?
         redirect_to masterlists_path, notice: 'No envelopes selected'
       else
@@ -92,7 +94,7 @@ class MasterlistsController < ApplicationController
       end
     end
     compressed_filestream.rewind
-    send_data compressed_filestream .read, filename: "contracts.zip"
+    send_data compressed_filestream.read, filename: "contracts.zip"
   end
 
   private
