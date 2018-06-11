@@ -106,9 +106,9 @@
         <div class="col-9">
           <div class="dataTables_paginate paging_simple_numbers" id=dataTable_paginate">
             <%#= submit_tag "Delete Selected" %>
-            <%= button_tag(name: 'commit', value: 'Refresh masterlist', type: "submit", class: 'btn btn-default') do %>
-              <i class="fa fa-fw fa-refresh"></i> Refresh
-            <% end %>
+            <%#= button_tag(name: 'commit', value: 'Refresh masterlist', type: "submit", class: 'btn btn-default') do %>
+<!--              <i class="fa fa-fw fa-refresh"></i> Refresh-->
+            <%# end %>
             <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
               <%= link_to(export_masterlists_path(format: "csv"), class: 'link-to-text-color') do %>
                 <i class="fa fa-fw fa-file-excel-o"></i>Export
