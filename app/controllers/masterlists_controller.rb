@@ -27,9 +27,9 @@ class MasterlistsController < ApplicationController
   end
 
   def refresh
-    # head :ok
+    head :ok
     Masterlist.refresh_masterlist
-    # render :nothing => true
+    render :nothing => true
   end
 
 
