@@ -57,25 +57,6 @@ class MasterlistsController < ApplicationController
       # Masterlist.destroy_all
       Masterlist.refresh_masterlist
       redirect_to masterlists_path, notice: 'Masterlist Refreshed Successfully!'
-
-      # else params[:commit] == "Download selected"
-      #   puts 'Downloading these envelopes tentatively'
-      #   if params[:masterlist_ids].blank?
-      #     redirect_to masterlists_path, notice: 'No envelopes selected'
-      #   else
-      #     @masterlist_hash =  params[:masterlist_ids]
-      #     @array_try = []
-      #     @masterlist_hash.each { |k,v| @array_try.push(k)}
-      #     @masterlists = Masterlist.where(id: @array_try)
-      #     @masterlists.each do |b|
-      #       if b.status == 'completed'
-      #         @related_data = Masterlist.get_doc(b)
-      #         @filename = @related_data[0]
-      #         @base64_data = @related_data[1]
-      #         send_data(@base64_data, :type => 'application/pdf', :filename => @filename)
-      #       end
-      #     end
-      #   end
     elsif params[:commit] == "Download selected"
       if params[:masterlist_ids].blank?
         redirect_to masterlists_path, notice: 'No envelopes selected'
@@ -93,7 +74,7 @@ class MasterlistsController < ApplicationController
   def download_zip(masterlists)
     require 'rubygems'
     require 'zip'
-
+    Masterlist.docu_auth
     compressed_filestream = Zip::OutputStream.write_buffer do |stream|
       masterlists.each do |masterlist|
         if masterlist.status == 'completed'

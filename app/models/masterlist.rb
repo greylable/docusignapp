@@ -69,7 +69,7 @@ class Masterlist < ApplicationRecord
   end
 
   def self.get_doc(i)
-    self.docu_auth
+    # self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     file_contents = ea.get_document(account_id=ENV["ACCOUNT_ID_LIVE"], recipient_id="1", envelope_id=i.envelope_id)
     fileName = 'Rental_' + i.rental.to_s + '_Envelope_' + i.envelope_id.to_s
