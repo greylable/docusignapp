@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/greylable/docusign-ruby-client
-  revision: f3c7f84b81f13f77810c2543d3e34465d9a7e91f
+  revision: 120d87c95d3289f4080377ba558ce1794583ce72
   specs:
     docusign_esign (1.0.0)
       json (~> 1.8, >= 1.8.3)
@@ -106,7 +106,7 @@ GEM
     ethon (0.11.0)
       ffi (>= 1.3.0)
     execjs (2.7.0)
-    ffi (1.9.23)
+    ffi (1.9.25)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
     globalid (0.4.1)

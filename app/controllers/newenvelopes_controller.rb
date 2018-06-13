@@ -1,5 +1,5 @@
 class NewenvelopesController < ApplicationController
-  before_action :set_newenvelope, only: [:destroy, :edit, :update, :show]
+  before_action :set_newenvelope, only: [:destroy, :edit, :update]
 
   def index
     @newenvelopes = current_user.newenvelopes
@@ -39,17 +39,41 @@ class NewenvelopesController < ApplicationController
     redirect_to newenvelopes_path, notice: 'New Envelope Request Deleted Successfully!'
   end
 
-  def destroy_multiple
-    if params[:newenvelope_ids].blank?
-      redirect_to newenvelopes_path, notice: 'No contacts selected'
-    else
-      @newenvelope_hash =  params[:newenvelope_ids]
-      @array_try = []
-      @newenvelope_hash.each { |k,v| @array_try.push(k)}
-      Newenvelope.where(id: @array_try).destroy_all
-      respond_to do |format|
-        format.html { redirect_to newenvelopes_path, notice: 'New Envelope Request Deleted Successfully!' }
-        format.json { head :no_content }
+  def select_multiple
+    if params[:commit] == "Delete selected"
+      if params[:newenvelope_ids].blank?
+        redirect_to newenvelopes_path, notice: 'No envelopes selected'
+      else
+        @newenvelope_hash =  params[:newenvelope_ids]
+        @array_try = []
+        @newenvelope_hash.each { |k,v| @array_try.push(k)}
+        Newenvelope.where(id: @array_try).destroy_all
+        respond_to do |format|
+          format.html { redirect_to newenvelopes_path, notice: 'New Envelope Request Deleted Successfully!' }
+          format.json { head :no_content }
+        end
+      end
+
+    elsif params[:commit] == "Create selected"
+      if params[:file].present?
+        puts 'Sending out these envelopes tentatively'
+        if params[:newenvelope_ids].blank?
+          redirect_to newenvelopes_path, notice: 'No envelopes selected'
+        else
+          @newenvelope_hash =  params[:newenvelope_ids]
+          @array_try = []
+          @newenvelope_hash.each { |k,v| @array_try.push(k)}
+          puts @array_try
+          @newenvelopes = current_user.newenvelopes.where(id: @array_try)
+          Newenvelope.send_env(@newenvelopes,params[:file])
+          Newenvelope.where(id: @array_try).destroy_all
+          respond_to do |format|
+            format.html { redirect_to newenvelopes_path, notice: 'New Envelope Request Sent Out Successfully!' }
+            format.json { head :no_content }
+          end
+        end
+      else
+        redirect_to newenvelopes_path, notice: 'Please Upload a File'
       end
     end
   end
