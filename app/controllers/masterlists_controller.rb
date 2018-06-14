@@ -29,7 +29,7 @@ class MasterlistsController < ApplicationController
   def refresh
     head :ok
     Masterlist.refresh_masterlist
-    render :nothing => true
+    redirect_to root_path, notice: 'Request Created Successfully!'
   end
 
 
