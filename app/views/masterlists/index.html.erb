@@ -77,7 +77,11 @@
                 <% @masterlists.each do |f| %>
                   <tr>
                     <td class="check-box"><%= link_to 'Edit', edit_masterlist_path(f) %></td>
-                    <td class="check-box"><%= check_box_tag "masterlist_ids[#{ f.id }]", "masterlist_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "masterlist_ids[#{ f.id }]", "" %></td>
+                    <% if f.status == 'completed' %>
+                      <td class="check-box"><%= check_box_tag "masterlist_ids[#{ f.id }]", "masterlist_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "masterlist_ids[#{ f.id }]", "" %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                     <td><%= f.envelope_id %></th>
                     <td><%= f.created_time %></th>
                     <td><%= f.recipient_email %></th>

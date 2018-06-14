@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/greylable/docusign-ruby-client
-  revision: 120d87c95d3289f4080377ba558ce1794583ce72
+  revision: 0ed34d7c0d476f8c70b740074f31d159201dec2e
   specs:
     docusign_esign (1.0.0)
       json (~> 1.8, >= 1.8.3)
