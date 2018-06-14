@@ -1,7 +1,7 @@
 class MasterlistsController < ApplicationController
+  before_action :authenticate_user!, except: [:refresh]
   before_action :set_masterlist, only: [:edit, :update]
   before_action :set_masterlist_search, only: [:results]
-  before_action :authenticate_user!, except: [:refresh]
 
   def index
     @masterlists = Masterlist.page params[:page]

@@ -1,5 +1,6 @@
 class VoidenvelopesController < ApplicationController
   require 'csv'
+  before_action :authenticate_user!
   before_action :set_voidenvelope, only: [:destroy, :edit, :update, :show]
 
   def index

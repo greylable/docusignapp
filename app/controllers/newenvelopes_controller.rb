@@ -1,4 +1,5 @@
 class NewenvelopesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_newenvelope, only: [:destroy, :edit, :update]
 
   def index

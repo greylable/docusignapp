@@ -1,4 +1,5 @@
 class IpNewenvelopesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_ip_newenvelope, only: [:destroy, :edit, :update, :show]
 
   def index
