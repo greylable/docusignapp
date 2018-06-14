@@ -64,7 +64,7 @@ class Voidenvelope < ApplicationRecord
     ee = DocuSign_eSign::Envelope.new
     selected_envelopes.each do |env|
       ee.status = 'voided'
-      ee.voided_reason = 'Dear ' + env.name.to_s + ' ' + env.void_reason.to_s
+      ee.voided_reason = env.void_reason.to_s
       begin
         ea.update(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=env.envelope_id,envelope=ee)
         void_array = void_array + [env.id]
