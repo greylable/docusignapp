@@ -33,6 +33,8 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'mini_racer', platforms: :ruby
 # # Docusign API
 gem 'docusign_esign', :git => 'https://github.com/greylable/docusign-ruby-client'
+# Google API
+gem 'google-api-client', '~> 0.11'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

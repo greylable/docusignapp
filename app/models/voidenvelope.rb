@@ -20,7 +20,7 @@ class Voidenvelope < ApplicationRecord
     auth_server = 'account.docusign.com'
     # private_key_filename = '/Users/yetlinong/docusignapp/config/demo_private_key.txt'
     @private_key_filename = ENV["PRIVATE_KEY_LIVE"]
-    puts ENV["PRIVATE_KEY_LIVE"]
+    # puts ENV["PRIVATE_KEY_LIVE"]
     # private_key_filename = ENV["PRIVATE_KEY_DEMO"].to_s.gsub("\\n", "\n")
 
     # STEP 1: Initialize API Client

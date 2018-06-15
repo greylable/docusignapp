@@ -32,7 +32,7 @@ class Masterlist < ApplicationRecord
     expires_in_seconds = 3600 #1 hour
     auth_server = 'account.docusign.com'
     @private_key_filename = ENV["PRIVATE_KEY_LIVE"]
-    puts ENV["PRIVATE_KEY_LIVE"]
+    # puts ENV["PRIVATE_KEY_LIVE"]
 
     # STEP 1: Initialize API Client
     configuration = DocuSign_eSign::Configuration.new
