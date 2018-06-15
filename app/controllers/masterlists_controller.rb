@@ -104,22 +104,16 @@ class MasterlistsController < ApplicationController
   end
 
   def set_masterlist_search
-    puts params
     if params[:envelope_id].present?
-      puts 'in envelope'
-      @masterlist_search = Masterlist.where('envelope_id LIKE ?', "%#{params[:envelope_id]}%")
+      @masterlist_search = Masterlist.where('envelope_id LIKE ?', "#{params[:envelope_id]}")
     elsif params[:accesscode].present?
-      puts 'in accesscode'
-      @masterlist_search = Masterlist.where('accesscode LIKE ?', "%#{params[:accesscode]}%")
+      @masterlist_search = Masterlist.where('accesscode LIKE ?', "#{params[:accesscode]}")
     elsif params[:rental].present?
-      puts 'in rental'
-      @masterlist_search = Masterlist.where('rental LIKE ?', "%#{params[:rental]}%")
+      @masterlist_search = Masterlist.where('rental LIKE ?', "#{params[:rental]}")
     elsif params[:recipient_email].present?
-      puts 'in recipient_email'
-      @masterlist_search = Masterlist.where('recipient_email LIKE ?', "%#{params[:recipient_email]}%")
+      @masterlist_search = Masterlist.where('recipient_email LIKE ?', "#{params[:recipient_email]}")
     elsif params[:subject_title].present?
-      puts 'in subject_title'
-      @masterlist_search = Masterlist.where('subject_title LIKE ?', "%#{params[:subject_title]}%")
+      @masterlist_search = Masterlist.where('subject_title LIKE ?', "#{params[:subject_title]}")
     end
   end
 
