@@ -27,9 +27,12 @@ class MasterlistsController < ApplicationController
   end
 
   def refresh
-    head :ok
+    # head :ok
     Masterlist.refresh_masterlist
-    redirect_to root_path, notice: 'Request Created Successfully!'
+    respond_to do |format|
+      format.html { redirect_to root_url }
+      format.json { head :no_content }
+    end
   end
 
 
