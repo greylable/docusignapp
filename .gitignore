@@ -42,3 +42,6 @@
 # Docusign keys
 /config/demo_private_key.txt
 /.env
+
+# Google API keys
+/token.yaml
