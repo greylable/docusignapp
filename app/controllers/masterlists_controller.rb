@@ -28,8 +28,8 @@ class MasterlistsController < ApplicationController
 
   def refresh
     # head :ok
-    # Masterlist.refresh_masterlist
-    Masterlist.g_auth
+    Masterlist.refresh_masterlist
+    # Masterlist.g_connect
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }

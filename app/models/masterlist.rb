@@ -179,7 +179,7 @@ class Masterlist < ApplicationRecord
       # Updating Masterlist (Case 1, Case 2)
       masterlist_search = Masterlist.where('envelope_id LIKE ?', i.envelope_id)
       # if masterlist_search is nil, append everything
-      if masterlist_search.blank?
+      if masterlist_search.blank? #and masterlist_search.status != 'created'
 
         Masterlist.create(envelope_id: contain[0], created_time: contain[1], recipient_email: contain[2], status: contain[3], recipient_type: contain[4],
                           completed_time: contain[5], declined_time: contain[6], declined_reason: contain[7], subject_title: contain[8], auth_status: contain[9],
@@ -216,7 +216,7 @@ class Masterlist < ApplicationRecord
     end
   end
 
-  def self.g_auth
+  def self.g_connect
     require 'google/apis/sheets_v4'
     require 'googleauth'
     require 'googleauth/stores/file_token_store'
@@ -251,7 +251,7 @@ class Masterlist < ApplicationRecord
             user_id: user_id, code: code, base_url: @OOB_URI
         )
       end
-      puts credentials
+      # puts credentials
       credentials
     end
 
@@ -259,6 +259,9 @@ class Masterlist < ApplicationRecord
     service = Google::Apis::SheetsV4::SheetsService.new
     service.client_options.application_name = @APPLICATION_NAME
     service.authorization = self.authorize
+
+
+    puts Masterlist.where('status LIKE ?', 'completed')
 
     #### EXAMPLE CODE #####
     # # Prints the names and majors of students in a sample spreadsheet:
