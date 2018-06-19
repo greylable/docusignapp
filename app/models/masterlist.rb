@@ -2,6 +2,7 @@ class Masterlist < ApplicationRecord
   belongs_to :user, required: false
   require 'csv'
   require 'base64'
+
   # require 'tzinfo'
 
   def self.import(file, user)
@@ -216,6 +217,41 @@ class Masterlist < ApplicationRecord
     end
   end
 
+  def self.dedupe(array_2d,col)
+    contain = []
+    seen = []
+    array_2d.each do |i|
+      if (seen.index i[col])
+        next
+      else
+        contain = contain + [i]
+        seen = seen + Array(i[col])
+      end
+    end
+    return contain
+  end
+
+  def self.update_env_masterlist
+    # Update Envelopes_Masterlist
+    env_masterlist = Masterlist.where.not('status IN (?)', ['created','template'])
+    env_masterlist_2 = env_masterlist.order(:created_time)
+    env_masterlist_3 = env_masterlist_2.pluck(:envelope_id,	:created_time,	:recipient_email,	:status,	:recipient_type,	:completed_time,	:declined_time,
+                                :declined_reason,	:subject_title,	:auth_status,	:auth_timestamp,	:delivered_date_time,	:note,	:accesscode,	:recipient_status,	:rental)
+    return self.dedupe(env_masterlist_3,0)
+  end
+
+  def self.update_unique_ml(array_env_masterlist)
+    raw_data = array_env_masterlist.select{|u| u[15].present? and u[15].downcase.exclude? 'test'}
+    # Completed Env: Take latest completed_time and dedupe
+    completed_env = raw_data.select{|u| u[3] == 'completed'}
+    completed_env_sort = completed_env.sort{|a,b| b[5] <=> a[5]}
+    completed_env_final = self.dedupe(completed_env_sort,15)
+    completed_env_final_list = completed_env_final.select{|u[15]|}
+    # Declined Env:
+    declined_env = raw_data.select{|u| u[3] == 'declined'}
+
+  end
+
   def self.g_connect
     require 'google/apis/sheets_v4'
     require 'googleauth'
@@ -225,9 +261,7 @@ class Masterlist < ApplicationRecord
     @OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
     @APPLICATION_NAME = 'Google Sheets API Ruby Quickstart'.freeze
     @CLIENT_SECRETS_PATH = ActiveSupport::JSON.decode(ENV["CLIENT_SECRET"]).freeze
-    # puts ActiveSupport::JSON.decode(@CLIENT_SECRETS_PATH)
     @CREDENTIALS_PATH = 'token.yaml'.freeze
-    # @CREDENTIALS_PATH = ActiveSupport::JSON.decode(ENV["CREDENTIALS_PATH"]).freeze
     @SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS
 
     ##
@@ -251,7 +285,6 @@ class Masterlist < ApplicationRecord
             user_id: user_id, code: code, base_url: @OOB_URI
         )
       end
-      # puts credentials
       credentials
     end
 
@@ -260,24 +293,30 @@ class Masterlist < ApplicationRecord
     service.client_options.application_name = @APPLICATION_NAME
     service.authorization = self.authorize
 
+    spreadsheet_id = ENV["SPREADSHEET_ID"]
 
-    puts Masterlist.where('status LIKE ?', 'completed')
+    request_body_del = Google::Apis::SheetsV4::BatchClearValuesRequest.new
+    request_body_del.ranges = ['App Masterlist!A2:P','App Unique!A2:P']
+    service.batch_clear_values(spreadsheet_id, request_body_del)
 
-    #### EXAMPLE CODE #####
-    # # Prints the names and majors of students in a sample spreadsheet:
-    # # https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-    # spreadsheet_id = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'
-    # range = 'Class Data!A2:E'
-    # response = service.get_spreadsheet_values(spreadsheet_id, range)
-    # puts 'Name, Major:'
-    # puts 'No data found.' if response.values.empty?
-    # response.each_values do |row|
-    #   # Print columns A and E, which correspond to indices 0 and 4.
-    #   puts "#{row[0]}, #{row[4]}"
-    # end
+    envelopes_masterlist = self.update_env_masterlist
+    value_range_object_1 = {
+        major_dimension: "ROWS",
+        range: 'App Masterlist!A2:P',
+        values: envelopes_masterlist
+    }
+    value_range_object_2 = {
+        major_dimension: "ROWS",
+        range: 'App Unique!A2:P',
+        values: self.update_unique_ml(envelopes_masterlist)
+    }
+
+    data = [value_range_object_1,value_range_object_2]
+
+    request_body = Google::Apis::SheetsV4::BatchUpdateValuesRequest.new
+    request_body.value_input_option = "user_entered"
+    request_body.data = data
+
+    # service.batch_update_values(spreadsheet_id, request_body)
   end
 end
-
-
-
-

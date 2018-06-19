@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_13_144534) do
+ActiveRecord::Schema.define(version: 2018_06_19_074613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,17 +37,17 @@ ActiveRecord::Schema.define(version: 2018_06_13_144534) do
 
   create_table "masterlists", force: :cascade do |t|
     t.string "envelope_id"
-    t.datetime "created_time"
+    t.string "created_time"
     t.string "recipient_email"
     t.string "status"
     t.string "recipient_type"
-    t.datetime "completed_time"
-    t.datetime "declined_time"
+    t.string "completed_time"
+    t.string "declined_time"
     t.string "declined_reason"
     t.string "subject_title"
     t.string "auth_status"
-    t.datetime "auth_timestamp"
-    t.datetime "delivered_date_time"
+    t.string "auth_timestamp"
+    t.string "delivered_date_time"
     t.string "note"
     t.string "accesscode"
     t.string "recipient_status"
