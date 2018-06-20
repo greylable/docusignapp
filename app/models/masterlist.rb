@@ -219,6 +219,41 @@ class Masterlist < ApplicationRecord
     end
   end
 
+  def self.g_authorize
+
+    require 'google/apis/sheets_v4'
+    require 'googleauth'
+    require 'googleauth/stores/file_token_store'
+    require 'fileutils'
+
+    # Ensure valid credentials, either by restoring from the saved credentials
+    # files or intitiating an OAuth2 authorization. If authorization is required,
+    # the user's default browser will be launched to approve the request.
+    #
+    # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
+
+    @OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
+    @CLIENT_SECRETS_PATH = ActiveSupport::JSON.decode(ENV["CLIENT_SECRET"]).freeze
+    @CREDENTIALS_PATH = 'token.yaml'.freeze
+    @SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS
+
+    client_id = Google::Auth::ClientId.from_hash(@CLIENT_SECRETS_PATH)
+    token_store = Google::Auth::Stores::FileTokenStore.new(file: @CREDENTIALS_PATH)
+    authorizer = Google::Auth::UserAuthorizer.new(client_id, @SCOPE, token_store)
+    user_id = 'default'
+    credentials = authorizer.get_credentials(user_id)
+    if credentials.nil?
+      url = authorizer.get_authorization_url(base_url: @OOB_URI)
+      puts 'Open the following URL in the browser and enter the ' \
+         'resulting code after authorization:\n' + url
+      code = ENV["GSHEETS_CODE"]
+      credentials = authorizer.get_and_store_credentials_from_code(
+          user_id: user_id, code: code, base_url: @OOB_URI
+      )
+    end
+    credentials
+  end
+
   def self.dedupe(array_2d,col)
     contain = []
     seen = []
@@ -247,8 +282,8 @@ class Masterlist < ApplicationRecord
     # Completed Env: Take latest completed_time and dedupe
     completed_env = raw_data.select{|u| u[3] == 'completed'}
     completed_env_sort = completed_env.sort{|a,b| b[5] <=> a[5]}
-    completed_env_final = self.dedupe(completed_env_sort,15)
-    completed_env_final_list = completed_env_final.map {|row| row[15]} ## TAKE THIS ##
+    completed_env_final = self.dedupe(completed_env_sort,15) ## TAKE THIS ##
+    completed_env_final_list = completed_env_final.map {|row| row[15]}
 
     # Declined Env:
     declined_env = raw_data.select{|u| u[3] == 'declined'}
@@ -256,7 +291,7 @@ class Masterlist < ApplicationRecord
     declined_env_1 = declined_env.select{|u| completed_env_final_list.exclude?(u[15])}
     declined_env_sort = declined_env_1.sort{|a,b| b[6] <=> a[6]}
     declined_env_final = self.dedupe(declined_env_sort,15) ## TAKE THIS ##
-    declined_env_final_list = declined_env_final.map {|row| row[15]} ## TAKE THIS ##
+    declined_env_final_list = declined_env_final.map {|row| row[15]}
 
     # Completed + Decline =
     combine_list = completed_env_final_list + declined_env_final_list
@@ -273,58 +308,141 @@ class Masterlist < ApplicationRecord
     return final_data
   end
 
-  def self.update_com_ip
-
-  end
-
-  def self.g_connect
+  def self.g_get_data(range)
     require 'google/apis/sheets_v4'
     require 'googleauth'
     require 'googleauth/stores/file_token_store'
     require 'fileutils'
 
-    @OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
     @APPLICATION_NAME = 'Google Sheets API Ruby Quickstart'.freeze
-    @CLIENT_SECRETS_PATH = ActiveSupport::JSON.decode(ENV["CLIENT_SECRET"]).freeze
-    @CREDENTIALS_PATH = 'token.yaml'.freeze
-    @SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS
-
-    ##
-    # Ensure valid credentials, either by restoring from the saved credentials
-    # files or intitiating an OAuth2 authorization. If authorization is required,
-    # the user's default browser will be launched to approve the request.
-    #
-    # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
-    def self.authorize
-      client_id = Google::Auth::ClientId.from_hash(@CLIENT_SECRETS_PATH)
-      token_store = Google::Auth::Stores::FileTokenStore.new(file: @CREDENTIALS_PATH)
-      authorizer = Google::Auth::UserAuthorizer.new(client_id, @SCOPE, token_store)
-      user_id = 'default'
-      credentials = authorizer.get_credentials(user_id)
-      if credentials.nil?
-        url = authorizer.get_authorization_url(base_url: @OOB_URI)
-        puts 'Open the following URL in the browser and enter the ' \
-         'resulting code after authorization:\n' + url
-        code = ENV["GSHEETS_CODE"]
-        credentials = authorizer.get_and_store_credentials_from_code(
-            user_id: user_id, code: code, base_url: @OOB_URI
-        )
-      end
-      credentials
-    end
 
     # Initialize the API
     service = Google::Apis::SheetsV4::SheetsService.new
     service.client_options.application_name = @APPLICATION_NAME
-    service.authorization = self.authorize
+    service.authorization = self.g_authorize
+
+    spreadsheet_id = ENV["SPREADSHEET_ID"]
+    response = service.get_spreadsheet_values(spreadsheet_id, range)
+    return response.values.flatten
+  end
+
+  def self.envelope_inperson_details(envelope_uuid)
+    envelope_instance = DocuSign_eSign::EnvelopesApi.new(@api_client)
+    envelope_data = envelope_instance.get_form_data(ENV["ACCOUNT_ID_LIVE"],envelope_uuid)
+    form_data = envelope_data.form_data # Can have more than 1 NameValue pair
+    e_id = envelope_data.envelope_id
+    empty_dict = {}
+    form_data.each do |j|
+      empty_dict[j.name] = j.value
+    end
+    empty_dict['Bank_Account_No'] = "'"+empty_dict['Bank_Account_No']
+    header_list = ['Rental','IP_Email','IP_Name','NRIC','Mailing_Address','Driver_Phone_No','Birthday','Pickup_Date','Vehicle_Make','Vehicle_Model','Vehicle_Colour',
+                   'Licence_Plate','Master_Rate','Weekly_Rate','Min_Rental_Period','Deposit','Payee_Name','Name_of_Bank','Bank_Address','Bank_Account_No','Bank_Code',
+                   'Branch_Code','Swift_Code','Hirer_PDPA','Driver_Licence_No','Expiration_Date','Driver_Licence_Class','Emergency_Name','Emergency_NRIC',
+                   'Emergency_Mailing_Address','Emergency_Email','Emergency_Phone_No','Emergency_Birthday','Grab_Checkbox']
+    contain_value = []
+    header_list.each do |h|
+      begin
+        col_1 = empty_dict[h]
+      rescue
+        col_1 = ''
+      end
+      contain_value = contain_value + [col_1]
+    end
+    contain_value_all = [e_id]+ contain_value
+    return contain_value_all
+  end
+
+  def self.update_com_ip(array_env_masterlist)
+    # Get Completed Env from Gsheets Completed IP
+    com_env_ip_list = self.g_get_data('App Completed IP!A2:A')
+    com_env_ip_list_next_row = com_env_ip_list.length+2
+    # Get current_completed_ip
+    raw_data = array_env_masterlist.select{|u| u[15].present? and u[15].downcase.exclude? 'test'}
+    completed_env = raw_data.select{|u| u[3] == 'completed' and u[4] == 'In Person'}
+    current_com_env_ip_list = completed_env.map {|row| row[0]}
+    # In Current but not in Gsheets
+    diff_list = current_com_env_ip_list-com_env_ip_list
+
+    # Iterate through diff_list to get Envelope Details from Docusign
+    self.docu_auth
+    contain_all = []
+    diff_list.each do |f|
+      contain_all = contain_all + [self.envelope_inperson_details(f)]
+    end
+    return [com_env_ip_list_next_row,contain_all.length,contain_all]
+  end
+
+  def self.envelope_signer_details(envelope_uuid)
+    envelope_instance = DocuSign_eSign::EnvelopesApi.new(@api_client)
+    envelope_data = envelope_instance.get_form_data(ENV["ACCOUNT_ID_LIVE"],envelope_uuid)
+    form_data = envelope_data.form_data # Can have more than 1 NameValue pair
+    e_id = envelope_data.envelope_id
+    empty_dict = {}
+    form_data.each do |j|
+      empty_dict[j.name] = j.value
+    end
+    empty_dict['Bank_Account_No'] = "'"+empty_dict['Bank_Account_No']
+    header_list = ["Rental","Email","NRIC","Payee_Name","Name_of_Bank","Bank_Address","Bank_Account_No",
+                   "Bank_Code","Branch_Code","Swift_Code","Hirer_PDPA","Mailing_Address","Driver_Licence_No",
+                   "Expiration_Date","Driver_Licence_Class","Emergency_Name","Emergency_NRIC",
+                   "Emergency_Mailing_Address","Emergency_Email","Emergency_Phone_No","Emergency_Birthday",
+                   "Grab_Checkbox"]
+    contain_value = []
+    header_list.each do |h|
+      begin
+        col_1 = empty_dict[h]
+      rescue
+        col_1 = ''
+      end
+      contain_value = contain_value + [col_1]
+    end
+    contain_value_all = [e_id]+ contain_value
+    return contain_value_all
+  end
+
+  def self.update_com_signer(array_env_masterlist)
+    # Get Completed Env from Gsheets Completed Bulk
+    com_env_signer_list = self.g_get_data('App Completed Bulk!A2:A')
+    com_env_signer_list_next_row = com_env_signer_list.length+2
+    # Get current_completed_signer
+    raw_data = array_env_masterlist.select{|u| u[15].present? and u[15].downcase.exclude? 'test'}
+    completed_env = raw_data.select{|u| u[3] == 'completed' and u[4] == 'Signer'}
+    current_com_env_signer_list = completed_env.map {|row| row[0]}
+    # In Current but not in Gsheets
+    diff_list = current_com_env_signer_list-com_env_signer_list
+
+    # Iterate through diff_list to get Envelope Details from Docusign
+    self.docu_auth
+    contain_all = []
+    diff_list.each do |f|
+      contain_all = contain_all + [self.envelope_signer_details(f)]
+    end
+    return [com_env_signer_list_next_row,contain_all.length,contain_all]
+  end
+
+  def self.g_update
+    require 'google/apis/sheets_v4'
+    require 'googleauth'
+    require 'googleauth/stores/file_token_store'
+    require 'fileutils'
+
+    @APPLICATION_NAME = 'Google Sheets API Ruby Quickstart'.freeze
+
+    # Initialize the API
+    service = Google::Apis::SheetsV4::SheetsService.new
+    service.client_options.application_name = @APPLICATION_NAME
+    service.authorization = self.g_authorize
 
     spreadsheet_id = ENV["SPREADSHEET_ID"]
 
     request_body_del = Google::Apis::SheetsV4::BatchClearValuesRequest.new
     request_body_del.ranges = ['App Masterlist!A2:P','App Unique!A2:P']
     service.batch_clear_values(spreadsheet_id, request_body_del)
-
     envelopes_masterlist = self.update_env_masterlist
+    com_ip = self.update_com_ip(envelopes_masterlist)
+    com_signer = self.update_com_signer(envelopes_masterlist)
+
 
     value_range_object_1 = {
         major_dimension: "ROWS",
@@ -337,14 +455,47 @@ class Masterlist < ApplicationRecord
         values: self.update_unique_ml(envelopes_masterlist)
     }
 
-    value_range_object_3 = {
-        major_dimension: "ROWS",
-        range: 'App Unique!A2:P',
-        values: self.update_unique_ml(envelopes_masterlist)
-    }
-
-
     data = [value_range_object_1,value_range_object_2]
+
+    if com_ip[1] != 0
+      batch_update_spreadsheet_request_1 = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new
+      batch_update_spreadsheet_request.requests = [
+        {append_dimension: {
+            sheet_id: 55121372,
+            dimension: 'ROWS',
+            length: com_ip[1]
+          }
+        }
+      ]
+      service.batch_update_spreadsheet(spreadsheet_id, batch_update_spreadsheet_request_1)
+
+      value_range_object_3 = {
+          major_dimension: "ROWS",
+          range: 'App Completed IP!A'+com_ip[0].to_s+':AI',
+          values: com_ip[2]
+      }
+      data = data + [value_range_object_3]
+    end
+
+    if com_signer[1] != 0
+      batch_update_spreadsheet_request_2 = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new
+      batch_update_spreadsheet_request_2.requests = [
+        {append_dimension: {
+            sheet_id: 1103928321,
+            dimension: 'ROWS',
+            length: com_signer[1]
+          }
+        }
+      ]
+      service.batch_update_spreadsheet(spreadsheet_id, batch_update_spreadsheet_request_2)
+
+      value_range_object_4 = {
+          major_dimension: "ROWS",
+          range: 'App Completed Bulk!A'+com_signer[0].to_s+':W',
+          values: com_signer[2]
+      }
+      data = data + [value_range_object_4]
+    end
 
     request_body = Google::Apis::SheetsV4::BatchUpdateValuesRequest.new
     request_body.value_input_option = "user_entered"
