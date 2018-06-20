@@ -273,6 +273,10 @@ class Masterlist < ApplicationRecord
     return final_data
   end
 
+  def self.update_com_ip
+
+  end
+
   def self.g_connect
     require 'google/apis/sheets_v4'
     require 'googleauth'
@@ -328,6 +332,12 @@ class Masterlist < ApplicationRecord
         values: envelopes_masterlist
     }
     value_range_object_2 = {
+        major_dimension: "ROWS",
+        range: 'App Unique!A2:P',
+        values: self.update_unique_ml(envelopes_masterlist)
+    }
+
+    value_range_object_3 = {
         major_dimension: "ROWS",
         range: 'App Unique!A2:P',
         values: self.update_unique_ml(envelopes_masterlist)

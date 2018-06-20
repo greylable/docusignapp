@@ -5,6 +5,7 @@ class MasterlistsController < ApplicationController
 
   def index
     @masterlists = Masterlist.page params[:page]
+    @last_updated_at = Masterlist.maximum("updated_at")
   end
 
   def import
