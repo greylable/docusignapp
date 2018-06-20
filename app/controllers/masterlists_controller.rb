@@ -16,7 +16,6 @@ class MasterlistsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv {send_data Masterlist.to_csv}
-      # redirect_to masterlists_path, notice: 'Activity Data Exported!'
     end
   end
 
@@ -29,9 +28,7 @@ class MasterlistsController < ApplicationController
   def refresh
     # head :ok
     # Masterlist.refresh_masterlist
-
     Masterlist.g_connect
-    # Masterlist.update_env_masterlist
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }
@@ -73,7 +70,6 @@ class MasterlistsController < ApplicationController
         @array_try = []
         @masterlist_hash.each {|k, v| @array_try.push(k)}
         @masterlists = Masterlist.where(id: @array_try)
-
         download_zip(@masterlists)
       end
     end

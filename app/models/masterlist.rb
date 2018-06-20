@@ -2,6 +2,8 @@ class Masterlist < ApplicationRecord
   belongs_to :user, required: false
   require 'csv'
   require 'base64'
+  require 'matrix'
+
 
   # require 'tzinfo'
 
@@ -246,10 +248,29 @@ class Masterlist < ApplicationRecord
     completed_env = raw_data.select{|u| u[3] == 'completed'}
     completed_env_sort = completed_env.sort{|a,b| b[5] <=> a[5]}
     completed_env_final = self.dedupe(completed_env_sort,15)
-    completed_env_final_list = completed_env_final.select{|u[15]|}
+    completed_env_final_list = completed_env_final.map {|row| row[15]} ## TAKE THIS ##
+
     # Declined Env:
     declined_env = raw_data.select{|u| u[3] == 'declined'}
+    # Declined not in completed
+    declined_env_1 = declined_env.select{|u| completed_env_final_list.exclude?(u[15])}
+    declined_env_sort = declined_env_1.sort{|a,b| b[6] <=> a[6]}
+    declined_env_final = self.dedupe(declined_env_sort,15) ## TAKE THIS ##
+    declined_env_final_list = declined_env_final.map {|row| row[15]} ## TAKE THIS ##
 
+    # Completed + Decline =
+    combine_list = completed_env_final_list + declined_env_final_list
+
+    # Rest of Env:
+    # Not in combine_list, not completed nor declined
+    others_env = raw_data.select{|u| u[3] != 'completed' or u[3] != 'declined'}
+    others_env_1 = others_env.select{|u| combine_list.exclude?(u[15])}
+    others_env_sort = others_env_1.sort{|a,b| b[1] <=> a[1]}
+    others_env_final = self.dedupe(others_env_sort,15) ## TAKE THIS ##
+
+    # Final Data = Completed + Declined + Rest Env
+    final_data = completed_env_final + declined_env_final + others_env_final
+    return final_data
   end
 
   def self.g_connect
@@ -300,6 +321,7 @@ class Masterlist < ApplicationRecord
     service.batch_clear_values(spreadsheet_id, request_body_del)
 
     envelopes_masterlist = self.update_env_masterlist
+
     value_range_object_1 = {
         major_dimension: "ROWS",
         range: 'App Masterlist!A2:P',
@@ -311,12 +333,13 @@ class Masterlist < ApplicationRecord
         values: self.update_unique_ml(envelopes_masterlist)
     }
 
+
     data = [value_range_object_1,value_range_object_2]
 
     request_body = Google::Apis::SheetsV4::BatchUpdateValuesRequest.new
     request_body.value_input_option = "user_entered"
     request_body.data = data
 
-    # service.batch_update_values(spreadsheet_id, request_body)
+    service.batch_update_values(spreadsheet_id, request_body)
   end
 end
