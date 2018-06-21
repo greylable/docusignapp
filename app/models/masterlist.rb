@@ -234,7 +234,7 @@ class Masterlist < ApplicationRecord
 
     @OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
     @CLIENT_SECRETS_PATH = ActiveSupport::JSON.decode(ENV["CLIENT_SECRET"]).freeze
-    @CREDENTIALS_PATH = 'token.yaml'.freeze
+    @CREDENTIALS_PATH = ENV["TOKEN_YAML_FILE"].freeze
     @SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS
 
     client_id = Google::Auth::ClientId.from_hash(@CLIENT_SECRETS_PATH)
