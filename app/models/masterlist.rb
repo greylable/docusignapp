@@ -460,7 +460,7 @@ class Masterlist < ApplicationRecord
 
     if com_ip[1] != 0
       batch_update_spreadsheet_request_1 = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new
-      batch_update_spreadsheet_request.requests = [
+      batch_update_spreadsheet_request_1.requests = [
         {append_dimension: {
             sheet_id: ENV["COM_IP_SHEET_ID"],
             dimension: 'ROWS',
