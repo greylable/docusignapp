@@ -355,7 +355,7 @@ class Masterlist < ApplicationRecord
 
   def self.update_com_ip(array_env_masterlist)
     # Get Completed Env from Gsheets Completed IP
-    com_env_ip_list = self.g_get_data('App Completed IP!A2:A')
+    com_env_ip_list = self.g_get_data('App Com IP!A2:A')
     com_env_ip_list_next_row = com_env_ip_list.length+2
     # Get current_completed_ip
     raw_data = array_env_masterlist.select{|u| u[15].present? and u[15].downcase.exclude? 'test'}
@@ -403,7 +403,7 @@ class Masterlist < ApplicationRecord
 
   def self.update_com_signer(array_env_masterlist)
     # Get Completed Env from Gsheets Completed Bulk
-    com_env_signer_list = self.g_get_data('App Completed Bulk!A2:A')
+    com_env_signer_list = self.g_get_data('App Com Bulk!A2:A')
     com_env_signer_list_next_row = com_env_signer_list.length+2
     # Get current_completed_signer
     raw_data = array_env_masterlist.select{|u| u[15].present? and u[15].downcase.exclude? 'test'}
