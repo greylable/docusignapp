@@ -442,6 +442,7 @@ class Masterlist < ApplicationRecord
     envelopes_masterlist = self.update_env_masterlist
     com_ip = self.update_com_ip(envelopes_masterlist)
     com_signer = self.update_com_signer(envelopes_masterlist)
+    unique_ml = self.update_unique_ml(envelopes_masterlist)
 
 
     value_range_object_1 = {
@@ -452,7 +453,7 @@ class Masterlist < ApplicationRecord
     value_range_object_2 = {
         major_dimension: "ROWS",
         range: 'App Unique!A2:P',
-        values: self.update_unique_ml(envelopes_masterlist)
+        values: unique_ml
     }
 
     data = [value_range_object_1,value_range_object_2]
@@ -461,7 +462,7 @@ class Masterlist < ApplicationRecord
       batch_update_spreadsheet_request_1 = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new
       batch_update_spreadsheet_request.requests = [
         {append_dimension: {
-            sheet_id: 55121372,
+            sheet_id: ENV["COM_IP_SHEET_ID"],
             dimension: 'ROWS',
             length: com_ip[1]
           }
@@ -471,7 +472,7 @@ class Masterlist < ApplicationRecord
 
       value_range_object_3 = {
           major_dimension: "ROWS",
-          range: 'App Completed IP!A'+com_ip[0].to_s+':AI',
+          range: 'App Com IP!A'+com_ip[0].to_s+':AI',
           values: com_ip[2]
       }
       data = data + [value_range_object_3]
@@ -481,7 +482,7 @@ class Masterlist < ApplicationRecord
       batch_update_spreadsheet_request_2 = Google::Apis::SheetsV4::BatchUpdateSpreadsheetRequest.new
       batch_update_spreadsheet_request_2.requests = [
         {append_dimension: {
-            sheet_id: 1103928321,
+            sheet_id: ENV["COM_SIGNER_SHEET_ID"],
             dimension: 'ROWS',
             length: com_signer[1]
           }
@@ -491,7 +492,7 @@ class Masterlist < ApplicationRecord
 
       value_range_object_4 = {
           major_dimension: "ROWS",
-          range: 'App Completed Bulk!A'+com_signer[0].to_s+':W',
+          range: 'App Com Bulk!A'+com_signer[0].to_s+':W',
           values: com_signer[2]
       }
       data = data + [value_range_object_4]
