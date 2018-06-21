@@ -28,7 +28,7 @@ class MasterlistsController < ApplicationController
 
   def refresh
     # head :ok
-    Masterlist.refresh_masterlist
+    # Masterlist.refresh_masterlist
     Masterlist.g_update
     respond_to do |format|
       format.html { redirect_to root_url }
