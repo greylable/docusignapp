@@ -4,8 +4,12 @@ class MasterlistsController < ApplicationController
   before_action :set_masterlist_search, only: [:results]
 
   def index
-    @masterlists = Masterlist.page params[:page]
-    @last_updated_at = Masterlist.maximum("updated_at")
+    @masterlists = Masterlist.order(:created_time).page params[:page]
+    begin
+      @last_updated_at = Time.zone.parse(Masterlist.maximum("updated_at")).getlocal.strftime("%Y-%m-%d %H:%M:%S")
+    rescue
+      @last_updated_at = ''
+    end
   end
 
   def import
@@ -29,7 +33,7 @@ class MasterlistsController < ApplicationController
   def refresh
     # head :ok
     Masterlist.refresh_masterlist
-    # Masterlist.g_update
+    Masterlist.g_update
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }

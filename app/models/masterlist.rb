@@ -88,14 +88,14 @@ class Masterlist < ApplicationRecord
   end
 
   def self.convert_time(utc_time)
-    puts utc_time
+    # puts utc_time
     if utc_time.blank?
       return utc_time
     else
       time_3 = Time.zone.parse(utc_time).getlocal
       # time_4 = time_3.change(:offset => "+8000")
       # puts time_3
-      return time_3
+      return time_3.strftime("%Y-%m-%d %H:%M:%S")
     end
   end
 
@@ -182,7 +182,7 @@ class Masterlist < ApplicationRecord
       # Updating Masterlist (Case 1, Case 2)
       masterlist_search = Masterlist.where('envelope_id LIKE ?', i.envelope_id)
       # if masterlist_search is nil, append everything
-      if masterlist_search.blank? #and masterlist_search.status != 'created'
+      if masterlist_search.blank? and (contain[3] != 'created' or contain[3] != 'template')
 
         Masterlist.create(envelope_id: contain[0], created_time: contain[1], recipient_email: contain[2], status: contain[3], recipient_type: contain[4],
                           completed_time: contain[5], declined_time: contain[6], declined_reason: contain[7], subject_title: contain[8], auth_status: contain[9],
@@ -192,7 +192,7 @@ class Masterlist < ApplicationRecord
         masterlist_search.each do |f|
           row_status = f.status
           if row_status != ('completed' or 'voided' or 'declined')
-            puts row_status
+            # puts row_status
             masterlist_search.update(envelope_id: contain[0], created_time: contain[1], recipient_email: contain[2], status: contain[3], recipient_type: contain[4],
                                      completed_time: contain[5], declined_time: contain[6], declined_reason: contain[7], subject_title: contain[8], auth_status: contain[9],
                                      auth_timestamp: contain[10], delivered_date_time: contain[11], note: contain[12], accesscode: contain[13], recipient_status: contain[14])
@@ -335,7 +335,9 @@ class Masterlist < ApplicationRecord
     form_data.each do |j|
       empty_dict[j.name] = j.value
     end
-    empty_dict['Bank_Account_No'] = "'"+empty_dict['Bank_Account_No']
+    if empty_dict['Bank_Account_No'].present?
+      empty_dict['Bank_Account_No'] = "'"+empty_dict['Bank_Account_No']
+    end
     header_list = ['Rental','IP_Email','IP_Name','NRIC','Mailing_Address','Driver_Phone_No','Birthday','Pickup_Date','Vehicle_Make','Vehicle_Model','Vehicle_Colour',
                    'Licence_Plate','Master_Rate','Weekly_Rate','Min_Rental_Period','Deposit','Payee_Name','Name_of_Bank','Bank_Address','Bank_Account_No','Bank_Code',
                    'Branch_Code','Swift_Code','Hirer_PDPA','Driver_Licence_No','Expiration_Date','Driver_Licence_Class','Emergency_Name','Emergency_NRIC',
@@ -382,7 +384,9 @@ class Masterlist < ApplicationRecord
     form_data.each do |j|
       empty_dict[j.name] = j.value
     end
-    empty_dict['Bank_Account_No'] = "'"+empty_dict['Bank_Account_No']
+    if empty_dict['Bank_Account_No'].present?
+      empty_dict['Bank_Account_No'] = "'"+empty_dict['Bank_Account_No']
+    end
     header_list = ["Rental","Email","NRIC","Payee_Name","Name_of_Bank","Bank_Address","Bank_Account_No",
                    "Bank_Code","Branch_Code","Swift_Code","Hirer_PDPA","Mailing_Address","Driver_Licence_No",
                    "Expiration_Date","Driver_Licence_Class","Emergency_Name","Emergency_NRIC",
