@@ -92,7 +92,7 @@ class Masterlist < ApplicationRecord
     if utc_time.blank?
       return utc_time
     else
-      time_3 = Time.zone.parse(utc_time).getlocal
+      time_3 = Time.zone.parse(utc_time) + 8*60*60 #.getlocal
       # time_4 = time_3.change(:offset => "+8000")
       # puts time_3
       return time_3.strftime("%Y-%m-%d %H:%M:%S")

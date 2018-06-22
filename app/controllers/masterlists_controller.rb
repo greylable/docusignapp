@@ -6,7 +6,7 @@ class MasterlistsController < ApplicationController
   def index
     @masterlists = Masterlist.order(:created_time).page params[:page]
     begin
-      @last_updated_at = Time.zone.parse(Masterlist.maximum("updated_at")).getlocal.strftime("%Y-%m-%d %H:%M:%S")
+      @last_updated_at = (Masterlist.maximum("updated_at")+ 8*60*60).strftime("%Y-%m-%d %H:%M:%S")
     rescue
       @last_updated_at = ''
     end
