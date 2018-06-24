@@ -1,0 +1,49 @@
+<div class="content-wrapper">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-6">
+        <i class="fa fa-table"></i> Manage Users
+      </div>
+      <div class="col-5">
+          <span class="pull-right">
+            <div class="fixed-action-btn">
+              <%= link_to(new_user_path, class: 'nav-link') do %>
+                <i class="fa fa-fw fa-plus"></i>
+              <% end %>
+            </div>
+          </span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+        <div class="row top-buffer">
+          <div class="col-sm-12">
+            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+                   aria-describedby="dataTable_info" style="width: 100%;">
+              <thead>
+              <tr>
+                <th class="check-box"></th>
+                <th class="check-box"></th>
+                <th>username</th>
+                <th>admin_user</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @users.each do |f| %>
+                <tr>
+                  <td class="check-box"><%= link_to 'Edit', edit_user_path(f) %></td>
+                  <td class="check-box"><%= link_to 'Delete', f, method: :delete %></td>
+                  <td><%= f.email %></th>
+                  <td><%= f.admin_user %></th>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

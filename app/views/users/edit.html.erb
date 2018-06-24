@@ -1,0 +1,36 @@
+<div class="content-wrapper">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-6">
+        <i class="fa fa-table"></i> Edit User Role
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="form-group">
+
+      <%= simple_form_for @user do |f| %>
+        <div class="col">
+          <%= f.input :admin_user, label_html: {class: 'col-2'}, input_html: {class: 'col-10'} %>
+        </div>
+
+        <div class="row top-buffer">
+          <div class="col-1">
+            <%= button_tag(type: "submit", class: 'btn btn-default') do %>
+              Submit
+            <% end %>
+          </div>
+          <div class="col-11">
+                <span class="pull-right">
+                <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+                  <% link_to 'Back', users_path, class: 'link-to-text-color' %>
+                <% end %>
+                </span>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

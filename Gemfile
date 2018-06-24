@@ -35,6 +35,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'docusign_esign', :git => 'https://github.com/greylable/docusign-ruby-client'
 # Google API
 gem 'google-api-client', '~> 0.11'
+# Cancan
+gem 'cancancan', '~> 2.0'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

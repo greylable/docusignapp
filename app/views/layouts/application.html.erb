@@ -56,6 +56,12 @@
           <% end %>
         </li>
 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Admin">
+          <%= link_to(users_path, class: 'nav-link') do %>
+            <i class="fa fa-fw fa-minus-circle"></i>Admin
+          <% end %>
+        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Logout">
           <%= link_to(destroy_user_session_path, method: :delete, class: 'nav-link') do %>
             <i class="fa fa-fw fa-user"></i>Logout
