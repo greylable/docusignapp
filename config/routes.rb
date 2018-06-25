@@ -54,6 +54,7 @@ Rails.application.routes.draw do
 
   resources :live_statuses do
     collection do
+      post :select_multiple
       get :search
       get :results
     end

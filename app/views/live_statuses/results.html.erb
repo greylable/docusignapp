@@ -1,4 +1,4 @@
-<%= form_tag(select_multiple_masterlists_path, method: :post) do %>
+<%= form_tag(select_multiple_live_statuses_path, method: :post) do %>
   <div class="content-wrapper">
     <div class="card-header">
       <div class="row">
@@ -9,7 +9,7 @@
           <span class="pull-right">
             <div class="fixed-action-btn">
               <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
-                <%= link_to(search_masterlists_path, class: 'link-to-text-color') do %>
+                <%= link_to(search_live_statuses_path, class: 'link-to-text-color') do %>
                   <i class="fa fa-fw fa-search"></i>Search
                 <% end %>
               <% end %>
@@ -27,54 +27,61 @@
                      aria-describedby="dataTable_info" style="width: 100%;">
                 <thead>
                 <tr>
-                  <th class="check-box"></th>
                   <th class="check-box">
                     <input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
-                  <th>envelope_id</th>
-                  <th>created_time</th>
-                  <th>recipient_email</th>
                   <th>status</th>
                   <th>recipient_type</th>
-                  <th>completed_time</th>
-                  <th>declined_time</th>
-                  <th>declined_reason</th>
-                  <th>subject_title</th>
-                  <th>auth_status</th>
-                  <th>auth_timestamp</th>
-                  <th>delivered_date_time</th>
-                  <th>note</th>
-                  <th>accesscode</th>
-                  <th>recipient_status</th>
+                  <th>envelope_id</th>
+                  <th>email</th>
                   <th>rental</th>
+                  <th>name</th>
+                  <th>nric</th>
+                  <th>mailing_address</th>
+                  <th>driver_phone_no</th>
+                  <th>birthday</th>
+                  <th>pickup_date</th>
+                  <th>vehicle_make</th>
+                  <th>vehicle_model</th>
+                  <th>vehicle_colour</th>
+                  <th>licence_plate</th>
+                  <th>master_rate</th>
+                  <th>weekly_rate</th>
+                  <th>min_rental_period</th>
+                  <th>deposit</th>
+                  <th>accesscode</th>
+                  <th>note</th>,
                 </tr>
                 </thead>
                 <tbody>
-                <% @masterlist_search.each do |f| %>
                   <tr>
-                    <td class="check-box"><%= link_to 'Edit', edit_masterlist_path(f) %></td>
-                    <% if f.status == 'completed' %>
-                      <td class="check-box"><%= check_box_tag "masterlist_ids[#{ f.id }]", "masterlist_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "masterlist_ids[#{ f.id }]", "" %></td>
+                    <% if @livestatus[0] == 'completed' %>
+                      <td class="check-box"><%= check_box_tag "live_status[#{ @livestatus[2] },#{@livestatus[4] }]", "live_status[#{ @livestatus[2] },#{@livestatus[4] }]", false, class: 'filled-in' %>
+                        <%= label_tag "live_status[#{ @livestatus[2] },#{@livestatus[4] }]", "" %></td>
                     <% else %>
                       <td></td>
                     <% end %>
-                    <td><%= f.envelope_id %></th>
-                    <td><%= f.created_time %></th>
-                    <td><%= f.recipient_email %></th>
-                    <td><%= f.status %></th>
-                    <td><%= f.recipient_type %></th>
-                    <td><%= f.completed_time %></th>
-                    <td><%= f.declined_time %></th>
-                    <td class="note_class"><%= f.declined_reason %></th>
-                    <td><%= f.subject_title %></th>
-                    <td><%= f.auth_status %></th>
-                    <td><%= f.auth_timestamp %></th>
-                    <td><%= f.delivered_date_time %></th>
-                    <td class="note_class"><%= f.note %></td>
-                    <td><%= f.accesscode %></th>
-                    <td><%= f.recipient_status %></th>
-                    <td><%= f.rental %></th>
+                    <td><%= @livestatus[0] %></td>
+                    <td><%= @livestatus[1] %></td>
+                    <td><%= @livestatus[2] %></td>
+                    <td><%= @livestatus[3] %></td>
+                    <td><%= @livestatus[4] %></td>
+                    <td><%= @livestatus[5] %></td>
+                    <td><%= @livestatus[6] %></td>
+                    <td><%= @livestatus[7] %></td>
+                    <td><%= @livestatus[8] %></td>
+                    <td><%= @livestatus[9] %></td>
+                    <td><%= @livestatus[10] %></td>
+                    <td><%= @livestatus[11] %></td>
+                    <td><%= @livestatus[12] %></td>
+                    <td><%= @livestatus[13] %></td>
+                    <td><%= @livestatus[14] %></td>
+                    <td><%= @livestatus[15] %></td>
+                    <td><%= @livestatus[16] %></td>
+                    <td><%= @livestatus[17] %></td>
+                    <td><%= @livestatus[18] %></td>
+                    <td><%= @livestatus[19] %></td>
+                    <td class="note_class"><%= @livestatus[20] %></td>
                   </tr>
-                <% end %>
                 </tbody>
               </table>
             </div>
@@ -83,7 +90,6 @@
       </div>
       <div class="row top-buffer">
         <div class="col-3">
-          <%#= submit_tag "Delete Selected" %>
           <%= button_tag(name: 'commit', value: 'Download selected', type: "submit", class: 'btn btn-default') do %>
             <i class="fa fa-fw fa-file-pdf-o"></i> Download Selected
           <% end %>
@@ -91,18 +97,11 @@
         <div class="col-9">
           <span class="pull-right">
            <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
-            <% link_to 'Back', search_masterlists_path, class: 'link-to-text-color' %>
+            <% link_to 'Back', search_live_statuses_path, class: 'link-to-text-color' %>
           <% end %>
           </span>
         </div>
       </div>
-      <!--        <div class="col-6">-->
-      <!--          <span class="pull-right">-->
-      <!--            <div>-->
-      <%#= paginate @masterlist_search %>
-      <!--            </div>-->
-      <!--          </span>-->
-      <!--        </div>-->
     </div>
   </div>
   </div>

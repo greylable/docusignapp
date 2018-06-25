@@ -1,5 +1,6 @@
 class LiveStatus < ApplicationRecord
   belongs_to :user, required: false
+  require 'base64'
 
   def self.docu_auth
     host = 'https://eu.docusign.net/restapi'
@@ -46,43 +47,78 @@ class LiveStatus < ApplicationRecord
     end
   end
 
+  def self.get_doc(envelope_rental)
+    # self.docu_auth
+    ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
+    file_contents = ea.get_document(account_id=ENV["ACCOUNT_ID_LIVE"], recipient_id="1", envelope_id=envelope_rental[0])
+    fileName = 'Rental_' + envelope_rental[1].to_s + '_Envelope_' + envelope_rental[0].to_s
+    base64_doc = Base64.encode64(File.open(file_contents, "rb").read).encode('iso-8859-1').force_encoding('utf-8')
+    decoded_doc = Base64.decode64(base64_doc)
+    return [fileName,decoded_doc]
+  end
+
   def self.fetch_info(envelope_id)
     self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     envelope_data = ea.get_form_data(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=envelope_id)
     form_data = envelope_data.form_data
-    puts form_data
 
-  #   empty_dict = {}
-  #
-  #   form_data.each do |j|
-  #     empty_dict[j.name] = j.value
-  #   end
-  #
-  #   header_list = ["Rental","NRIC","Mailing_Address","Driver_Phone_No","Birthday","Pickup_Date",
-  #                  "Vehicle_Make","Vehicle_Model","Vehicle_Colour","Licence_Plate","Master_Rate","Weekly_Rate",
-  #                  "Min_Rental_Period","Deposit"]
-  #   contain_value = []
-  #   header_list.each do |h|
-  #     begin
-  #       col_1 = empty_dict[h]
-  #     rescue
-  #       col_1 = ''
-  #     end
-  #     contain_value = contain_value + [col_1]
-  #   end
-  #   row = [i.envelope_id] + contain_value
-  #
-  #
-    signer_details = ea.list_recipients(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=envelope_id)#.signers[0]
-    puts signer_details
-  #   access_code = signer_details.access_code
-  #   note = signer_details.note
-  #   name = signer_details.name
-  #   email = signer_details.email
-  #   row = [status] + row + [access_code] + [note] + [name] + [email]
-  #   puts row
-  #
-  #
+    recipient_details = ea.list_recipients(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=envelope_id)
+    if recipient_details.signers.present?
+      empty_dict = {}
+
+      form_data.each do |j|
+        empty_dict[j.name] = j.value
+      end
+
+      header_list = ["Email","Rental","Name","NRIC","Mailing_Address","Driver_Phone_No","Birthday","Pickup_Date",
+                     "Vehicle_Make","Vehicle_Model","Vehicle_Colour","Licence_Plate","Master_Rate","Weekly_Rate",
+                     "Min_Rental_Period","Deposit"]
+      contain_value = []
+      header_list.each do |h|
+        begin
+          col_1 = empty_dict[h]
+        rescue
+          col_1 = ''
+        end
+        contain_value = contain_value + [col_1]
+      end
+      recipient_type = 'Signer'
+      row = [envelope_id] + contain_value
+      signer_details = recipient_details.signers[0]
+      status = signer_details.status
+      access_code = signer_details.access_code
+      note = signer_details.note
+      row = [status] + [recipient_type] + row + [access_code] + [note]
+      return row
+
+    elsif recipient_details.in_person_signers.present?
+      empty_dict = {}
+
+      form_data.each do |j|
+        empty_dict[j.name] = j.value
+      end
+
+      header_list = ["IP_Email","Rental","IP_Name","NRIC","Mailing_Address","Driver_Phone_No","Birthday","Pickup_Date",
+                     "Vehicle_Make","Vehicle_Model","Vehicle_Colour","Licence_Plate","Master_Rate","Weekly_Rate",
+                     "Min_Rental_Period","Deposit"]
+      contain_value = []
+      header_list.each do |h|
+        begin
+          col_1 = empty_dict[h]
+        rescue
+          col_1 = ''
+        end
+        contain_value = contain_value + [col_1]
+      end
+      recipient_type = 'In Person'
+      row = [envelope_id] + contain_value
+      signer_details = recipient_details.in_person_signers[0]
+      status = signer_details.status
+      access_code = signer_details.access_code
+      note = signer_details.note
+      row = [status] + [recipient_type] + row + [access_code] + [note]
+      return row
+    end
   end
 end
