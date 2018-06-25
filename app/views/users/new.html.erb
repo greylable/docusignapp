@@ -15,7 +15,7 @@
           <%= f.input :email, label_html: {class: 'col-2'}, required: true, input_html: {class: 'col-10'} %>
           <%= f.input :password, label_html: {class: 'col-2'}, required: true, input_html: {class: 'col-10'} %>
           <%= f.input :password_confirmation, label_html: {class: 'col-2'}, required: true, input_html: {class: 'col-10'} %>
-          <%= f.input :admin_user %>
+          <%= f.input :admin_user, label_html: {class: 'col-2'}, input_html: {class: 'col-10 pull-right'} %>
         </div>
 
         <div class="row top-buffer">
@@ -25,11 +25,11 @@
             <% end %>
           </div>
           <div class="col-11">
-                <span class="pull-right">
-                <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
-                  <% link_to 'Back', users_path, class: 'link-to-text-color' %>
-                <% end %>
-                </span>
+            <span class="pull-right">
+            <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+              <% link_to 'Back', users_path, class: 'link-to-text-color' %>
+            <% end %>
+            </span>
           </div>
         </div>
       <% end %>
