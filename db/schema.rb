@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_24_041228) do
+ActiveRecord::Schema.define(version: 2018_06_25_065449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,32 @@ ActiveRecord::Schema.define(version: 2018_06_24_041228) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_ip_newenvelopes_on_user_id"
+  end
+
+  create_table "live_statuses", force: :cascade do |t|
+    t.string "envelope_id"
+    t.string "rental"
+    t.string "email"
+    t.string "name"
+    t.string "nric"
+    t.string "mailing_address"
+    t.string "driver_phone_no"
+    t.string "birthday"
+    t.string "pickup_date"
+    t.string "vehicle_make"
+    t.string "vehicle_model"
+    t.string "vehicle_colour"
+    t.string "licence_plate"
+    t.string "master_rate"
+    t.string "weekly_rate"
+    t.string "min_rental_period"
+    t.string "deposit"
+    t.string "accesscode"
+    t.string "note"
+    t.string "status"
+    t.string "email_blurb"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "masterlists", force: :cascade do |t|

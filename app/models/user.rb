@@ -11,4 +11,5 @@ class User < ApplicationRecord
   has_many :ip_newenvelopes
   has_many :masterlists
   has_many :resendenvs
+  has_many :live_status
 end

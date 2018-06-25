@@ -1,0 +1,109 @@
+<%= form_tag(select_multiple_masterlists_path, method: :post) do %>
+  <div class="content-wrapper">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-11">
+          <i class="fa fa-table"></i> Search Result
+        </div>
+        <div class="col-1">
+          <span class="pull-right">
+            <div class="fixed-action-btn">
+              <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+                <%= link_to(search_masterlists_path, class: 'link-to-text-color') do %>
+                  <i class="fa fa-fw fa-search"></i>Search
+                <% end %>
+              <% end %>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <div id=dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+          <div class="row top-buffer">
+            <div class="col-sm-12">
+              <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+                     aria-describedby="dataTable_info" style="width: 100%;">
+                <thead>
+                <tr>
+                  <th class="check-box"></th>
+                  <th class="check-box">
+                    <input type="checkbox" id="selectall" class="filled-in"/><label for="selectall"></label></th>
+                  <th>envelope_id</th>
+                  <th>created_time</th>
+                  <th>recipient_email</th>
+                  <th>status</th>
+                  <th>recipient_type</th>
+                  <th>completed_time</th>
+                  <th>declined_time</th>
+                  <th>declined_reason</th>
+                  <th>subject_title</th>
+                  <th>auth_status</th>
+                  <th>auth_timestamp</th>
+                  <th>delivered_date_time</th>
+                  <th>note</th>
+                  <th>accesscode</th>
+                  <th>recipient_status</th>
+                  <th>rental</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @masterlist_search.each do |f| %>
+                  <tr>
+                    <td class="check-box"><%= link_to 'Edit', edit_masterlist_path(f) %></td>
+                    <% if f.status == 'completed' %>
+                      <td class="check-box"><%= check_box_tag "masterlist_ids[#{ f.id }]", "masterlist_ids[#{ f.id }]", false, class: 'filled-in' %><%= label_tag "masterlist_ids[#{ f.id }]", "" %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <td><%= f.envelope_id %></th>
+                    <td><%= f.created_time %></th>
+                    <td><%= f.recipient_email %></th>
+                    <td><%= f.status %></th>
+                    <td><%= f.recipient_type %></th>
+                    <td><%= f.completed_time %></th>
+                    <td><%= f.declined_time %></th>
+                    <td class="note_class"><%= f.declined_reason %></th>
+                    <td><%= f.subject_title %></th>
+                    <td><%= f.auth_status %></th>
+                    <td><%= f.auth_timestamp %></th>
+                    <td><%= f.delivered_date_time %></th>
+                    <td class="note_class"><%= f.note %></td>
+                    <td><%= f.accesscode %></th>
+                    <td><%= f.recipient_status %></th>
+                    <td><%= f.rental %></th>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row top-buffer">
+        <div class="col-3">
+          <%#= submit_tag "Delete Selected" %>
+          <%= button_tag(name: 'commit', value: 'Download selected', type: "submit", class: 'btn btn-default') do %>
+            <i class="fa fa-fw fa-file-pdf-o"></i> Download Selected
+          <% end %>
+        </div>
+        <div class="col-9">
+          <span class="pull-right">
+           <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+            <% link_to 'Back', search_masterlists_path, class: 'link-to-text-color' %>
+          <% end %>
+          </span>
+        </div>
+      </div>
+      <!--        <div class="col-6">-->
+      <!--          <span class="pull-right">-->
+      <!--            <div>-->
+      <%#= paginate @masterlist_search %>
+      <!--            </div>-->
+      <!--          </span>-->
+      <!--        </div>-->
+    </div>
+  </div>
+  </div>
+<% end %>

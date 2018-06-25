@@ -1,0 +1,47 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  envelope_id: MyString
+  rental: MyString
+  email: MyString
+  name: MyString
+  nric: MyString
+  mailing_address: MyString
+  driver_phone_no: MyString
+  birthday: MyString
+  pickup_date: MyString
+  vehicle_make: MyString
+  vehicle_model: MyString
+  vehicle_colour: MyString
+  licence_plate: MyString
+  master_rate: MyString
+  weekly_rate: MyString
+  min_rental_period: MyString
+  deposit: MyString
+  accesscode: MyString
+  note: MyString
+  status: MyString
+  email_blurb: MyString
+
+two:
+  envelope_id: MyString
+  rental: MyString
+  email: MyString
+  name: MyString
+  nric: MyString
+  mailing_address: MyString
+  driver_phone_no: MyString
+  birthday: MyString
+  pickup_date: MyString
+  vehicle_make: MyString
+  vehicle_model: MyString
+  vehicle_colour: MyString
+  licence_plate: MyString
+  master_rate: MyString
+  weekly_rate: MyString
+  min_rental_period: MyString
+  deposit: MyString
+  accesscode: MyString
+  note: MyString
+  status: MyString
+  email_blurb: MyString

@@ -1,0 +1,44 @@
+<%= form_tag(results_live_statuses_path, method: :get) do %>
+  <div class="content-wrapper">
+    <h1>Make a Search Live Request</h1>
+  </div>
+
+  <div class="content-wrapper-table">
+    <div class="card border-dark mb-3">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-6">
+            <i class="fa fa-search"></i> Search
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <table class="table borderless" id="search_form" width="100%" cellspacing="0" >
+            <tbody>
+            <tr>
+              <td width="10%">envelope_id</td>
+              <td width="90%"><%= text_field_tag :envelope_id, params[:envelope_id] %></td>
+            </tr>
+            </tbody>
+          </table>
+
+          <div class="row top-buffer">
+            <div class="col-1">
+              <%= button_tag(type: "submit", class: 'btn btn-default') do %>
+                Search
+              <% end %>
+            </div>
+            <div class="col-11">
+              <span class="pull-right">
+               <%= button_tag(:type => 'button', class: 'btn btn-default') do %>
+                <% link_to 'Back', live_statuses_path, class: 'link-to-text-color' %>
+              <% end %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

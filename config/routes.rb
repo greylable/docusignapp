@@ -52,4 +52,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :live_statuses do
+    collection do
+      get :search
+      get :results
+    end
+  end
 end

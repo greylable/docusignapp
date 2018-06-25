@@ -56,6 +56,12 @@
           <% end %>
         </li>
 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Live Status">
+          <%= link_to(live_statuses_path, class: 'nav-link') do %>
+            <i class="fa fa-fw fa-archive"></i>Live Status
+          <% end %>
+        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Admin">
           <%= link_to(users_path, class: 'nav-link') do %>
             <i class="fa fa-fw fa-wrench"></i>Admin
