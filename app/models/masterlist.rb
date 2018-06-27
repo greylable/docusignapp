@@ -128,7 +128,7 @@ class Masterlist < ApplicationRecord
     # return folder_items_contain
     contain = []
     folder_items_contain.each do |i|
-      if i.recipients.signers != []
+      if i.recipients.signers != [] and i.subject.include? 'LCR Contract'
         e_id = i.envelope_id
         e_created_time = self.convert_time(i.created_date_time)
         e_recipient_email = i.recipients.signers[0].email
@@ -152,7 +152,7 @@ class Masterlist < ApplicationRecord
                               e_declined_time,e_declined_reason,i.subject,auth_status,auth_timestamp,
                               e_delivered_time,e_note,e_accesscode,e_recipient_status]
 
-      elsif i.recipients.in_person_signers != []
+      elsif i.recipients.in_person_signers != [] and i.subject.include? 'LCR Contract'
         e_id = i.envelope_id
         e_created_time = self.convert_time(i.created_date_time)
         e_recipient_email = i.recipients.in_person_signers[0].signer_email
