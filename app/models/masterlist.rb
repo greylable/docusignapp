@@ -115,7 +115,7 @@ class Masterlist < ApplicationRecord
     # The time is the creation time of the envelope i.e Sent time
     position = -100
     folder_items_contain = []
-    while position <= 30000 do
+    while position <= 100000 do
       position = position + 100
       options.start_position = position
       folder_2 = folders_1.search(account_id=ENV["ACCOUNT_ID_LIVE"],search_folder_id="all",options).folder_items
