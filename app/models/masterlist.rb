@@ -125,6 +125,7 @@ class Masterlist < ApplicationRecord
         break
       end
     end
+    puts folder_items_contain.length
     # return folder_items_contain
     contain = []
     folder_items_contain.each do |i|
@@ -182,15 +183,7 @@ class Masterlist < ApplicationRecord
       # Updating Masterlist (Case 1, Case 2)
       masterlist_search = Masterlist.where('envelope_id LIKE ?', i.envelope_id)
       # if masterlist_search is nil, append everything
-      if masterlist_search.blank?
-        if contain[3] != 'created' or contain[3] != 'template'
-
-          Masterlist.create(envelope_id: contain[0], created_time: contain[1], recipient_email: contain[2], status: contain[3], recipient_type: contain[4],
-                            completed_time: contain[5], declined_time: contain[6], declined_reason: contain[7], subject_title: contain[8], auth_status: contain[9],
-                            auth_timestamp: contain[10], delivered_date_time: contain[11], note: contain[12], accesscode: contain[13], recipient_status: contain[14])
-        end
-      # else, Updating Masterlist if the "Old" status is not Com/Void/Decline
-      else
+      if masterlist_search.present? and e_id.present?
         masterlist_search.each do |f|
           row_status = f.status
           if row_status != ('completed' or 'voided' or 'declined')
@@ -199,6 +192,14 @@ class Masterlist < ApplicationRecord
                                      completed_time: contain[5], declined_time: contain[6], declined_reason: contain[7], subject_title: contain[8], auth_status: contain[9],
                                      auth_timestamp: contain[10], delivered_date_time: contain[11], note: contain[12], accesscode: contain[13], recipient_status: contain[14])
           end
+        end
+
+      # else, Updating Masterlist if the "Old" status is not Com/Void/Decline
+      else
+        if masterlist_search.blank? and contain[3] != ('created' or 'template') and e_id.present?
+          Masterlist.create(envelope_id: contain[0], created_time: contain[1], recipient_email: contain[2], status: contain[3], recipient_type: contain[4],
+                            completed_time: contain[5], declined_time: contain[6], declined_reason: contain[7], subject_title: contain[8], auth_status: contain[9],
+                            auth_timestamp: contain[10], delivered_date_time: contain[11], note: contain[12], accesscode: contain[13], recipient_status: contain[14])
         end
       end
     end
