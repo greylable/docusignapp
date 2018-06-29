@@ -125,7 +125,6 @@ class Masterlist < ApplicationRecord
         break
       end
     end
-    puts folder_items_contain.length
     # return folder_items_contain
     contain = []
     folder_items_contain.each do |i|
@@ -207,10 +206,8 @@ class Masterlist < ApplicationRecord
     # Update Rental Number Only #
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
     rental_search = Masterlist.where('rental IS ? AND status IN (?)', nil, ['completed','declined','voided'])
-    puts rental_search
     rental_search.each do |b|
       rental_search_env = b.envelope_id
-      puts rental_search_env
       envelope_data = ea.get_form_data(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=b.envelope_id)
       form_data = envelope_data.form_data
       form_data.each do |a|
@@ -360,7 +357,7 @@ class Masterlist < ApplicationRecord
 
   def self.update_com_ip(array_env_masterlist)
     # Get Completed Env from Gsheets Completed IP
-    com_env_ip_list = self.g_get_data('App Com IP!A2:A')
+    com_env_ip_list = self.g_get_data('Completed In Person!A2:A')
     com_env_ip_list_next_row = com_env_ip_list.length+2
     # Get current_completed_ip
     raw_data = array_env_masterlist.select{|u| u[15].present? and u[15].downcase.exclude? 'test'}
@@ -410,7 +407,7 @@ class Masterlist < ApplicationRecord
 
   def self.update_com_signer(array_env_masterlist)
     # Get Completed Env from Gsheets Completed Bulk
-    com_env_signer_list = self.g_get_data('App Com Bulk!A2:A')
+    com_env_signer_list = self.g_get_data('Completed Bulk!A2:A')
     com_env_signer_list_next_row = com_env_signer_list.length+2
     # Get current_completed_signer
     raw_data = array_env_masterlist.select{|u| u[15].present? and u[15].downcase.exclude? 'test'}
@@ -444,7 +441,7 @@ class Masterlist < ApplicationRecord
     spreadsheet_id = ENV["SPREADSHEET_ID"]
 
     request_body_del = Google::Apis::SheetsV4::BatchClearValuesRequest.new
-    request_body_del.ranges = ['App Masterlist!A2:P','App Unique!A2:P']
+    request_body_del.ranges = ['Envelopes Masterlist!A2:P','Unique ML!A2:P']
     service.batch_clear_values(spreadsheet_id, request_body_del)
     envelopes_masterlist = self.update_env_masterlist
     com_ip = self.update_com_ip(envelopes_masterlist)
@@ -454,12 +451,12 @@ class Masterlist < ApplicationRecord
 
     value_range_object_1 = {
         major_dimension: "ROWS",
-        range: 'App Masterlist!A2:P',
+        range: 'Envelopes Masterlist!A2:P',
         values: envelopes_masterlist
     }
     value_range_object_2 = {
         major_dimension: "ROWS",
-        range: 'App Unique!A2:P',
+        range: 'Unique ML!A2:P',
         values: unique_ml
     }
 
@@ -479,7 +476,7 @@ class Masterlist < ApplicationRecord
 
       value_range_object_3 = {
           major_dimension: "ROWS",
-          range: 'App Com IP!A'+com_ip[0].to_s+':AI',
+          range: 'Completed In Person!A'+com_ip[0].to_s+':AI',
           values: com_ip[2]
       }
       data = data + [value_range_object_3]
@@ -499,7 +496,7 @@ class Masterlist < ApplicationRecord
 
       value_range_object_4 = {
           major_dimension: "ROWS",
-          range: 'App Com Bulk!A'+com_signer[0].to_s+':W',
+          range: 'Completed Bulk!A'+com_signer[0].to_s+':W',
           values: com_signer[2]
       }
       data = data + [value_range_object_4]
