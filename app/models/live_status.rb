@@ -57,13 +57,14 @@ class LiveStatus < ApplicationRecord
     return [fileName,decoded_doc]
   end
 
-  def self.fetch_info(envelope_id)
+  def self.fetch_info(e_id)
     self.docu_auth
     ea = DocuSign_eSign::EnvelopesApi.new(@api_client)
-    envelope_data = ea.get_form_data(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=envelope_id)
+    envelope_data = ea.get_form_data(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=e_id)
     form_data = envelope_data.form_data
 
-    recipient_details = ea.list_recipients(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=envelope_id)
+    recipient_details = ea.list_recipients(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=e_id)
+
     if recipient_details.signers.present?
       empty_dict = {}
 
@@ -86,7 +87,7 @@ class LiveStatus < ApplicationRecord
       recipient_type = 'Signer'
       row = [envelope_id] + contain_value
       signer_details = recipient_details.signers[0]
-      status = signer_details.status
+      status = ea.get_envelope(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=e_id).status
       access_code = signer_details.access_code
       note = signer_details.note
       row = [status] + [recipient_type] + row + [access_code] + [note]
@@ -114,7 +115,7 @@ class LiveStatus < ApplicationRecord
       recipient_type = 'In Person'
       row = [envelope_id] + contain_value
       signer_details = recipient_details.in_person_signers[0]
-      status = signer_details.status
+      status = ea.get_envelope(account_id=ENV["ACCOUNT_ID_LIVE"],envelope_id=e_id).status
       access_code = signer_details.access_code
       note = signer_details.note
       row = [status] + [recipient_type] + row + [access_code] + [note]
