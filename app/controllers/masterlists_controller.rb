@@ -33,6 +33,14 @@ class MasterlistsController < ApplicationController
   def refresh
     # head :ok
     Masterlist.refresh_masterlist
+    respond_to do |format|
+      format.html { redirect_to root_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def refresh_gsheets
+    # head :ok
     Masterlist.g_update
     respond_to do |format|
       format.html { redirect_to root_url }

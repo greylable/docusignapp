@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get :export
       post :select_multiple
       get :refresh
+      get :refresh_gsheets
     end
   end
 
